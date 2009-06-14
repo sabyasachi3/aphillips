@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+  <!-- the @Composite service -->
+  <bean id="com.qrmedia.pattern.compositeannotation.atCompositeAnnotatedElements" 
+      class="com.qrmedia.pattern.compositeannotation.AtCompositeAnnotatedElements">
+    <constructor-arg>
+      <bean class="com.qrmedia.pattern.compositeannotation.metadata.CompositeAnnotationTypeRegistry">
+        <constructor-arg ref="com.qrmedia.pattern.compositeannotation.compositeAnnotationTypes" />
+      </bean>
+    </constructor-arg>
+  </bean>
+</beans>

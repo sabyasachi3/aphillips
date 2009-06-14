@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util"  
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+  <!-- import the @Composite service context -->
+  <import resource="atComposite-beanContext.xml" />
+  
+  <!-- the @Composite service expects a list of the composite annotations to be supported -->
+  <util:set id="com.qrmedia.pattern.compositeannotation.compositeAnnotationTypes">
+    <value>com.qrmedia.pattern.compositeannotation.example.annotation.TargetRetentionLeafCompositeAnnotation</value>
+    
+    <!-- uncomment to see what happens...go on! -->
+    <!--<value>com.qrmedia.pattern.compositeannotation.example.AtCompositeDemo$InvalidLeafStubCompositeAnnotation</value>-->
+  </util:set>
+</beans>
