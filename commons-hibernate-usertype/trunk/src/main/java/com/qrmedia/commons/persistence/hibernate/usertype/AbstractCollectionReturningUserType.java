@@ -51,17 +51,17 @@ public abstract class AbstractCollectionReturningUserType extends AbstractUserTy
         }
         
         /*
-         * Have to cast to a non-generic form because there is no way to get the two ? to match
-         * in the addAll call below.
+         * Have to use a non-generic form because otherwise there is no way to get the two ? to match
+         * in the add call below.
          */
-        Collection collection = (Collection) value;
-        Collection<?> collectionClone = CollectionFactory.newInstance(collection.getClass());
+        Collection<?> collection = (Collection) value;
+        Collection collectionClone = CollectionFactory.newInstance(collection.getClass());
 
-        /*
-         * TODO: this isn't exactly perfect, e.g. for a collection the members should also be
-         * cloned!
-         */
-        collectionClone.addAll(collection);
+        // TODO: this isn't exactly perfect, e.g. for a collection that itself contains collections.
+        for (Object member : collection) {
+            collectionClone.add(deepCopyValue(member));
+        }
+
         return collectionClone;
     }
 
