@@ -57,7 +57,7 @@ public abstract class AbstractCollectionReturningUserType extends AbstractUserTy
         Collection<?> collection = (Collection) value;
         Collection collectionClone = CollectionFactory.newInstance(collection.getClass());
 
-        // TODO: this isn't exactly perfect, e.g. for a collection that itself contains collections.
+        // TODO: this isn't exactly perfect, e.g. for a collection that itself contains collections
         for (Object member : collection) {
             collectionClone.add(deepCopyValue(member));
         }
