@@ -4,8 +4,6 @@ package com.qrmedia.pattern.compositeannotation.validation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.annotation.Generated;
-
 import com.qrmedia.pattern.compositeannotation.annotation.CompositeAnnotation;
 import com.qrmedia.pattern.compositeannotation.annotation.LeafAnnotation;
 
