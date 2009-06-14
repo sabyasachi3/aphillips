@@ -18,6 +18,7 @@
  */
 package com.qrmedia.commons.persistence.hibernate.usertype;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.same;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -69,9 +70,14 @@ public class AbstractCollectionReturningUserTypeTest {
         Object member = new Object();
         List<Object> list = Arrays.asList(member);
         
+        expect(userType.deepCopyValue(member)).andReturn(member);
+        replay(userType);
+        
         List<Object> listClone = (List<Object>) userType.deepCopy(list);
         assertNotSame(list, listClone);
         assertEquals(list, listClone);
-    }   
-    
+        
+        verify(userType);
+    }
+
 }
