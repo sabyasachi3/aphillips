@@ -37,6 +37,7 @@ import com.thoughtworks.xstream.XStream;
  * 
  */
 public class ObjectClassPreservingUserType extends AbstractCollectionReturningUserType {
+    // thread-safe, according to the XStream documentation
     private static final XStream XSTREAM = new XStream();
     
     /*
