@@ -29,7 +29,8 @@ import org.hibernate.usertype.UserType;
  * (but may also return any other object types).
  * <p>
  * {@link #deepCopy(Object) Deep copies} collections to ensure any changes to the
- * collection are tracked, so the collection is correctly updated.
+ * collection are tracked, so the collection is correctly updated. Recursively clones collections 
+ * that contain collections, but <strong>not safe for collections that contain themselves</strong>.
  * 
  * @author anph
  * @since 23 Feb 2009
@@ -57,9 +58,12 @@ public abstract class AbstractCollectionReturningUserType extends AbstractUserTy
         Collection<?> collection = (Collection) value;
         Collection collectionClone = CollectionFactory.newInstance(collection.getClass());
 
-        // TODO: this isn't exactly perfect, e.g. for a collection that itself contains collections
+        /*
+         * Recurse on the members of the collection (which may themselves be collections!)
+         * XXX: will cause an endless loop for collections which contain themselves!
+         */
         for (Object member : collection) {
-            collectionClone.add(deepCopyValue(member));
+            collectionClone.add(deepCopy(member));
         }
 
         return collectionClone;

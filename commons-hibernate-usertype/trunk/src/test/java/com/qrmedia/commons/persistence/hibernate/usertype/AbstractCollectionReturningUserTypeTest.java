@@ -79,5 +79,23 @@ public class AbstractCollectionReturningUserTypeTest {
         
         verify(userType);
     }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void deepCopy_collectionOfCollections() {
+        Object member = new Object();
+        List<Object> subList = Arrays.asList(member);
+        List<List<Object>> list = Arrays.asList(subList);
+        
+        expect(userType.deepCopyValue(member)).andReturn(member);
+        replay(userType);
+        
+        List<Object> listClone = (List<Object>) userType.deepCopy(list);
+        assertNotSame(list, listClone);
+        assertNotSame(subList, listClone.get(0));
+        assertEquals(list, listClone);
+        
+        verify(userType);
+    }    
 
 }
