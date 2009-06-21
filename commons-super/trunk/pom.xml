@@ -125,8 +125,19 @@
       </releases>
     </repository>
   </repositories>  
+  <distributionManagement>
+    <repository>
+      <id>nexus-local-releases</id>
+      <name>Nexus Releases</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-local-snapshots</id>
+      <name>Nexus Snapshots</name>
+      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
   
-  <!-- Environment Settings -->
   <profiles>
   
     <!-- run integration tests (active by default) -->
