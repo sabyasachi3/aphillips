@@ -13,9 +13,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.qrmedia.pattern.compositeannotation.AtCompositeAnnotatedElements;
 import com.qrmedia.pattern.compositeannotation.annotation.CompositeAnnotation;
 import com.qrmedia.pattern.compositeannotation.annotation.LeafAnnotation;
+import com.qrmedia.pattern.compositeannotation.api.AnnotatedElements;
 import com.qrmedia.pattern.compositeannotation.example.annotation.TargetRetentionLeafCompositeAnnotation;
 import com.qrmedia.pattern.compositeannotation.validation.CompositeAnnotationValidationProcessor;
 
@@ -54,8 +54,8 @@ public class AtCompositeDemo {
     public static void main(String[] args) {
         Log log = LogFactory.getLog(AtCompositeDemo.class);
         
-        AtCompositeAnnotatedElements annotatedElements = 
-            (AtCompositeAnnotatedElements) new ClassPathXmlApplicationContext(CONTEXT_FILENAMES)
+        AnnotatedElements annotatedElements = 
+            (AnnotatedElements) new ClassPathXmlApplicationContext(CONTEXT_FILENAMES)
             .getBean("com.qrmedia.pattern.compositeannotation.atCompositeAnnotatedElements");
         
         log.warn("IMPORTANT: for demonstration purposes only! Composite annotations cannot be used to \"macro\" annotations such as @Retention or @Target that need to be visible to the compiler and/or standard annotation reflection methods! See the Javadoc for @CompositeAnnotation.");
