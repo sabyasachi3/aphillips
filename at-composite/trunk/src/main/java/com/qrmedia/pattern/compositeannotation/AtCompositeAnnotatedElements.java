@@ -23,7 +23,7 @@ import com.qrmedia.pattern.compositeannotation.metadata.CompositeAnnotationTypeR
  * The <strong>@Composite</strong> {@link AnnotatedElements} implementations that supports composites
  * and &quot;standard&quot; annotations.
  * <p>
- * <u>Thread-safe</u>, so may be created once and made available to multiple
+ * <strong><u>Thread-safe</u></strong>, so may be created once and made available to multiple
  * threads.
  * 
  * <h3>Integrating with Spring</h3>
