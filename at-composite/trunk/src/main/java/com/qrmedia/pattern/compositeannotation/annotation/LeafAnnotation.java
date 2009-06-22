@@ -35,7 +35,7 @@ import com.qrmedia.pattern.compositeannotation.api.LeafAnnotationFactory;
  * <ol>
  * <li>The retention policy of the leaf annotation must be {@link RetentionPolicy#RUNTIME RUNTIME}.</li>
  * <li>There may also only be <u>one</u> leaf annotation of a given type per composite.</li>
- * <li>The {@link ElementType target} of a leaf annotation must match those of the composite
+ * <li>The {@link ElementType target} of a leaf annotation must match that of the composite
  * annotation in which it is declared.</li>
  * <li>An element with a "regular" annotation of type {@code T} may not also be annotated with
  * a composite that declares a leaf annotation of type {@code T}.</li>
