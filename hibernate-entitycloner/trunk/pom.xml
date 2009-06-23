@@ -128,4 +128,13 @@
     <spring.version>2.5.6</spring.version>
     <slf4j.version>1.5.3</slf4j.version>
   </properties>    
+  
+  <!-- Environment Settings -->
+  <repositories>
+    <!-- bootstrapping - needs access to the super POM -->
+    <repository>
+      <id>qrmedia-releases</id>
+      <url>http://qrmedia.com/mvn-repository</url>
+    </repository>
+  </repositories>    
 </project>

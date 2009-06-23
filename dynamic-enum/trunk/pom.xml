@@ -37,4 +37,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+  <!-- Environment Settings -->
+  <repositories>
+    <!-- bootstrapping - needs access to the super POM -->
+    <repository>
+      <id>qrmedia-releases</id>
+      <url>http://qrmedia.com/mvn-repository</url>
+    </repository>
+  </repositories>    
 </project>
