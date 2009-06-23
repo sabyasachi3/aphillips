@@ -93,7 +93,7 @@ public class RuntimeConfiguredAnnotationFactoryTest {
         assertEquals(expectedAnnotation, actualAnnotation);
         
         // check that equals, hashCode, toString and annotationType are properly implemented
-        assertTrue("actualAnnotation not equal to expectedAnnotation",
+        assertTrue("actualAnnotation.equals(expectedAnnotation) fails",
                    actualAnnotation.equals(expectedAnnotation));
         assertEquals(expectedAnnotation.hashCode(), actualAnnotation.hashCode());
         assertEquals(expectedAnnotation.toString(), actualAnnotation.toString());
