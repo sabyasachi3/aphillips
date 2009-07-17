@@ -108,12 +108,11 @@ public class CompositeAnnotationValidationProcessor extends AbstractProcessor {
          * Validate *all* the leaf annotations - both those being processed in this round
          * (as children of composite annotations being processed) and those compiled elsewhere
          * (e.g. in composite annotations in libraries).
+         * Note that leaf annotations are only allowed on methods.
          */
-        for (Element element : getLeafAnnotations(compositeAnnotations, roundEnv)) {
-            assert (element instanceof ExecutableElement) : element;
+        for (ExecutableElement element : getLeafAnnotations(compositeAnnotations, roundEnv)) {
             LeafAnnotationElementValidator leafValidator = 
-                new LeafAnnotationElementValidator((ExecutableElement) element, typeUtils, 
-                        processingEnv.getElementUtils());
+                new LeafAnnotationElementValidator(element, typeUtils, processingEnv.getElementUtils());
             leafValidators.put(element, leafValidator);
             
             if (!leafValidator.isValid()) {
