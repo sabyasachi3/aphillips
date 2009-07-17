@@ -106,7 +106,7 @@ public class CompositeAnnotationValidationProcessor extends AbstractProcessor {
         
         /*
          * Validate *all* the leaf annotations - both those being processed in this round
-         * (as children of composite annotations being processed) and those compiled elsewere
+         * (as children of composite annotations being processed) and those compiled elsewhere
          * (e.g. in composite annotations in libraries).
          */
         for (Element element : getLeafAnnotations(compositeAnnotations, roundEnv)) {
