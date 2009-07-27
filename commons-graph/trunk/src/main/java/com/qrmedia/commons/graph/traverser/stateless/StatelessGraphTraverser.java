@@ -41,9 +41,6 @@ public interface StatelessGraphTraverser<T> extends GraphTraverser<T, Object> {
      * @return  <code>false</code> iff graph traversal was aborted by one of the visitors
      */
     boolean traverseFrom(T startNode);
-//    public boolean traverseFrom(T startNode) {
-//        return traverseFrom(startNode, null);
-//    }
     
     /**
      * Begins traversing the graph from the given starting nodes.
@@ -54,8 +51,4 @@ public interface StatelessGraphTraverser<T> extends GraphTraverser<T, Object> {
      * @return  <code>false</code> iff graph traversal was aborted by one of the visitors
      */
     boolean traverseFrom(Collection<? extends T> startNodes);
-//    public boolean traverseFrom(Collection<? extends T> startNodes) {
-//        return traverseFrom(startNodes, null);
-//    }
-    
 }
