@@ -111,8 +111,11 @@ abstract class AbstractAnnotationProcessorTest {
          * Call the compiler with the "-proc:only" option. The "class names"
          * option (which could, in principle, be used instead of compilation
          * units for annotation processing) isn't useful in this case because
-         * that only gives access to the annotation declaration, not the
-         * members.
+         * only annotations on the classes being compiled are accessible.
+         * 
+         * Information about the classes being compiled (such as what they are annotated
+         * with) is *not* available via the RoundEnvironment. However, if these classes
+         * are annotations, they certainly need to be validated.
          */
         CompilationTask task = COMPILER.getTask(null, fileManager, diagnosticCollector, 
                 Arrays.asList("-proc:only"), null, 
