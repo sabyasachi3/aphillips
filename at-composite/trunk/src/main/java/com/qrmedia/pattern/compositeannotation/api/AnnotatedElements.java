@@ -9,8 +9,8 @@ import java.lang.reflect.AnnotatedElement;
 import com.qrmedia.pattern.compositeannotation.annotation.CompositeAnnotation;
 
 /**
- * An extenstion to the standard annotation reflection offered by
- * {@link AnnotatedElement the Java language} that incorporates composite annotations.
+ * An extension of the standard annotation reflection offered by
+ * {@linkplain AnnotatedElement the Java language} that incorporates composite annotations.
  * <p>
  * For &quot;regular&quot; annotations, the behaviour of the methods is identical to
  * that of the analogous {@link AnnotatedElement} methods. 
