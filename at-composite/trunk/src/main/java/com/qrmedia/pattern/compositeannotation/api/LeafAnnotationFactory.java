@@ -13,7 +13,7 @@ import com.qrmedia.pattern.compositeannotation.annotation.CompositeAnnotation;
  * they are part of.
  * <p>
  * Declaring such &quot;dynamic&quot; properties is not possible using the standard
- * {@code @Annotation{value = ...)} syntax, which only supports <em>constant</em>
+ * {@code @Annotation(value = ...)} syntax, which only supports <em>constant</em>
  * value expressions.
  *  
  * @author aphillips
