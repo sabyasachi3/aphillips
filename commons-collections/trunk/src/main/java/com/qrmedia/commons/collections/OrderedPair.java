@@ -24,6 +24,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * A <code>Pair</code> whose equivalence respects the order of the two items.
  * 
+ * @param <U> the type of the first object
+ * @param <V> the type of the second object
  * @author anph
  * @since 29 Aug 2008
  *
