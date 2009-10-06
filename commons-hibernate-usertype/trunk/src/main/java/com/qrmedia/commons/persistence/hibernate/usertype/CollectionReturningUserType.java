@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractMutableCollectionReturningUserType.java     23 Feb 2009
+ * @(#)CollectionReturningUserType.java     23 Feb 2009
  * 
  * Copyright © 2009 Andrew Phillips.
  *
@@ -36,7 +36,7 @@ import org.hibernate.usertype.UserType;
  * @since 23 Feb 2009
  *
  */
-public abstract class AbstractCollectionReturningUserType extends AbstractUserType {
+public abstract class CollectionReturningUserType extends MutableUserType {
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#deepCopy(java.lang.Object)

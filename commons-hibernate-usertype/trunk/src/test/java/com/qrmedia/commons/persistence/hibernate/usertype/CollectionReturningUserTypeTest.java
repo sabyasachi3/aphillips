@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractMutableCollectionReturningUserTypeTest.java     24 Feb 2009
+ * @(#)CollectionReturningUserTypeTest.java     24 Feb 2009
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -35,19 +35,19 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit tests for the {@link AbstractCollectionReturningUserType}.
+ * Unit tests for the {@link CollectionReturningUserType}.
  * 
  * @author anph
  * @since 24 Feb 2009
  *
  */
-public class AbstractCollectionReturningUserTypeTest {
-    private AbstractCollectionReturningUserType userType;
+public class CollectionReturningUserTypeTest {
+    private CollectionReturningUserType userType;
     
     @Before
     public void prepareFixture() throws Exception {
-        userType = createMock(AbstractCollectionReturningUserType.class,
-            AbstractCollectionReturningUserType.class.getDeclaredMethod("deepCopyValue", 
+        userType = createMock(CollectionReturningUserType.class,
+            CollectionReturningUserType.class.getDeclaredMethod("deepCopyValue", 
                     Object.class));
     }
     

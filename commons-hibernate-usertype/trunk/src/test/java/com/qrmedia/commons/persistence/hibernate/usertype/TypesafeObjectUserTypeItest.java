@@ -1,5 +1,5 @@
 /*
- * @(#)HibernateRestrictionDaoItest.java     Oct 2, 2007
+ * @(#)TypesafeObjectUserTypeItest.java     Oct 2, 2007
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -20,12 +20,11 @@ package com.qrmedia.commons.persistence.hibernate.usertype;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,7 +33,7 @@ import com.qrmedia.commons.test.AbstractTransactionalDatasourceItest;
 import com.qrmedia.commons.test.example.UserTypePropertyHolder;
 
 /**
- * Integration tests for the {@link ObjectClassPreservingUserType}.
+ * Integration tests for the {@link TypesafeObjectUserType}.
  * <p>
  * This is really nothing more than an XStream integration test...
  * 
@@ -43,7 +42,7 @@ import com.qrmedia.commons.test.example.UserTypePropertyHolder;
  * @since Oct 2, 2007
  */
 @ContextConfiguration(locations = { "classpath:dataSourceContext.xml "})
-public class ObjectClassPreservingUserTypeItest extends AbstractTransactionalDatasourceItest {
+public class TypesafeObjectUserTypeItest extends AbstractTransactionalDatasourceItest {
     private final String propertyMember = "James";
     private Integer id;
     
@@ -65,8 +64,10 @@ public class ObjectClassPreservingUserTypeItest extends AbstractTransactionalDat
         UserTypePropertyHolder holder = (UserTypePropertyHolder) 
                 session.get(UserTypePropertyHolder.class, id);
         
-        assertTrue(CollectionUtils.isEqualCollection(Arrays.asList(propertyMember), 
-                                                     holder.getUserTypedProperty()));
+        // the typesafe user type should return the *same* runtime type, i.e. an ArrayList
+        Collection<String> userTypedProperty = holder.getUserTypedProperty();
+        assertEquals(ArrayList.class, userTypedProperty.getClass());
+        assertEquals(Arrays.asList(propertyMember), userTypedProperty);
     }
 
     @Test
