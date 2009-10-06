@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractUserType.java     25 Feb 2009
+ * @(#)MutableUserType.java     25 Feb 2009
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -30,13 +30,13 @@ import org.hibernate.usertype.UserType;
  * type is mutable.
  * <p>
  * User types returning only <strong>immutable</strong> objects should extend 
- * {@link AbstractImmutableUserType}.
+ * {@link ImmutableUserType}.
  * 
  * @author anph
  * @since 25 Feb 2009
  *
  */
-public abstract class AbstractUserType implements UserType {
+public abstract class MutableUserType implements UserType {
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#isMutable()

@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractUserTypeTest.java     8 Apr 2009
+ * @(#)MutableUserTypeTest.java     8 Apr 2009
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -33,20 +33,20 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit tests for the {@link AbstractUserTypeTest}.
+ * Unit tests for the {@link MutableUserTypeTest}.
  * 
  * @author aphillips
  * @since 8 Apr 2009
  *
  */
-public class AbstractUserTypeTest {
-    private AbstractUserType userType;
+public class MutableUserTypeTest {
+    private MutableUserType userType;
     
     @Before
     public void prepareFixture() throws Exception {
-        userType = createMock(AbstractUserType.class, 
-                AbstractUserType.class.getDeclaredMethod("isDirty", Object.class),
-                AbstractUserType.class.getMethod("deepCopy", Object.class));
+        userType = createMock(MutableUserType.class, 
+                MutableUserType.class.getDeclaredMethod("isDirty", Object.class),
+                MutableUserType.class.getMethod("deepCopy", Object.class));
     }
     
     @Test

@@ -25,18 +25,20 @@ import java.sql.Types;
 
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.usertype.UserType;
 
 import com.thoughtworks.xstream.XStream;
 
 /**
- * Persists an object by serializing it to an XML format, preserving the runtime type.
+ * A {@link UserType} that preserves the runtime type of the persisted object, even if the 
+ * field's declared type is a supertype of the object being stored.
  * 
  * @author rvd
  * @author anph
  * @since Oct 3, 2007
  * 
  */
-public class ObjectClassPreservingUserType extends AbstractCollectionReturningUserType {
+public class TypesafeObjectUserType extends CollectionReturningUserType {
     // thread-safe, according to the XStream documentation
     private static final XStream XSTREAM = new XStream();
     

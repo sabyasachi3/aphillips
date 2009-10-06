@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractImmutableUserType.java     25 Feb 2009
+ * @(#)ImmutableUserType.java     25 Feb 2009
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -28,7 +28,7 @@ import org.hibernate.usertype.UserType;
  * @since 25 Feb 2009
  *
  */
-public abstract class AbstractImmutableUserType extends AbstractUserType {
+public abstract class ImmutableUserType extends MutableUserType {
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#isMutable()
