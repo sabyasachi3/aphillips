@@ -18,6 +18,7 @@
  */
 package com.qrmedia.commons.persistence.hibernate.usertype;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,10 @@ import com.thoughtworks.xstream.XStream;
 /**
  * A {@link UserType} that preserves the runtime type of the persisted object, even if the 
  * field's declared type is a supertype of the object being stored.
+ * <p>
+ * Unlike the default JPA object mapping, {@code TypesafeObjectUserType} can also be used 
+ * for properties that do not implement {@link Serializable}. For restrictions on the types
+ * of objects that can be handled by this user type see the <a href="http://xstream.codehaus.org">XStream documentation</a>.
  * 
  * @author rvd
  * @author anph
