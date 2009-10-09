@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -72,7 +73,7 @@ public class HibernateEntityBeanCloner implements NodeVisitor<EntityPreserveIdFl
     private static final Pattern GETTER_PREFIX = Pattern.compile("get(\\p{Upper})(\\p{Alpha}*)");
     
     private static final Map<Pair<Class<?>, Boolean>, Collection<String>> TARGETED_FIELD_NAME_CACHE =
-        new HashMap<Pair<Class<?>, Boolean>, Collection<String>>();
+        Collections.synchronizedMap(new HashMap<Pair<Class<?>, Boolean>, Collection<String>>());
 
     /**
      * A section of the class name that identifies CGLIB-generated classes.
@@ -136,10 +137,6 @@ public class HibernateEntityBeanCloner implements NodeVisitor<EntityPreserveIdFl
         Pair<Class<?>, Boolean> cacheKey = 
             new Pair<Class<?>, Boolean>(entity.getClass(), Boolean.valueOf(preserveIdFields));
         
-        /*
-         * Not worrying about thread safety here - in the worst case, the entry for
-         * a class will be calculated multiple times. 
-         */
         if (!TARGETED_FIELD_NAME_CACHE.containsKey(cacheKey)) {
             TARGETED_FIELD_NAME_CACHE.put(cacheKey, 
                     calculateTargetedFieldNames(entity, preserveIdFields));
