@@ -6,5 +6,10 @@
       <prefix>commons-standalone-archetype</prefix>
       <artifactId>commons-standalone-archetype</artifactId>
     </plugin>
+    <plugin>
+      <name>commons-subproject-archetype</name>
+      <prefix>commons-subproject-archetype</prefix>
+      <artifactId>commons-subproject-archetype</artifactId>
+    </plugin>
   </plugins>
 </metadata>
