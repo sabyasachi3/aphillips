@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.qrmedia.maven.archetype</groupId>
+  <artifactId>commons-subproject-archetype</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>maven-archetype</packaging>
+  <name>commons-subproject-archetype</name>
+  <description>A subproject of qrmedia Commons</description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-archetype-plugin</artifactId>
+        <version>2.0-alpha-4</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>      
+    </plugins>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.archetype</groupId>
+        <artifactId>archetype-packaging</artifactId>
+        <version>2.0-alpha-4</version>
+      </extension>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-scm</artifactId>
+      </extension>
+      <!-- using the latest version (1.2) with the wagon plugin causes a linkage error -->
+      <extension>
+        <groupId>org.apache.maven.scm</groupId>
+        <artifactId>maven-scm-provider-svnexe</artifactId>
+        <version>1.1</version>
+      </extension>
+    </extensions>    
+  </build>
+
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
+  
+  <distributionManagement>
+    <repository>
+      <id>aphillips-releases</id>
+      <url>scm:svn:https://aphillips.googlecode.com/svn/maven-repository/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>aphillips-snapshots</id>
+      <url>scm:svn:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
+  </distributionManagement>
+</project>
