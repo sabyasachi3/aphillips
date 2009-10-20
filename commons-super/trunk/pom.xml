@@ -17,7 +17,7 @@
     <developer>
       <id>aphillips</id>
       <name>Andrew Phillips</name>
-      <email>aphillips@qrmedia.com</email>
+      <email>aphillips AT qrmedia DOTCOM</email>
       <organization>qrmedia</organization>
     </developer>
   </developers>
@@ -109,14 +109,8 @@
     <extensions>
       <extension>
         <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-scm</artifactId>
-        <version>1.0-beta-6</version>
-      </extension>
-      <!-- using the latest version (1.2) with the wagon plugin causes a linkage error -->
-      <extension>
-        <groupId>org.apache.maven.scm</groupId>
-        <artifactId>maven-scm-provider-svnexe</artifactId>
-        <version>1.1</version>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
       </extension>
     </extensions>    
   </build>
@@ -147,11 +141,11 @@
   <distributionManagement>
     <repository>
       <id>aphillips-releases</id>
-      <url>scm:svn:https://aphillips.googlecode.com/svn/maven-repository/releases</url>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/releases</url>
     </repository>
     <snapshotRepository>
       <id>aphillips-snapshots</id>
-      <url>scm:svn:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
     <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
