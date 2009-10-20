@@ -36,15 +36,12 @@
       <artifactId>commons-collections</artifactId>
       <scope>test</scope>      
     </dependency>
-    <!--<dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymockclassextension</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <scope>test</scope>
-    </dependency>-->           
   </dependencies>
+  
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
 </project>
