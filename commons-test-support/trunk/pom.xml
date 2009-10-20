@@ -49,5 +49,12 @@
   
   <properties>
     <spring.version>2.5.6</spring.version>
-  </properties>  
+  </properties>
+    
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>  
 </project>
