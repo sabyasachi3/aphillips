@@ -122,9 +122,9 @@
 
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://multiverse.googlecode.com/svn/commons-super/trunk</connection>
-    <developerConnection>scm:svn:https://multiverse.googlecode.com/svn/commons-super/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/commons-super/trunk</url>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
   </scm>
   
   <repositories>
