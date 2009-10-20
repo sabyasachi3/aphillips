@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.qrmedia.commons</groupId>
+  <artifactId>commons-annotation-utils</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <parent>
+    <groupId>com.qrmedia.commons</groupId>
+    <artifactId>commons-super</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <!-- More Project Information -->
+  <name>Commons/Annotation-utils</name>
+  <description>Utilities for retrieving and creating annotations</description>
+
+  <dependencies>
+    <!-- external modules -->
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
+
+    <!-- test-only dependencies -->      
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-collections</artifactId>
+      <scope>test</scope>      
+    </dependency>
+  </dependencies>
+  
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
+</project>
