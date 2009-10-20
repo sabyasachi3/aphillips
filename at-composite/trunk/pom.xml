@@ -76,7 +76,10 @@
         <directory>${basedir}/src/test/resources</directory>
       </testResource>
       
-      <!-- add a directory of source files which need to be compiled during a test-->
+      <!-- Add a directory of source files which need to be compiled during a test. Unfortunately, this
+        confuses mvn eclipse:m2eclipse, which generates an extra entry on the build path for this resource.
+        This needs to be removed in Eclipse (Build Path -> Remove from Build Path) for the project to build
+        correctly. -->
       <testResource>
         <directory>${project.build.testSourceDirectory}/com/qrmedia/pattern/compositeannotation/validation/sample</directory>
         <targetPath>com/qrmedia/pattern/compositeannotation/validation/sample</targetPath>
@@ -94,11 +97,17 @@
   </build>
   
   <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
+  
   <repositories>
     <!-- bootstrapping - needs access to the super POM -->
     <repository>
-      <id>qrmedia-releases</id>
-      <url>http://qrmedia.com/mvn-repository</url>
+      <id>qrmedia-snapshots</id>
+      <url>http://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
     </repository>
-  </repositories>  
+  </repositories>
 </project>
