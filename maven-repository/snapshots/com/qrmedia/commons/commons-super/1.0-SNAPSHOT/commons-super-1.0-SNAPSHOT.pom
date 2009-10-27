@@ -17,7 +17,7 @@
     <developer>
       <id>aphillips</id>
       <name>Andrew Phillips</name>
-      <email>aphillips@qrmedia.com</email>
+      <email>aphillips AT qrmedia DOTCOM</email>
       <organization>qrmedia</organization>
     </developer>
   </developers>
@@ -122,22 +122,6 @@
     <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
   </scm>
   
-  <repositories>
-    <repository>
-      <id>central</id>
-      <url>http://localhost:8081/nexus/content/groups/public</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots</id>
-      <url>http://localhost:8081/nexus/content/groups/public-snapshots</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-  </repositories>  
   <distributionManagement>
     <repository>
       <id>aphillips-releases</id>
@@ -152,7 +136,6 @@
   </distributionManagement>
   
   <profiles>
-  
     <!-- run integration tests (active by default) -->
     <profile>
       <id>integration-test</id>
