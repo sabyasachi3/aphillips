@@ -129,7 +129,7 @@ public final class ReflectionUtils {
      * <p>
      * Supports bean property names of the form <code>property.childProperty</code>.
      * Here, <code>property</code> is expected to be a static field of the target class, 
-     * whereas all further properties are assumed to be <u>instance</u> field of their
+     * whereas all further properties are assumed to be <u>instance</u> fields of their
      * parent objects.
      * 
      * @param targetClass   the class whose static field is to be set
@@ -207,7 +207,7 @@ public final class ReflectionUtils {
      * <p>
      * Supports bean property names of the form <code>property.childProperty</code>.
      * Here, <code>property</code> is expected to be a static field of the target class, 
-     * whereas all further properties are assumed to be <u>instance</u> field of their
+     * whereas all further properties are assumed to be <u>instance</u> fields of their
      * parent objects.
      * 
      * @param targetClass    the object from which to retrieve the falue
