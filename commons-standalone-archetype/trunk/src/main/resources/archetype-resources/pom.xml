@@ -94,32 +94,23 @@
   </build>
 
   <!-- Environment Settings -->
-  <repositories>
-    <repository>
-      <id>central</id>
-      <url>http://localhost:8081/nexus/content/groups/public</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots</id>
-      <url>http://localhost:8081/nexus/content/groups/public-snapshots</url>
-      <releases>
-      </releases>
-    </repository>
-  </repositories>  
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
+  
   <distributionManagement>
     <repository>
-      <id>nexus-local-releases</id>
-      <name>Nexus Releases</name>
-      <url>http://localhost:8081/nexus/content/repositories/releases</url>
+      <id>aphillips-releases</id>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/releases</url>
     </repository>
     <snapshotRepository>
-      <id>nexus-local-snapshots</id>
-      <name>Nexus Snapshots</name>
-      <url>http://localhost:8081/nexus/content/repositories/snapshots</url>
+      <id>aphillips-snapshots</id>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
+    <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
   </distributionManagement>
   
   <profiles>
