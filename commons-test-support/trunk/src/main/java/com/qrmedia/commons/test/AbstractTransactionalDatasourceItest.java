@@ -60,6 +60,11 @@ public abstract class AbstractTransactionalDatasourceItest {
     protected <T> T loadEntity(Class<T> entityClass, Serializable id) {
         return (T) session.load(entityClass, id);
     }
+    
+    @SuppressWarnings("unchecked")
+    protected <T> T getEntity(Class<T> entityClass, Serializable id) {
+        return (T) session.get(entityClass, id);
+    }    
 
     /**
      * @param sessionFactory the sessionFactory to set
