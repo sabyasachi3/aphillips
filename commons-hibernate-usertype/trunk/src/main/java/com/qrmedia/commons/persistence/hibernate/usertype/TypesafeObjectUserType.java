@@ -82,19 +82,6 @@ public class TypesafeObjectUserType extends CollectionReturningUserType {
     }
 
     /* (non-Javadoc)
-     * @see com.qrmedia.commons.persistence.hibernate.usertype.AbstractMutableUserType#isDirty(java.lang.Object)
-     */
-    @Override
-    public boolean isDirty(Object object) {
-        /*
-         * None of the returned objects support dirty checking - detection of updates for
-         * collections is done by comparing the collection when loaded against the current
-         * state. 
-         */
-        return false;
-    }
-    
-    /* (non-Javadoc)
      * @see com.qrmedia.commons.persistence.hibernate.usertype.AbstractMutableCollectionReturningUserType#deepCopyValue(java.lang.Object)
      */
     @Override

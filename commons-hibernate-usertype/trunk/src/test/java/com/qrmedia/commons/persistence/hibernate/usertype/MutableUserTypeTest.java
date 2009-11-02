@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit tests for the {@link MutableUserTypeTest}.
+ * Unit tests for the {@link MutableUserType}.
  * 
  * @author aphillips
  * @since 8 Apr 2009
@@ -45,114 +45,24 @@ public class MutableUserTypeTest {
     @Before
     public void prepareFixture() throws Exception {
         userType = createMock(MutableUserType.class, 
-                MutableUserType.class.getDeclaredMethod("isDirty", Object.class),
                 MutableUserType.class.getMethod("deepCopy", Object.class));
     }
     
     @Test
-    public void equals() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(false);
-        
-        Object y = "James";
-        userType.isDirty(y);
-        expectLastCall().andReturn(false);
-        replay(userType);
-        
-        assertTrue(userType.equals(x, y));
-        
-        verify(userType);
+    public void equalObjectsAreEqual() {
+        assertTrue(userType.equals("James", new String("James")));
     }
 
     @Test
-    public void equals_unequalObjects() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(false);
-        
-        Object y = "Bond";
-        userType.isDirty(y);
-        expectLastCall().andReturn(false);
-        replay(userType);
-        
-        assertFalse(userType.equals(x, y));
-        
-        verify(userType);
+    public void unequalObjectsAreNotEqual() {
+        assertFalse(userType.equals("James", "Bond"));
     }
 
     @Test
-    public void equals_dirtyX() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(true);
-        
-        // that's enough - they can't be equal
-        replay(userType);
-        
-        assertFalse(userType.equals(x, "Bond"));
-        
-        verify(userType);
-    }
-    
-    @Test
-    public void equals_dirtyY() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(false);
-        
-        Object y = "James";
-        userType.isDirty(y);
-        expectLastCall().andReturn(true);
-        replay(userType);
-        
-        assertFalse(userType.equals(x, y));
-        
-        verify(userType);
-    }
-    @Test
-    public void hashCode_equalObjects() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(false).times(2);
-        replay(userType);
-        
-        assertEquals(userType.hashCode(x), userType.hashCode(x));
-        
-        verify(userType);
+    public void equalObjectsHaveSameHashCode() {
+        assertEquals(userType.hashCode("James"), userType.hashCode(new String("James")));
     }
 
-    @Test
-    public void hashCode_unequalObjects() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(false);
-
-        Object y = "Bond";
-        userType.isDirty(y);
-        expectLastCall().andReturn(false);
-        replay(userType);
-        
-        assertFalse(userType.hashCode(x) == userType.hashCode(y));
-        
-        verify(userType);
-    }
-    
-    @Test
-    public void hashCode_equalObjects_dirty() {
-        Object x = "James";
-        userType.isDirty(x);
-        expectLastCall().andReturn(true);
-        
-        userType.isDirty(x);
-        expectLastCall().andReturn(false);
-        replay(userType);
-        
-        assertFalse(userType.hashCode(x) == userType.hashCode(x));
-        
-        verify(userType);
-    }
-    
     @Test
     public void assemble() {
         Serializable cached = new Integer(0);
