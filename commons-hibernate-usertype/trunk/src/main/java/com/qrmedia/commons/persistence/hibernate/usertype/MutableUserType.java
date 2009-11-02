@@ -21,7 +21,6 @@ package com.qrmedia.commons.persistence.hibernate.usertype;
 import java.io.Serializable;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
@@ -49,48 +48,16 @@ public abstract class MutableUserType implements UserType {
      * @see org.hibernate.usertype.UserType#equals(java.lang.Object, java.lang.Object)
      */
     public boolean equals(Object x, Object y) throws HibernateException {
-        /*
-         * x and y are references to the object as it was originally hydrated and as it is
-         * now, respectively. Comparing these determines if the object needs updating.
-         * 
-         * The "original" version of the object is created by a call to the deepCopy
-         * method when the object is loaded. But if it is too expensive to create a deepCopy
-         * (say you're hydrating a large array, for instance), one option is to simply
-         * return a reference to the loaded object.
-         * 
-         * This presents a problem for dirty checking, though: now x and y are references
-         * to *the same object*, so there is no way to tell if it has been modified.
-         * *Unless* the object supports some kind of dirty checking, which may be much cheaper
-         * to implement than making a deep copy. 
-         * 
-         * This kind of dirty checking should be done in isDirty.
-         */
-        return (!isDirty(x) && !isDirty(y) && ObjectUtils.equals(x, y));
+        return ObjectUtils.equals(x, y);
     }
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
      */
     public int hashCode(Object x) throws HibernateException {
-        /*
-         * Persistence equality (see equals) requires that the an object, if dirty, has a
-         * *different* hash code from the *same*, *identical* object if clean.
-         */
-        return new HashCodeBuilder().append(x).append(isDirty(x)).toHashCode();
+        assert (x != null);
+        return x.hashCode();
     }
-
-    /**
-     * Indicates if the given object has been modified since it was originally
-     * loaded, and thus needs updating.
-     * <p>
-     * For immutable entities, this can always return <code>false</code>. For
-     * mutable entities, this must return <code>true</code> iff the entity needs
-     * to be updated.
-     * 
-     * @param object    the object to be inspected
-     * @return  <code>true</code> iff the object needs to be updated
-     */
-    protected abstract boolean isDirty(Object object);
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)

@@ -24,13 +24,13 @@ import org.springframework.test.context.ContextConfiguration;
 import com.qrmedia.commons.test.AbstractTransactionalDatasourceItest;
 
 /**
- * A stub integration test.
+ * A stub integration test (mainly for observation of output).
  * 
  * @author anphilli
  * @since 8 Apr 2009
  *
  */
-@ContextConfiguration(locations = { "classpath:dataSourceContext.xml "})
+@ContextConfiguration(locations = { "classpath:dataSourceContext.xml" })
 public class StubItest extends AbstractTransactionalDatasourceItest {
     
     @Test

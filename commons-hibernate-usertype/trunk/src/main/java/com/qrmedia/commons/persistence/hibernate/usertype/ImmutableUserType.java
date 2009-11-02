@@ -38,15 +38,6 @@ public abstract class ImmutableUserType extends MutableUserType {
     }
     
     /* (non-Javadoc)
-     * @see com.qrmedia.commons.persistence.hibernate.usertype.AbstractUserType#isDirty(java.lang.Object)
-     */
-    @Override
-    protected boolean isDirty(Object object) {
-        // immutable objects can't be dirty
-        return false;
-    }
-
-    /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#deepCopy(java.lang.Object)
      */
     public Object deepCopy(Object value) throws HibernateException {
