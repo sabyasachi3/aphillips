@@ -33,7 +33,7 @@ public abstract class ImmutableUserType extends MutableUserType {
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#isMutable()
      */
-    public boolean isMutable() {
+    public final boolean isMutable() {
         return false;
     }
     
