@@ -19,13 +19,11 @@
 package com.qrmedia.commons.persistence.hibernate.usertype;
 
 import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.EasyMock.same;
+import static org.easymock.classextension.EasyMock.createNiceMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.Serializable;
 
@@ -44,7 +42,7 @@ public class DirtyCheckableUserTypeTest {
     
     @Before
     public void prepareFixture() throws Exception {
-        userType = createMock(DirtyCheckableUserType.class, 
+        userType = createNiceMock(DirtyCheckableUserType.class, 
                 DirtyCheckableUserType.class.getDeclaredMethod("isDirty", Object.class));
     }
     
@@ -53,7 +51,7 @@ public class DirtyCheckableUserTypeTest {
         Object x = "James";
         userType.isDirty(x);
         expectLastCall().andReturn(false);
-        
+
         Object y = "James";
         userType.isDirty(y);
         expectLastCall().andReturn(false);
@@ -68,11 +66,16 @@ public class DirtyCheckableUserTypeTest {
     public void cleanUnequalObjectsAreNotEqual() {
         Object x = "James";
         userType.isDirty(x);
-        expectLastCall().andReturn(false);
+
+        /*
+         * stubReturn here because it doesn't matter if the dirty state is checked
+         * as long as it is realized that the items are not equal!
+         */
+        expectLastCall().andStubReturn(false);
         
         Object y = "Bond";
         userType.isDirty(y);
-        expectLastCall().andReturn(false);
+        expectLastCall().andStubReturn(false);
         replay(userType);
         
         assertFalse(userType.equals(x, y));
@@ -86,10 +89,12 @@ public class DirtyCheckableUserTypeTest {
         userType.isDirty(x);
         expectLastCall().andReturn(true);
         
-        // that's enough - they can't be equal
+        Object y = "James";
+        userType.isDirty(y);
+        expectLastCall().andStubReturn(false);
         replay(userType);
         
-        assertFalse(userType.equals(x, "Bond"));
+        assertFalse(userType.equals(x, y));
         
         verify(userType);
     }
@@ -98,7 +103,7 @@ public class DirtyCheckableUserTypeTest {
     public void dirtyYMeansNotEqual() {
         Object x = "James";
         userType.isDirty(x);
-        expectLastCall().andReturn(false);
+        expectLastCall().andStubReturn(false);
         
         Object y = "James";
         userType.isDirty(y);
@@ -109,8 +114,57 @@ public class DirtyCheckableUserTypeTest {
         
         verify(userType);
     }
+
+    private static class NeverEquals {
+        
+        /* (non-Javadoc)
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals(Object obj) {
+            fail(String.format("equals(%s) called on %s", obj, this));
+            return false;
+        }
+
+    }
+    
     @Test
-    public void equalObjectsHaveTheSameHashCode() {
+    public void dirtyXMeansNoCallToEquals() {
+        NeverEquals x = new NeverEquals();
+        userType.isDirty(same(x));
+        expectLastCall().andReturn(true);
+        
+        NeverEquals y = new NeverEquals();
+        userType.isDirty(same(y));
+        expectLastCall().andStubReturn(false);
+        replay(userType);
+        
+        assertFalse(userType.equals(x, y));
+        
+        verify(userType);
+    }
+    
+    @Test
+    public void dirtyYMeansNoCallToEqual() {
+        NeverEquals x = new NeverEquals();
+        
+        // isDirty(x) (i.e. isDirty(eq(x))) would result in a call to equals
+        userType.isDirty(same(x));
+        expectLastCall().andStubReturn(false);
+
+        NeverEquals y = new NeverEquals();
+        userType.isDirty(same(y));
+        expectLastCall().andReturn(true);
+        
+        replay(userType);
+        
+        assertFalse(userType.equals(x, y));
+        
+        verify(userType);
+    }
+    
+    @Test
+    public void cleanEqualObjectsHaveTheSameHashCode() {
         Object x = "James";
         userType.isDirty(x);
         expectLastCall().andReturn(false).times(2);

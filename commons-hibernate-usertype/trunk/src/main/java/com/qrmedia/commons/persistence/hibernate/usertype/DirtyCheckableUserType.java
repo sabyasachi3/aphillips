@@ -39,7 +39,7 @@ public abstract class DirtyCheckableUserType extends MutableUserType {
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#equals(java.lang.Object, java.lang.Object)
      */
-    public boolean equals(Object x, Object y) throws HibernateException {
+    public final boolean equals(Object x, Object y) throws HibernateException {
         /*
          * x and y are references to the object as it was originally hydrated and as it is
          * now, respectively. Comparing these determines if the object needs updating.
@@ -62,7 +62,7 @@ public abstract class DirtyCheckableUserType extends MutableUserType {
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
      */
-    public int hashCode(Object x) throws HibernateException {
+    public final int hashCode(Object x) throws HibernateException {
         /*
          * Persistence equality (see equals) requires that the an object, if dirty, has a
          * *different* hash code from the *same*, *identical* object if clean.

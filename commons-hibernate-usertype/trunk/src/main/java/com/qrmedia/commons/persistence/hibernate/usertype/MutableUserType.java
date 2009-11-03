@@ -68,12 +68,20 @@ public abstract class MutableUserType implements UserType {
         return deepCopy(cached);
     }
 
-    /* (non-Javadoc)
-     * @see org.hibernate.usertype.UserType#disassemble(java.lang.Object)
+    /**
+     * Disassembles the object in preparation for serialization. 
+     * See {@link org.hibernate.usertype.UserType#disassemble(java.lang.Object)}.
+     * <p>
+     * <strong>Subtypes whose {@code deepCopy} implementation returns a
+     * non-serializable object must override this method.</strong> 
+     * 
+     * @see #deepCopy(Object)
      */
     public Serializable disassemble(Object value) throws HibernateException {
         // also safe for mutable objects
-        return (Serializable) deepCopy(value);
+        Object deepCopy = deepCopy(value);
+        assert (deepCopy instanceof Serializable);
+        return (Serializable) deepCopy;
     }
 
     /* (non-Javadoc)
