@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.xebialabs.aphillips</groupId>
+  <artifactId>hibernate-usertype-example</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <organization>
+    <name>XebiaLabs</name>
+    <url>http://www.xebialabs.com</url>
+  </organization>
+
+  <!-- More Project Information -->
+  <name>hibernate-usertype-example</name>
+  <description>Project hibernate-usertype-example</description>
+
+  <developers>
+    <developer>
+      <id>aphillips</id>
+      <name>Andrew Phillips</name>
+      <email>aphillips AT xebialabs DOTCOM</email>
+      <organization>XebiaLabs</organization>
+    </developer>
+  </developers>
+
+  <dependencies>
+    <!-- external modules -->
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-hibernate-usertype</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>    
+    <!--<dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>      
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.4</version>
+    </dependency>-->
+
+    <!-- test-only dependencies -->
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-test-support</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>   
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+      <scope>test</scope>
+    </dependency>        
+    <dependency>
+      <groupId>hsqldb</groupId> 
+      <artifactId>hsqldb</artifactId> 
+      <version>1.8.0.7</version>
+      <scope>test</scope> 
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>
+      <scope>test</scope>      
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>          
+    <!--<dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <version>2.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
+      <scope>test</scope>
+    </dependency>-->           
+  </dependencies>
+  
+  <properties>
+    <spring.version>2.5.6</spring.version>
+    <slf4j.version>1.5.3</slf4j.version>
+  </properties>
+    
+  <!--  Build Settings -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin> 
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+  </scm>
+  
+  <distributionManagement>
+    <repository>
+      <id>aphillips-releases</id>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>aphillips-snapshots</id>
+      <url>dav:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
+  </distributionManagement>
+  
+  <profiles>
+  
+    <!-- run integration tests (active by default) -->
+    <profile>
+      <id>integration-test</id>
+      <activation>
+        <property>
+          <name>!skipItests</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <executions>
+              <!-- run integration tests only ("*Itest.java") during the integration-test phase -->
+              <execution>
+                <id>run-integration-tests</id>
+                <goals>
+                  <goal>test</goal>
+                </goals>
+                <phase>integration-test</phase>
+                <configuration>
+                  <includes>
+                    <include>**/*Itest.java</include>
+                  </includes>
+                  <excludes>
+                    <exclude>**/*Test.java</exclude>
+                  </excludes>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>      
+        </plugins>
+      </build>      
+    </profile>
+  </profiles>  
+</project>
