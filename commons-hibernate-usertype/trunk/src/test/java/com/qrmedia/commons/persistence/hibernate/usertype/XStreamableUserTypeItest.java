@@ -1,5 +1,5 @@
 /*
- * @(#)TypesafeObjectUserTypeItest.java     Oct 2, 2007
+ * @(#)XStreamableUserTypeItest.java     Oct 2, 2007
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -33,7 +33,7 @@ import com.qrmedia.commons.test.AbstractTransactionalDatasourceItest;
 import com.qrmedia.commons.test.example.UserTypePropertyHolder;
 
 /**
- * Integration tests for the {@link TypesafeObjectUserType}.
+ * Integration tests for the {@link XStreamableUserType}.
  * <p>
  * This is really nothing more than an XStream integration test...
  * 
@@ -42,7 +42,7 @@ import com.qrmedia.commons.test.example.UserTypePropertyHolder;
  * @since Oct 2, 2007
  */
 @ContextConfiguration(locations = { "classpath:dataSourceContext.xml "})
-public class TypesafeObjectUserTypeItest extends AbstractTransactionalDatasourceItest {
+public class XStreamableUserTypeItest extends AbstractTransactionalDatasourceItest {
     private final String propertyMember = "James";
     private Integer id;
     

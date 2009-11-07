@@ -20,7 +20,7 @@ package com.qrmedia.commons.persistence.hibernate.usertype;
 
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.same;
-import static org.easymock.classextension.EasyMock.createNiceMock;
+import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.junit.Assert.*;
@@ -42,7 +42,7 @@ public class DirtyCheckableUserTypeTest {
     
     @Before
     public void prepareFixture() throws Exception {
-        userType = createNiceMock(DirtyCheckableUserType.class, 
+        userType = createMock(DirtyCheckableUserType.class, 
                 DirtyCheckableUserType.class.getDeclaredMethod("isDirty", Object.class));
     }
     
@@ -61,7 +61,7 @@ public class DirtyCheckableUserTypeTest {
         
         verify(userType);
     }
-
+    
     @Test
     public void cleanUnequalObjectsAreNotEqual() {
         Object x = "James";
@@ -79,10 +79,29 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.equals(x, y));
-        
         verify(userType);
     }
 
+    @Test
+    public void nullObjectsAreEqual() {
+        replay(userType);
+        assertTrue(userType.equals(null, null));
+    }    
+
+    @Test
+    public void nullXIsNotEqualToNonNullY() {
+        replay(userType);
+        assertFalse(userType.equals(null, "Bond"));
+        verify(userType);
+    }    
+
+    @Test
+    public void nullYIsNotEqualToNonNullX() {
+        replay(userType);
+        assertFalse(userType.equals("James", null));
+        verify(userType);
+    }    
+    
     @Test
     public void dirtyXMeansNotEqual() {
         Object x = "James";
@@ -95,7 +114,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.equals(x, y));
-        
         verify(userType);
     }
     
@@ -111,7 +129,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.equals(x, y));
-        
         verify(userType);
     }
 
@@ -140,7 +157,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.equals(x, y));
-        
         verify(userType);
     }
     
@@ -159,7 +175,20 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.equals(x, y));
-        
+        verify(userType);
+    }
+    
+    @Test
+    public void nullXMeansNoCallToIsDirtyOrEquals() {
+        replay(userType);
+        assertFalse(userType.equals(null, new NeverEquals()));
+        verify(userType);
+    }
+    
+    @Test
+    public void nullYMeansNoCallToIsDirtyOrEquals() {
+        replay(userType);
+        assertFalse(userType.equals(new NeverEquals(), null));
         verify(userType);
     }
     
@@ -171,7 +200,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertEquals(userType.hashCode(x), userType.hashCode(x));
-        
         verify(userType);
     }
 
@@ -189,7 +217,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertFalse(userType.hashCode(x) == userType.hashCode(y));
-        
         verify(userType);
     }
     
@@ -202,7 +229,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertSame(value, userType.assemble(cached, null));
-        
         verify(userType);
     }
 
@@ -215,7 +241,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertSame(cacheable, userType.disassemble(value));
-        
         verify(userType);
     }
 
@@ -228,7 +253,6 @@ public class DirtyCheckableUserTypeTest {
         replay(userType);
         
         assertSame(replacement, userType.replace(value, null, null));
-        
         verify(userType);
     }
 
