@@ -345,10 +345,11 @@ public class ClassUtils {
      * For type parameters that cannot be determined, <code>null</code> is returned.
      * <p>
      * <b>Note:</b> It is <u>not</u> possible to retrieve type information that is not available
-     * in the class hierarchy at <u>compile</u>-time. Calling 
-     * <code>getActualTypeArguments(List.class, new ArrayList&lt;String&gt;().getClass())</code> will, 
-     * for instance, return <code>[null]</code> because neither the superclass {@link AbstractList} 
-     * nor the interface {@link List} specify the runtime class (<code>String</code>, in this example).
+     * in the (super)class hierarchy at <u>compile</u>-time. Calling 
+     * <code>getActualTypeArguments(new ArrayList&lt;String&gt;().getClass(), List.class)</code> will, 
+     * for instance, return <code>[null]</code> because the specification of the actual type 
+     * (<code>String</code>, in this example) did not take place either in the superclass {@link AbstractList} 
+     * or the interface {@link List}.
      * 
      * @param <U>       the type of the object
      * @param typedClass the class for which type information is required
