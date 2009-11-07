@@ -18,7 +18,6 @@
  */
 package com.qrmedia.commons.persistence.hibernate.usertype;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
@@ -55,10 +54,21 @@ public abstract class DirtyCheckableUserType extends MutableUserType {
          * to implement than comparing two instances. 
          * 
          * This kind of dirty checking should be done in isDirty.
+         * 
+         * Of course, dirty checking can only be done on non-null objects!
          */
-        return (!isDirty(x) && !isDirty(y) && ObjectUtils.equals(x, y));
+        if ((x == null) || (y == null)) {
+            /*
+             * No need to bother with dirty checks since they can only be equal
+             * if both are null.
+             */
+            return (x == y);
+        } else {
+            return (!isDirty(x) && !isDirty(y) && x.equals(y));
+        }
+        
     }
-
+    
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#hashCode(java.lang.Object)
      */
@@ -78,7 +88,7 @@ public abstract class DirtyCheckableUserType extends MutableUserType {
      * mutable entities, this must return <code>true</code> iff the entity needs
      * to be updated.
      * 
-     * @param object    the object to be inspected
+     * @param object    the <u>non-<code>null</code></u> object to be inspected
      * @return  <code>true</code> iff the object needs to be updated
      */
     protected abstract boolean isDirty(Object object);

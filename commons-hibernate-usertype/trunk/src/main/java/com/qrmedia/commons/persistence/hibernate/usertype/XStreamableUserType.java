@@ -1,5 +1,5 @@
 /*
- * @(#)PersitenceUserType.java     Oct 3, 2007
+ * @(#)XStreamableUserType.java     Oct 3, 2007
  *
  * Copyright © 2009 Andrew Phillips.
  *
@@ -31,19 +31,22 @@ import org.hibernate.usertype.UserType;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * A {@link UserType} that preserves the runtime type of the persisted object, even if the 
- * field's declared type is a supertype of the object being stored.
+ * A {@link UserType} that persists objects as {@link XStream XStream} XML.
  * <p>
- * Unlike the default JPA object mapping, {@code TypesafeObjectUserType} can also be used 
+ * Unlike the default JPA object mapping, {@code XStreamableUserType} can also be used 
  * for properties that do not implement {@link Serializable}. For restrictions on the types
  * of objects that can be handled by this user type see the <a href="http://xstream.codehaus.org">XStream documentation</a>.
+ * <p>
+ * Users intending to use this type for mutable non-<code>Collection</code> objects
+ * should override {@link #deepCopyValue(Object)} to correctly return a <u>copy</u> 
+ * of the object. 
  * 
  * @author rvd
  * @author anph
  * @since Oct 3, 2007
  * 
  */
-public class TypesafeObjectUserType extends CollectionReturningUserType {
+public class XStreamableUserType extends CollectionReturningUserType {
     // thread-safe, according to the XStream documentation
     private static final XStream XSTREAM = new XStream();
     

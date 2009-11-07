@@ -41,7 +41,7 @@ public class UserTypePropertyHolder {
     @GeneratedValue
     private Integer id;
     
-    @Type(type = "com.qrmedia.commons.persistence.hibernate.usertype.TypesafeObjectUserType")
+    @Type(type = "com.qrmedia.commons.persistence.hibernate.usertype.XStreamableUserType")
     private Collection<String> userTypedProperty = new ArrayList<String>();
     
     /**
