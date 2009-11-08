@@ -32,7 +32,7 @@ import java.io.Serializable;
 public class DirtyCheckingStringBuilder implements Serializable {
     private static final long serialVersionUID = 5014637304842303779L;
 
-    private String value;
+    private StringBuilder value;
     private boolean valueModified;
 
     /**
@@ -49,7 +49,7 @@ public class DirtyCheckingStringBuilder implements Serializable {
      */
     public DirtyCheckingStringBuilder(String value) {
         assert (value != null);
-        this.value = value;
+        this.value = new StringBuilder(value);
         valueModified = false;
     }
     
@@ -60,7 +60,7 @@ public class DirtyCheckingStringBuilder implements Serializable {
      * @return  this builder
      */
     public DirtyCheckingStringBuilder append(String addition) {
-        value += addition;
+        value.append(addition);
         valueModified = true;
         return this;
     }
@@ -103,7 +103,7 @@ public class DirtyCheckingStringBuilder implements Serializable {
      */
     @Override
     public String toString() {
-        return value;
+        return value.toString();
     }
 
 }
