@@ -18,17 +18,16 @@
  */
 package com.qrmedia.commons.persistence.hibernate.usertype;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.Serializable;
 
+import org.hibernate.type.SerializationException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,7 +63,7 @@ public class MutableUserTypeTest {
     }
 
     @Test
-    public void assemble() {
+    public void assembleReturnsDeepCopy() {
         Serializable cached = new Integer(0);
         Serializable value = new Integer(0);
         userType.deepCopy(cached);
@@ -77,7 +76,23 @@ public class MutableUserTypeTest {
     }
 
     @Test
-    public void disassemble() {
+    public void disassembleThrowsExceptionIfDeepCopyIsNotSerializable() {
+        Object value = new Object();
+        expect(userType.deepCopy(value)).andReturn(new Object());
+        replay(userType);
+        
+        try {
+            userType.disassemble(value);
+            fail("Expected an SerializationException");
+        } catch (SerializationException exception) {
+            // expected
+        }
+        
+        verify(userType);        
+    }
+
+    @Test
+    public void disassembleReturnsDeepCopy() {
         Serializable value = new Integer(0);
         Serializable cacheable = new Integer(0);
         userType.deepCopy(value);
@@ -90,7 +105,7 @@ public class MutableUserTypeTest {
     }
 
     @Test
-    public void replace() {
+    public void replaceReturnsDeepCopy() {
         Serializable value = new Integer(0);
         Serializable replacement = new Integer(0);
         userType.deepCopy(value);

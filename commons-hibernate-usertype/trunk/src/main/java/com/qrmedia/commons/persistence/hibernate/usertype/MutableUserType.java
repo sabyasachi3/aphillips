@@ -22,13 +22,15 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.hibernate.HibernateException;
+import org.hibernate.type.SerializationException;
 import org.hibernate.usertype.UserType;
 
 /**
  * A skeleton Hibernate {@link UserType}. Assumes, by default, that the return
- * type is mutable.
+ * type is mutable. Subtypes whose {@code deepCopy} implementation returns a 
+ * non-serializable object <strong>must override</strong> {@link #disassemble(Object)}.
  * <p>
- * User types returning only <strong>immutable</strong> objects should extend 
+ * User types returning only <em>im</em>mutable objects should extend 
  * {@link ImmutableUserType}.
  * 
  * @author anph
@@ -72,15 +74,19 @@ public abstract class MutableUserType implements UserType {
      * Disassembles the object in preparation for serialization. 
      * See {@link org.hibernate.usertype.UserType#disassemble(java.lang.Object)}.
      * <p>
+     * Expects {@link #deepCopy(Object)} to return a {@code Serializable}.
      * <strong>Subtypes whose {@code deepCopy} implementation returns a
-     * non-serializable object must override this method.</strong> 
-     * 
-     * @see #deepCopy(Object)
+     * non-serializable object must override this method.</strong>
      */
     public Serializable disassemble(Object value) throws HibernateException {
         // also safe for mutable objects
         Object deepCopy = deepCopy(value);
-        assert (deepCopy instanceof Serializable);
+
+        if (!(deepCopy instanceof Serializable)) {
+            throw new SerializationException(
+                    String.format("deepCopy of %s is not serializable", value), null);
+        }
+        
         return (Serializable) deepCopy;
     }
 
