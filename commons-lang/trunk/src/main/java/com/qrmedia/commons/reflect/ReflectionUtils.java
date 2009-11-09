@@ -42,51 +42,48 @@ public final class ReflectionUtils {
      * @param target    the object whose field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
-     * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
-     *          were thrown
+     * @throws AccessException if the value could not be retrieved
      * @see #setValue(Class, String, Object)
+     * @see #setValueQuietly(Object, String, Object)
+     * @see #setValueQuietly(Class, String, Object)
      */
-    public static boolean setValue(Object target, String propertyName, Object value) {
-        return setPropertyValue(target, null, propertyName, value);
+    public static void setValue(Object target, String propertyName, Object value) 
+            throws AccessException {
+        setPropertyValue(target, null, propertyName, value);
     }
 
     // support bean property names of the form property.childProperty
-    private static boolean setPropertyValue(Object target, 
-            Class<? extends Object> targetClass, String propertyName, Object value) {
+    private static void setPropertyValue(Object target, Class<? extends Object> targetClass, 
+            String propertyName, Object value) throws AccessException {
         int separatorIndex = propertyName.indexOf('.');
         
         // for "plain" properties, simply set them
         if (separatorIndex == -1) {
-            return setFieldValue(target, targetClass, propertyName, value);
+            setFieldValue(target, targetClass, propertyName, value);
+            return;
         }
         
         /*
          * Otherwise, retrieve the first property and recurse, ensuring *instance* fields
          * are used in the recursion.
          */
-        try {
-            return setPropertyValue(
-                    getFieldValue(target, targetClass, 
-                                  propertyName.substring(0, separatorIndex)), 
-                    null, propertyName.substring(separatorIndex + 1), value);
-        } catch (AccessException exception) {
-            return false;
-        }
-        
+        setPropertyValue(getFieldValue(target, targetClass, 
+                                       propertyName.substring(0, separatorIndex)), 
+                         null, propertyName.substring(separatorIndex + 1), value);
     }
     
     // for an instance (static) field, targetClass (target) may be null
-    private static boolean setFieldValue(Object target, Class<? extends Object> targetClass,
-            String fieldName, Object value) {
+    private static void setFieldValue(Object target, Class<? extends Object> targetClass,
+            String fieldName, Object value) throws AccessException {
         
         try {
             Field field = getAccessibleField(
                     (target != null) ? target.getClass() : targetClass, fieldName);
-            
             field.set(target, value);
-            return true;
         } catch (Exception exception) {
-            return false;
+            throw new AccessException(String.format("Unable to set field '%s' on %s due to: ", 
+                                                    fieldName, target), 
+                                      exception);
         } 
         
     }
@@ -135,15 +132,78 @@ public final class ReflectionUtils {
      * @param targetClass   the class whose static field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
-     * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
-     *          were thrown
+     * @throws AccessException if the value could not be retrieved
      * @see #setValue(Object, String, Object)
+     * @see #setValueQuietly(Object, String, Object)
+     * @see #setValueQuietly(Class, String, Object)
      */
-    public static boolean setValue(Class<? extends Object> targetClass, String propertyName, 
-            Object value) {
-        return setPropertyValue(null, targetClass, propertyName, value);
+    public static void setValue(Class<? extends Object> targetClass, String propertyName, 
+            Object value) throws AccessException {
+        setPropertyValue(null, targetClass, propertyName, value);
     }    
 
+    /**
+     * Attempts to <u>quietly</u> (i.e. without throwing exceptions) set the 
+     * <em>instance</em> field of the target object with the given name 
+     * to the given value. The field may be declared in the target object's class or any 
+     * if its parent classes.
+     * <p>
+     * Makes the field accessible if necessary, e.g. if it is declared private.
+     * <p>
+     * Supports bean property names of the form <code>property.childProperty</code>.
+     * 
+     * @param target    the object whose field is to be set
+     * @param propertyName the bean property name of the field to set
+     * @param value the value to set the field to
+     * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
+     *          were thrown
+     * @see #setValueQuietly(Class, String, Object)
+     * @see #setValue(Object, String, Object)
+     * @see #setValue(Class, String, Object)
+     */
+    public static boolean setValueQuietly(Object target, String propertyName, Object value) {
+        return setPropertyValueQuietly(target, null, propertyName, value);
+    }
+    
+    private static boolean setPropertyValueQuietly(Object target, 
+            Class<? extends Object> targetClass, String propertyName, Object value) {
+        
+        try {
+            setPropertyValue(target, targetClass, propertyName, value);
+            return true;
+        } catch (AccessException exception) {
+            return false;
+        }
+        
+    }
+
+    /**
+     * Attempts to <u>quietly</u> (i.e. without throwing exceptions) set the 
+     * <em>static</em> field of the target class with the given name  
+     * to the given value. The field may be declared in the target class or any 
+     * if its parent classes.
+     * <p>
+     * Makes the field accessible if necessary, e.g. if it is declared private.
+     * <p>
+     * Supports bean property names of the form <code>property.childProperty</code>.
+     * Here, <code>property</code> is expected to be a static field of the target class, 
+     * whereas all further properties are assumed to be <u>instance</u> fields of their
+     * parent objects.
+     * 
+     * @param targetClass   the class whose static field is to be set
+     * @param propertyName the bean property name of the field to set
+     * @param value the value to set the field to
+     * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
+     *          were thrown
+     * @see #setValueQuietly(Object, String, Object)
+     * @see #setValue(Object, String, Object)
+     * @see #setValue(Class, String, Object)
+     */
+    public static boolean setValueQuietly(Class<? extends Object> targetClass, String propertyName, 
+            Object value) {
+        return setPropertyValueQuietly(null, targetClass, propertyName, value);
+    }
+    
     /**
      * Attempts to get the value of specified <i>instance</i> field from the given target 
      * object. The field may be declared in the target object's class or any if its
