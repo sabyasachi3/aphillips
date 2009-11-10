@@ -30,7 +30,13 @@ import com.xebia.aphillips.jmockit.JmockitExpectationsDemo.ServiceA;
 import com.xebia.aphillips.jmockit.JmockitExpectationsDemo.ServiceB;
 
 /**
- * Jmockit demo using annotations.
+ * Jmockit demo using annotations. Needs to be run using the Jmockit
+ * Java agent, by adding e.g. the following to your command line:
+ * <p>
+ * <code>-javaagent:<em>M2_REPO</em>/mockit/jmockit/0.97/jmockit-0.97.jar=coverage=::target/coverage-report</code>
+ * <p>
+ * See the <a href="https://jmockit.dev.java.net/tutorial/CodeCoverage.html">
+ * Jmockit documentation</a> for details of coverage arguments.
  * 
  * @author aphillips
  * @since 26 May 2009

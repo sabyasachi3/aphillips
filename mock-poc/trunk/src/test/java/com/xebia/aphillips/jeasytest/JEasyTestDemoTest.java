@@ -20,7 +20,12 @@ import org.jeasytest.annotations.ClassUnderTest;
 import org.jeasytest.annotations.JEasyTest;
 
 /**
- * JEasyTest demo.
+ * JEasyTest demo. Runs via Maven using:
+ * <p>
+ * <code>mvn -Prun-jeasytest test</code>
+ * <p>
+ * See the <a href="https://jeasytest.dev.java.net/">JEesyTest documentation</a> 
+ * for more information.
  * 
  * @author aphillips
  * @since 26 May 2009
