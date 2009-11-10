@@ -16,6 +16,9 @@ import org.mockito.stubbing.Answer;
 
 /**
  * Mockito demo.
+ * <p>
+ * See the <a href="http://mockito.org/">Mockito documentation</a> for more
+ * information.
  * 
  * @author aphillips
  * @since 26 May 2009

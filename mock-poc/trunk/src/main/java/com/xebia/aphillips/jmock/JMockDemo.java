@@ -15,7 +15,8 @@ import org.junit.runner.RunWith;
 import com.xebia.aphillips.jmock.JMockDemo.Turtle.PenState;
 
 /**
- * JMock demo.
+ * JMock demo. See the <a href="http://jmock.org/">JMock documentation</a> for
+ * more information.
  * 
  * @author aphillips
  * @since 26 May 2009

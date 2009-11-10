@@ -4,16 +4,41 @@
   <groupId>com.xebia.aphillips</groupId>
   <artifactId>mock-poc</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <parent>
-    <groupId>com.qrmedia.commons</groupId>
-    <artifactId>commons-super</artifactId>
-    <version>1.0-SNAPSHOT</version>
-  </parent>
   
   <!-- More Project Information -->
   <name>mock-poc</name>
-  <description>Project mock-poc</description>
+  <description>POCs and samples for mocking and unit testing frameworks</description>
 
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>    
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin> 
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+      </plugin>
+    </plugins> 
+  </build>
+  
   <dependencies>
     <!-- external modules -->
     <dependency>
@@ -24,6 +49,7 @@
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymockclassextension</artifactId>
+      <version>2.4</version>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -53,6 +79,7 @@
     <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
+      <version>3.2.1</version>
     </dependency>  
     
     <!-- JEasyTest -->  
@@ -120,6 +147,9 @@
             <configuration>
               <classesDirectory>${project.build.directory}/jeasytest/woven-classes</classesDirectory>
               <testClassesDirectory>${project.build.directory}/jeasytest/woven-classes</testClassesDirectory>
+              <includes>
+                <include>com/xebia/aphillips/jeasytest/*Test.java</include>
+              </includes>
             </configuration>
           </plugin>
         </plugins>      
