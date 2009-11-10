@@ -14,7 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Demo multithreaded testing with JMock.
+ * Demo multithreaded testing with JMock. See the 
+ * <a href="http://jmock.org/">JMock documentation</a> for more information.
  * 
  * @author aphillips
  * @since 26 May 2009
