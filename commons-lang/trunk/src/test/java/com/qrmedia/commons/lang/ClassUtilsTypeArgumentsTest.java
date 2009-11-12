@@ -74,6 +74,9 @@ public class ClassUtilsTypeArgumentsTest {
         data.add(new Object[] { new TypedClass<Integer, Short, Byte>().getClass(), null, false, null });
         data.add(new Object[] { null, TypedClass.class, false, null });        
         
+        // the "subclass" is not actually a subclass of the superclass
+        data.add(new Object[] { TypedClass.class, TypedClass2.class, true, null });
+        
         // some classes for which not all type information can be determined
         data.add(new Object[] { new TypedClass<Integer, Short, Byte>().getClass(), TypedClass.class, 
                                 true, Arrays.asList(null, null, null) });

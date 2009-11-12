@@ -27,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,10 +86,10 @@ public class ClassUtilsSuperclassChainTest {
         data.add(new Object[] { Class1.class, null, false, null });
         
         // nonexistent chains (class/interface -> class/interface)
-        data.add(new Object[] { Object.class, String.class, true, null });
-        data.add(new Object[] { Interface1.class, Object.class, true, null });
-        data.add(new Object[] { Object.class, Interface1.class, true, null });
-        data.add(new Object[] { Interface1.class, Cloneable.class, true, null });
+        data.add(new Object[] { Object.class, String.class, true, Collections.EMPTY_SET });
+        data.add(new Object[] { Interface1.class, Object.class, true, Collections.EMPTY_SET });
+        data.add(new Object[] { Object.class, Interface1.class, true, Collections.EMPTY_SET });
+        data.add(new Object[] { Interface1.class, Cloneable.class, true, Collections.EMPTY_SET });
         
         // class -> class chains
         data.add(new Object[] { Object.class, Object.class, true, 
@@ -180,7 +181,7 @@ public class ClassUtilsSuperclassChainTest {
             List<Class<?>> superclassChain = ClassUtils.getSuperclassChain(clazz, superclass);
             
             // the expected result is null if there is no chain between the arguments
-            if (expectedSuperclassChains == null) {
+            if (expectedSuperclassChains.isEmpty()) {
                 assertNull(superclassChain);
             } else {
                 assertTrue(expectedSuperclassChains.contains(superclassChain));
