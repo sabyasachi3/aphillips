@@ -68,7 +68,7 @@ public class ClassUtils {
     public static <U, V extends U> List<Class<? super V>> getSuperclassChain(Class<V> clazz, 
             Class<U> superclass) {
         Set<List<Class<? super V>>> superclassChains = getSuperclassChainsInternal(clazz, superclass, true);
-        return ((superclassChains != null) ? superclassChains.iterator().next() : null);
+        return (superclassChains.isEmpty() ? null : superclassChains.iterator().next());
     }
     
     /**
@@ -101,7 +101,7 @@ public class ClassUtils {
      * are valid inheritance chains, and the method returns both.
      * <p>
      * If <code>superclass</code> is <i>not</i> a superclass or -interface of <code>class</code>,
-     * the method returns <code>null</code>. This may happen (in spite of the signature) if the 
+     * the method returns an empty set. This may happen (in spite of the signature) if the 
      * method is called with non-generic arguments.
      *
      * @param <T>       the type of the class at the &quot;start&quot; of the superclass chain 
@@ -109,7 +109,7 @@ public class ClassUtils {
      * @param superclass        the class at the &quot;end&quot; of the superclass chain
      * @return all possible superclass chains linking <code>class</code> to <code>superclass</code>,
      *         where successive elements of the list are immediate superclasses or -interfaces. If
-     *         <code>class</code> is not a subclass of <code>superclass</code>, returns <code>null</code>.
+     *         <code>class</code> is not a subclass of <code>superclass</code>, returns an empty set.
      * @throws IllegalArgumentException if either argument is null  
      * @see #getSuperclassChain(Class, Class)      
      */
@@ -122,15 +122,12 @@ public class ClassUtils {
         checkNotNull("'clazz' and 'superclass' may not be non-null", clazz, superclass);
         
         if (!superclass.isAssignableFrom(clazz)) {
-            return null;
+            return Collections.emptySet();
         }
         
         // interfaces only need to be considered if the superclass is an interface
-        Set<List<Class<? super V>>> superclassChains = ClassUtils.<U, V>getSuperclassSubchains(
-                    clazz, superclass, oneChainSufficient, superclass.isInterface());
-        
-        // should return null if no chains are found
-        return (!superclassChains.isEmpty() ? superclassChains : null);
+        return ClassUtils.<U, V>getSuperclassSubchains(clazz, superclass, 
+                oneChainSufficient, superclass.isInterface());
     }
     
     // recursive method: gets the subchains from the given class to the target class
@@ -350,13 +347,18 @@ public class ClassUtils {
      * for instance, return <code>[null]</code> because the specification of the actual type 
      * (<code>String</code>, in this example) did not take place either in the superclass {@link AbstractList} 
      * or the interface {@link List}.
+     * <p>
+     * If {@code superclass} is <em>not</em> a superclass or -interface of {@code class},
+     * the method returns {@code null}. This may happen (in spite of the signature) if the 
+     * method is called with non-generic arguments.
      * 
      * @param <U>       the type of the object
      * @param typedClass the class for which type information is required
      * @param typedSuperclass the typed class or interface of which the object is to be regarded a 
      *                        subclass
      * @return  the type arguments for the given class when regarded as a subclass of the
-     *          given typed superclass, in the order defined in the superclass
+     *          given typed superclass, in the order defined in the superclass. If
+     *          {@code class} is not a subclass of {@code superclass}, returns {@code null}.
      * @throws IllegalArgumentException if <code>typedSuperclass</code> or <code>typedClass</code> 
      *                                  is <code>null</code>         
      */
@@ -364,9 +366,13 @@ public class ClassUtils {
             Class<? super U> typedSuperclass) {
         checkNotNull("All arguments must be non-null", typedSuperclass, typedClass);
         
-        // the type signature should ensure that the class really *is* an subclass of typedSuperclass
-        assert (typedSuperclass.isAssignableFrom(typedClass)) 
-        : Arrays.<Class<?>>asList(typedSuperclass, typedClass);
+        /*
+         * The type signature should ensure that the class really *is* an subclass of 
+         * typedSuperclass, but this can be circumvented by using "generic-less" arguements.
+         */
+        if (!typedSuperclass.isAssignableFrom(typedClass)) {
+            return null;
+        }
 
         TypeVariable<?>[] typedClassTypeParams = typedSuperclass.getTypeParameters();
         
