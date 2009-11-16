@@ -23,8 +23,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.rmi.AccessException;
-
 import org.junit.Test;
 
 /**
@@ -52,13 +50,13 @@ public class ReflectionUtilsTest {
         private String property;
     }
 
-    @Test(expected = AccessException.class)
-    public void getValue_nonexistentStaticProperty() throws AccessException {
+    @Test(expected = IllegalAccessException.class)
+    public void getValue_nonexistentStaticProperty() throws IllegalAccessException {
         ReflectionUtils.getValue(StubObject.class, "nonexistent");
     }
     
     @Test
-    public void getValue_accessibleStaticProperty() throws AccessException {
+    public void getValue_accessibleStaticProperty() throws IllegalAccessException {
         int value = 7;
         StubObject.accessibleStaticProperty = value;
         
@@ -66,7 +64,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void getValue_privateStaticProperty() throws AccessException {
+    public void getValue_privateStaticProperty() throws IllegalAccessException {
         int value = 7;
         StubObject.privateStaticProperty = value;
         
@@ -74,12 +72,12 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void getValue_immutableStaticProperty() throws AccessException {
+    public void getValue_immutableStaticProperty() throws IllegalAccessException {
         assertEquals(7,  ReflectionUtils.getValue(StubObject.class, "immutableStaticProperty"));        
     }
 
     @Test
-    public void getValue_staticChildProperty() throws AccessException {
+    public void getValue_staticChildProperty() throws IllegalAccessException {
         String value = "007";
         StubObject.staticChildStubObject.property = value;
         
@@ -87,13 +85,13 @@ public class ReflectionUtilsTest {
                                                      "staticChildStubObject.property"));
     }
     
-    @Test(expected = AccessException.class)
-    public void getValue_nonexistentProperty() throws AccessException {
+    @Test(expected = IllegalAccessException.class)
+    public void getValue_nonexistentProperty() throws IllegalAccessException {
         ReflectionUtils.getValue(new StubObject(), "nonexistent");
     }
     
     @Test
-    public void getValue_accessibleProperty() throws AccessException {
+    public void getValue_accessibleProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "007";
         stubObject.accessibleProperty = value;
@@ -102,7 +100,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void getValue_privateProperty() throws AccessException {
+    public void getValue_privateProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "007";
         stubObject.privateProperty = value;
@@ -111,12 +109,12 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void getValue_immutableProperty() throws AccessException {
+    public void getValue_immutableProperty() throws IllegalAccessException {
         assertEquals("007",  ReflectionUtils.getValue(new StubObject(), "immutableProperty"));        
     }
 
     @Test
-    public void getValue_childProperty() throws AccessException {
+    public void getValue_childProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "007";
         stubObject.childStubObject.property = value;
@@ -124,18 +122,18 @@ public class ReflectionUtilsTest {
         assertEquals(value, ReflectionUtils.getValue(stubObject, "childStubObject.property"));
     }
 
-    @Test(expected = AccessException.class)
-    public void setValue_nonexistentStaticProperty() throws AccessException {
+    @Test(expected = IllegalAccessException.class)
+    public void setValue_nonexistentStaticProperty() throws IllegalAccessException {
         ReflectionUtils.setValue(StubObject.class, "nonexistent", null);
     }
     
-    @Test(expected = AccessException.class)
-    public void setValue_invalidStaticPropertyValue() throws AccessException  {
+    @Test(expected = IllegalAccessException.class)
+    public void setValue_invalidStaticPropertyValue() throws IllegalAccessException  {
         ReflectionUtils.setValue(StubObject.class, "accessibleStaticProperty", "007");
     }    
     
     @Test
-    public void setValue_accessibleStaticProperty() throws AccessException {
+    public void setValue_accessibleStaticProperty() throws IllegalAccessException {
         int value = 8;
         
         ReflectionUtils.setValue(StubObject.class, "accessibleStaticProperty", value);
@@ -143,7 +141,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void setValue_privateStaticProperty() throws AccessException {
+    public void setValue_privateStaticProperty() throws IllegalAccessException {
         int value = 8;
         
         ReflectionUtils.setValue(StubObject.class, "privateStaticProperty", value);
@@ -154,8 +152,8 @@ public class ReflectionUtilsTest {
     public void setValue_immutableStaticProperty()  {
         try {
             ReflectionUtils.setValue(StubObject.class, "immutableStaticProperty", null);
-            fail("Expected an AccessException to be thrown");
-        } catch (AccessException exception) { 
+            fail("Expected an IllegalAccessException to be thrown");
+        } catch (IllegalAccessException exception) { 
             // expected
         }
         
@@ -164,25 +162,25 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void setValue_staticChildProperty() throws AccessException {
+    public void setValue_staticChildProperty() throws IllegalAccessException {
         String value = "008";
         
         ReflectionUtils.setValue(StubObject.class, "staticChildStubObject.property", value);
         assertEquals(value, StubObject.staticChildStubObject.property);
     } 
     
-    @Test(expected = AccessException.class)
-    public void setValue_nonexistentProperty() throws AccessException {
+    @Test(expected = IllegalAccessException.class)
+    public void setValue_nonexistentProperty() throws IllegalAccessException {
         ReflectionUtils.setValue(new StubObject(), "nonexistent", null);
     }
 
-    @Test(expected = AccessException.class)
-    public void setValue_invalidPropertyValue() throws AccessException {
+    @Test(expected = IllegalAccessException.class)
+    public void setValue_invalidPropertyValue() throws IllegalAccessException {
         ReflectionUtils.setValue(new StubObject(), "accessibleProperty", 7);
     }    
 
     @Test
-    public void setValue_accessibleProperty() throws AccessException {
+    public void setValue_accessibleProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "008";
         
@@ -191,7 +189,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void setValue_privateProperty() throws AccessException {
+    public void setValue_privateProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "008";
         
@@ -200,7 +198,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void setValue_immutableProperty() throws AccessException {
+    public void setValue_immutableProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         
         // doesn't throw an exception internally, hence returns true...but has no effect
@@ -211,7 +209,7 @@ public class ReflectionUtilsTest {
     }
     
     @Test
-    public void setValue_childProperty() throws AccessException {
+    public void setValue_childProperty() throws IllegalAccessException {
         StubObject stubObject = new StubObject();
         String value = "008";
         

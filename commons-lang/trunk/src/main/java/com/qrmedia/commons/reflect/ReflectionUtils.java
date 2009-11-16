@@ -19,7 +19,6 @@
 package com.qrmedia.commons.reflect;
 
 import java.lang.reflect.Field;
-import java.rmi.AccessException;
 
 /**
  * Utility methods to retrieve and set field values via reflection.
@@ -42,19 +41,19 @@ public final class ReflectionUtils {
      * @param target    the object whose field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
-     * @throws AccessException if the value could not be retrieved
+     * @throws IllegalAccessException if the value could not be retrieved
      * @see #setValue(Class, String, Object)
      * @see #setValueQuietly(Object, String, Object)
      * @see #setValueQuietly(Class, String, Object)
      */
     public static void setValue(Object target, String propertyName, Object value) 
-            throws AccessException {
+            throws IllegalAccessException {
         setPropertyValue(target, null, propertyName, value);
     }
 
     // support bean property names of the form property.childProperty
     private static void setPropertyValue(Object target, Class<? extends Object> targetClass, 
-            String propertyName, Object value) throws AccessException {
+            String propertyName, Object value) throws IllegalAccessException {
         int separatorIndex = propertyName.indexOf('.');
         
         // for "plain" properties, simply set them
@@ -74,16 +73,16 @@ public final class ReflectionUtils {
     
     // for an instance (static) field, targetClass (target) may be null
     private static void setFieldValue(Object target, Class<? extends Object> targetClass,
-            String fieldName, Object value) throws AccessException {
+            String fieldName, Object value) throws IllegalAccessException {
         
         try {
             Field field = getAccessibleField(
                     (target != null) ? target.getClass() : targetClass, fieldName);
             field.set(target, value);
         } catch (Exception exception) {
-            throw new AccessException(String.format("Unable to set field '%s' on %s due to: ", 
-                                                    fieldName, target), 
-                                      exception);
+            throw new IllegalAccessException(
+                    String.format("Unable to set field '%s' on %s due to: %s", 
+                                  fieldName, target, exception.getMessage()));
         } 
         
     }
@@ -132,13 +131,13 @@ public final class ReflectionUtils {
      * @param targetClass   the class whose static field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
-     * @throws AccessException if the value could not be retrieved
+     * @throws IllegalAccessException if the value could not be retrieved
      * @see #setValue(Object, String, Object)
      * @see #setValueQuietly(Object, String, Object)
      * @see #setValueQuietly(Class, String, Object)
      */
     public static void setValue(Class<? extends Object> targetClass, String propertyName, 
-            Object value) throws AccessException {
+            Object value) throws IllegalAccessException {
         setPropertyValue(null, targetClass, propertyName, value);
     }    
 
@@ -171,7 +170,7 @@ public final class ReflectionUtils {
         try {
             setPropertyValue(target, targetClass, propertyName, value);
             return true;
-        } catch (AccessException exception) {
+        } catch (IllegalAccessException exception) {
             return false;
         }
         
@@ -214,18 +213,18 @@ public final class ReflectionUtils {
      * @param target    the object from which to retrieve the falue
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
-     * @throws AccessException if the value could not be retrieved
+     * @throws IllegalAccessException if the value could not be retrieved
      * @see #getValue(Class, String)
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getValue(Object target, String propertyName) throws AccessException {
+    public static <T> T getValue(Object target, String propertyName) throws IllegalAccessException {
         return (T) getPropertyValue(target, null, propertyName);
     }
     
     // support bean property names of the form property.childProperty
     private static <T> T getPropertyValue(Object target, 
             Class<? extends Object> targetClass, String propertyName) 
-            throws AccessException {
+            throws IllegalAccessException {
         String[] fieldNames = propertyName.split("\\.");
         T value = ReflectionUtils.<T>getFieldValue(target, targetClass, fieldNames[0]);
         int numFieldNames = fieldNames.length;
@@ -248,7 +247,7 @@ public final class ReflectionUtils {
     // for an instance (static) field, targetClass (target) may be null    
     @SuppressWarnings("unchecked")
     private static <T> T getFieldValue(Object target, Class<? extends Object> targetClass, 
-            String fieldName) throws AccessException {
+            String fieldName) throws IllegalAccessException {
         boolean instanceFieldRequested = (target != null);
         
         try {
@@ -256,7 +255,7 @@ public final class ReflectionUtils {
                     (instanceFieldRequested) ? target.getClass() : targetClass,  fieldName)
                    .get((instanceFieldRequested) ? target : null);
         } catch (Exception exception) {
-            throw new AccessException(exception.getMessage());
+            throw new IllegalAccessException(exception.getMessage());
         }
         
     }    
@@ -273,11 +272,11 @@ public final class ReflectionUtils {
      * @param targetClass    the object from which to retrieve the falue
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
-     * @throws AccessException if the value could not be retrieved
+     * @throws IllegalAccessException if the value could not be retrieved
      * @see #getValue(Object, String)
      */
     public static Object getValue(Class<? extends Object> targetClass, String propertyName) 
-            throws AccessException {
+            throws IllegalAccessException {
         return getPropertyValue(null, targetClass, propertyName);
     }    
     
