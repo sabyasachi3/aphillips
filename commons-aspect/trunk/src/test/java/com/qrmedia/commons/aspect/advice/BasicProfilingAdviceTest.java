@@ -38,7 +38,7 @@ public class BasicProfilingAdviceTest {
     private final ProceedingJoinPoint joinPoint = createMock(ProceedingJoinPoint.class);
     
     @Before
-    public void prepareFixture() {
+    public void prepareFixture() throws IllegalAccessException {
         // inject the mocked Log into the class
         ReflectionUtils.setValue(advice, "log", log);
         
@@ -84,8 +84,7 @@ public class BasicProfilingAdviceTest {
         final long simulatedRunTime = 100;
         joinPoint.proceed();
         expectLastCall().andAnswer(new IAnswer<Object>() {
-    
-                @Override
+
                 public Object answer() throws Throwable {
                     Thread.sleep(simulatedRunTime);
                     return result;

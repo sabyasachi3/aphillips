@@ -28,7 +28,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,7 +40,6 @@ import org.junit.Test;
 
 import com.qrmedia.commons.persistence.hibernate.clone.HibernateEntityGraphCloner;
 import com.qrmedia.commons.persistence.hibernate.clone.StubHibernateEntity;
-import com.qrmedia.commons.persistence.hibernate.clone.property.DelegatingCollectionCloner;
 import com.qrmedia.commons.persistence.hibernate.clone.property.DelegatingCollectionCloner.AddToCollectionCommand;
 import com.qrmedia.commons.persistence.hibernate.clone.property.DelegatingCollectionCloner.SetReplacementCommand;
 import com.qrmedia.commons.persistence.hibernate.clone.wiring.GraphPostProcessingCommand;
@@ -97,7 +95,7 @@ public class DelegatingCollectionClonerTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void clone_set() throws AccessException {
+    public void clone_set() throws IllegalAccessException {
         Collection<StubHibernateEntity> value = new HashSet<StubHibernateEntity>();
         StubHibernateEntity member = new StubHibernateEntity();
         value.add(member);

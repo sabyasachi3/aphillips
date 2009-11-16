@@ -37,7 +37,7 @@ public class MethodExecutionTracingAdviceTest {
     private final ProceedingJoinPoint joinPoint = createMock(ProceedingJoinPoint.class);
     
     @Before
-    public void prepareFixture() {
+    public void prepareFixture() throws IllegalAccessException {
         // inject the mocked Log into the class
         ReflectionUtils.setValue(advice, "log", log);
     }
