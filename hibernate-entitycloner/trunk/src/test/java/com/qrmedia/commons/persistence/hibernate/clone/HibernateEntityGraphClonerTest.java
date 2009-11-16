@@ -27,7 +27,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.rmi.AccessException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -68,7 +67,7 @@ public class HibernateEntityGraphClonerTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void clone_entity() throws AccessException {
+    public void clone_entity() throws IllegalAccessException {
         final StubHibernateEntity entity = new StubHibernateEntity();
         final StubHibernateEntity clone = new StubHibernateEntity();
         entityBeanCloner.visitNode(eq(new EntityPreserveIdFlagPair(entity, false)), 
@@ -90,7 +89,7 @@ public class HibernateEntityGraphClonerTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void clone_entity_preserveId() throws AccessException {
+    public void clone_entity_preserveId() throws IllegalAccessException {
         final StubHibernateEntity entity = new StubHibernateEntity();
         final StubHibernateEntity clone = new StubHibernateEntity();
         entityBeanCloner.visitNode(eq(new EntityPreserveIdFlagPair(entity, true)), 
@@ -173,7 +172,7 @@ public class HibernateEntityGraphClonerTest {
     
     @SuppressWarnings("unchecked")
     @Test
-    public void clone_entities() throws AccessException {
+    public void clone_entities() throws IllegalAccessException {
         final StubHibernateEntity entity1 = new StubHibernateEntity();
         
         String property = "007";
@@ -308,7 +307,7 @@ public class HibernateEntityGraphClonerTest {
      * entity/preserve ID flag pairs.
      */
     @Test
-    public void addNode() throws AccessException {
+    public void addNode() throws IllegalAccessException {
         boolean preserveId = true;
         ReflectionUtils.setValue(entityGraphCloner, "preserveId", preserveId);
         

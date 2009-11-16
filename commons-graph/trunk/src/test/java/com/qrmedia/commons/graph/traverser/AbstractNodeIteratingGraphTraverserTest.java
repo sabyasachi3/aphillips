@@ -29,7 +29,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.rmi.AccessException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -88,7 +87,7 @@ public class AbstractNodeIteratingGraphTraverserTest {
      * Ensures that any state maintained during traversal is cleared.
      */
     @Test
-    public void traverseFrom_node() throws AccessException {
+    public void traverseFrom_node() throws IllegalAccessException {
         traverser.addNodeVisitor(visitor1);
         
         // initially, node 1 will be queued
@@ -180,7 +179,7 @@ public class AbstractNodeIteratingGraphTraverserTest {
      * that any state maintained during traversal is cleared.
      */
     @Test
-    public void traverseFrom_nodes() throws AccessException {
+    public void traverseFrom_nodes() throws IllegalAccessException {
         traverser.addNodeVisitor(visitor1);
         traverser.addNodeVisitor(visitor2);
 
@@ -242,7 +241,7 @@ public class AbstractNodeIteratingGraphTraverserTest {
     }
     
     @Test
-    public void addNode_node_seen() {
+    public void addNode_node_seen() throws IllegalAccessException {
         ReflectionUtils.setValue(traverser, "visitedOrQueuedNodes", SetUtils.asSet(1));
         
         // expect no calls to enqueue
@@ -250,7 +249,7 @@ public class AbstractNodeIteratingGraphTraverserTest {
     }    
     
     @Test
-    public void addNode_nodes_unseen() {
+    public void addNode_nodes_unseen() throws IllegalAccessException {
         traverser.enqueueNodes(colEq(Arrays.asList(1)));
         expectLastCall();
         replay(traverser);
@@ -261,7 +260,7 @@ public class AbstractNodeIteratingGraphTraverserTest {
     }
     
     @Test
-    public void addNode_nodes_seen() {
+    public void addNode_nodes_seen() throws IllegalAccessException {
         ReflectionUtils.setValue(traverser, "visitedOrQueuedNodes", SetUtils.asSet(1));
         
         traverser.enqueueNodes(colEq(Arrays.asList(2)));

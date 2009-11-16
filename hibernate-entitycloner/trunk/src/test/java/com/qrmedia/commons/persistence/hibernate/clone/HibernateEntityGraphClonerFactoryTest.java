@@ -18,9 +18,9 @@
  */
 package com.qrmedia.commons.persistence.hibernate.clone;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
-import java.rmi.AccessException;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public class HibernateEntityGraphClonerFactoryTest {
     private HibernateEntityGraphClonerFactory entityGraphClonerFactory;
     
     @Test
-    public void newInstance() throws AccessException {
+    public void newInstance() throws IllegalAccessException {
         HibernateEntityGraphCloner entityGraphCloner1 = entityGraphClonerFactory.newInstance();
         HibernateEntityGraphCloner entityGraphCloner2 = entityGraphClonerFactory.newInstance();
         

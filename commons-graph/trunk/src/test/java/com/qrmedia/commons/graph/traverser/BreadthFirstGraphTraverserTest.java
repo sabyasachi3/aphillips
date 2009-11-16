@@ -22,7 +22,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.rmi.AccessException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -47,7 +46,7 @@ public class BreadthFirstGraphTraverserTest {
     private Queue<Object> nodeQueue;
     
     @Before
-    public void prepareFixture() throws AccessException {
+    public void prepareFixture() throws IllegalAccessException {
         nodeQueue = ReflectionUtils.getValue(traverser, "nodeQueue");
     }
     
