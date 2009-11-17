@@ -218,93 +218,93 @@ public class ReflectionUtilsTest {
     } 
     
     @Test
-    public void setValueQuietly_nonexistentStaticProperty() {
-        assertFalse(ReflectionUtils.setValueQuietly(StubObject.class, "nonexistent", null));
+    public void trySetValue_nonexistentStaticProperty() {
+        assertFalse(ReflectionUtils.trySetValue(StubObject.class, "nonexistent", null));
     }
     
     @Test
-    public void setValueQuietly_invalidStaticPropertyValue() {
-        assertFalse(ReflectionUtils.setValueQuietly(StubObject.class, "accessibleStaticProperty", "007"));
+    public void trySetValue_invalidStaticPropertyValue() {
+        assertFalse(ReflectionUtils.trySetValue(StubObject.class, "accessibleStaticProperty", "007"));
     }    
     
     @Test
-    public void setValueQuietly_accessibleStaticProperty() {
+    public void trySetValue_accessibleStaticProperty() {
         int value = 8;
         
-        assertTrue(ReflectionUtils.setValueQuietly(StubObject.class, "accessibleStaticProperty", value));
+        assertTrue(ReflectionUtils.trySetValue(StubObject.class, "accessibleStaticProperty", value));
         assertEquals(value, StubObject.accessibleStaticProperty);
     }
     
     @Test
-    public void setValueQuietly_privateStaticProperty() {
+    public void trySetValue_privateStaticProperty() {
         int value = 8;
         
-        assertTrue(ReflectionUtils.setValueQuietly(StubObject.class, "privateStaticProperty", value));
+        assertTrue(ReflectionUtils.trySetValue(StubObject.class, "privateStaticProperty", value));
         assertEquals(value, StubObject.privateStaticProperty);
     }
     
     @Test
-    public void setValueQuietly_immutableStaticProperty() {
-        assertFalse(ReflectionUtils.setValueQuietly(StubObject.class, "immutableStaticProperty", null));
+    public void trySetValue_immutableStaticProperty() {
+        assertFalse(ReflectionUtils.trySetValue(StubObject.class, "immutableStaticProperty", null));
         
         // verify that nothing happened
         assertEquals(7, StubObject.immutableStaticProperty);
     }
     
     @Test
-    public void setValueQuietly_staticChildProperty() {
+    public void trySetValue_staticChildProperty() {
         String value = "008";
         
-        assertTrue(ReflectionUtils.setValueQuietly(
+        assertTrue(ReflectionUtils.trySetValue(
                 StubObject.class, "staticChildStubObject.property", value));
         assertEquals(value, StubObject.staticChildStubObject.property);
     } 
     
     @Test
-    public void setValueQuietly_nonexistentProperty() {
-        assertFalse(ReflectionUtils.setValueQuietly(new StubObject(), "nonexistent", null));
+    public void trySetValue_nonexistentProperty() {
+        assertFalse(ReflectionUtils.trySetValue(new StubObject(), "nonexistent", null));
     }
 
     @Test
-    public void setValueQuietly_invalidPropertyValue() {
-        assertFalse(ReflectionUtils.setValueQuietly(new StubObject(), "accessibleProperty", 7));
+    public void trySetValue_invalidPropertyValue() {
+        assertFalse(ReflectionUtils.trySetValue(new StubObject(), "accessibleProperty", 7));
     }    
 
     @Test
-    public void setValueQuietly_accessibleProperty() {
+    public void trySetValue_accessibleProperty() {
         StubObject stubObject = new StubObject();
         String value = "008";
         
-        assertTrue(ReflectionUtils.setValueQuietly(stubObject, "accessibleProperty", value));
+        assertTrue(ReflectionUtils.trySetValue(stubObject, "accessibleProperty", value));
         assertEquals(value, stubObject.accessibleProperty);
     }
     
     @Test
-    public void setValueQuietly_privateProperty() {
+    public void trySetValue_privateProperty() {
         StubObject stubObject = new StubObject();
         String value = "008";
         
-        assertTrue(ReflectionUtils.setValueQuietly(stubObject, "privateProperty", value));
+        assertTrue(ReflectionUtils.trySetValue(stubObject, "privateProperty", value));
         assertEquals(value, stubObject.privateProperty);
     }
     
     @Test
-    public void setValueQuietly_immutableProperty() {
+    public void trySetValue_immutableProperty() {
         StubObject stubObject = new StubObject();
         
         // doesn't throw an exception internally, hence returns true...but has no effect
-        assertTrue(ReflectionUtils.setValueQuietly(stubObject, "immutableProperty", null));
+        assertTrue(ReflectionUtils.trySetValue(stubObject, "immutableProperty", null));
         
         // verify that nothing happened
         assertEquals("007", stubObject.immutableProperty);
     }
     
     @Test
-    public void setValueQuietly_childProperty() {
+    public void trySetValue_childProperty() {
         StubObject stubObject = new StubObject();
         String value = "008";
         
-        assertTrue(ReflectionUtils.setValueQuietly(stubObject, "childStubObject.property", value));
+        assertTrue(ReflectionUtils.trySetValue(stubObject, "childStubObject.property", value));
         assertEquals(value, stubObject.childStubObject.property);
     }
     

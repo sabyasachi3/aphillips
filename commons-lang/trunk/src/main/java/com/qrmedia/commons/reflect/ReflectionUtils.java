@@ -43,8 +43,8 @@ public final class ReflectionUtils {
      * @param value the value to set the field to
      * @throws IllegalAccessException if the value could not be retrieved
      * @see #setValue(Class, String, Object)
-     * @see #setValueQuietly(Object, String, Object)
-     * @see #setValueQuietly(Class, String, Object)
+     * @see #trySetValue(Object, String, Object)
+     * @see #trySetValue(Class, String, Object)
      */
     public static void setValue(Object target, String propertyName, Object value) 
             throws IllegalAccessException {
@@ -133,8 +133,8 @@ public final class ReflectionUtils {
      * @param value the value to set the field to
      * @throws IllegalAccessException if the value could not be retrieved
      * @see #setValue(Object, String, Object)
-     * @see #setValueQuietly(Object, String, Object)
-     * @see #setValueQuietly(Class, String, Object)
+     * @see #trySetValue(Object, String, Object)
+     * @see #trySetValue(Class, String, Object)
      */
     public static void setValue(Class<? extends Object> targetClass, String propertyName, 
             Object value) throws IllegalAccessException {
@@ -156,15 +156,15 @@ public final class ReflectionUtils {
      * @param value the value to set the field to
      * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
      *          were thrown
-     * @see #setValueQuietly(Class, String, Object)
+     * @see #trySetValue(Class, String, Object)
      * @see #setValue(Object, String, Object)
      * @see #setValue(Class, String, Object)
      */
-    public static boolean setValueQuietly(Object target, String propertyName, Object value) {
-        return setPropertyValueQuietly(target, null, propertyName, value);
+    public static boolean trySetValue(Object target, String propertyName, Object value) {
+        return trySetPropertyValue(target, null, propertyName, value);
     }
     
-    private static boolean setPropertyValueQuietly(Object target, 
+    private static boolean trySetPropertyValue(Object target, 
             Class<? extends Object> targetClass, String propertyName, Object value) {
         
         try {
@@ -194,13 +194,13 @@ public final class ReflectionUtils {
      * @param value the value to set the field to
      * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
      *          were thrown
-     * @see #setValueQuietly(Object, String, Object)
+     * @see #trySetValue(Object, String, Object)
      * @see #setValue(Object, String, Object)
      * @see #setValue(Class, String, Object)
      */
-    public static boolean setValueQuietly(Class<? extends Object> targetClass, String propertyName, 
+    public static boolean trySetValue(Class<? extends Object> targetClass, String propertyName, 
             Object value) {
-        return setPropertyValueQuietly(null, targetClass, propertyName, value);
+        return trySetPropertyValue(null, targetClass, propertyName, value);
     }
     
     /**
