@@ -81,7 +81,7 @@ public final class ElementUtils {
      * 
      * @param element   the element to be checked
      * @return  {@code true} iff the element is an annotation
-     * @see #isConstructorKind(Element)
+     * @see #isConstructor(Element)
      * @see #isMethod(Element)
      * @see #isOfKind(Element, ElementKind)
      */
@@ -133,7 +133,7 @@ public final class ElementUtils {
     }
 
     /**
-     * @param annotationType    the annotation type class whose retention policy is required
+     * @param element    the element whose retention policy is required
      * @return  the value of the {@link Retention @Retention} annotation on the given class, if 
      *          present, or the documented default value; for a {@code null} element or an element that
      *          is not an {@link Annotation} subtype, returns {@code null}

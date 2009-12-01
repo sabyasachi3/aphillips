@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Utility methods for dealing with @{link Class Classes}.
+ * Utility methods for dealing with {@link Class Classes}.
  * 
  * @author anph
  * @since 9 Feb 2009
@@ -56,7 +56,8 @@ public class ClassUtils {
      * the method returns <code>null</code>. This may happen (in spite of the signature) if the 
      * method is called with non-generic arguments.
      *
-     * @param <T>       the type of the class at the &quot;start&quot; of the superclass chain
+     * @param <U>       the type of the class at the &quot;start&quot; of the superclass chain
+     * @param <V>       the type of the superclass at the &quot;end&quot; of the chain
      * @param clazz     the class at the &quot;start&quot; of the superclass chain
      * @param superclass        the class at the &quot;end&quot; of the superclass chain
      * @return <u>one</u> superclass chain linking <code>class</code> to <code>superclass</code>,
