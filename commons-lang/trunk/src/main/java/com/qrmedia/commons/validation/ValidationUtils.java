@@ -19,8 +19,8 @@
 package com.qrmedia.commons.validation;
 
 /**
- * Simple validation methods. See Google's {@link com.google.common.base.Preconditions Preconditions}
- * for a more complete version.
+ * Simple validation methods. See Google's <a href="http://google-collections.googlecode.com/svn/trunk/javadoc/index.html?com/google/common/base/Preconditions.html">
+ * Preconditions</a> for a more extensive version.
  * 
  * @author aphillips
  * @since 11 Jun 2009
