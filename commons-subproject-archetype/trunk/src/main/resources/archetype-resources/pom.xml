@@ -8,6 +8,7 @@
     <groupId>com.qrmedia.commons</groupId>
     <artifactId>commons-super</artifactId>
     <version>${version}</version>
+    <relativePath>../commons-super/pom.xml</relativePath>
   </parent>
 
   <!-- More Project Information -->
