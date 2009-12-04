@@ -8,6 +8,7 @@
     <groupId>com.qrmedia.commons</groupId>
     <artifactId>commons-super</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <relativePath>../commons-super/pom.xml</relativePath>
   </parent>
       
   <!-- More Project Information -->
@@ -76,7 +77,10 @@
         <directory>${basedir}/src/test/resources</directory>
       </testResource>
       
-      <!-- add a directory of source files which need to be compiled during a test-->
+      <!-- Add a directory of source files which need to be compiled during a test. Unfortunately, this
+        confuses mvn eclipse:m2eclipse, which generates an extra entry on the build path for this resource.
+        This needs to be removed in Eclipse (Build Path -> Remove from Build Path) for the project to build
+        correctly. -->
       <testResource>
         <directory>${project.build.testSourceDirectory}/com/qrmedia/pattern/compositeannotation/validation/sample</directory>
         <targetPath>com/qrmedia/pattern/compositeannotation/validation/sample</targetPath>
