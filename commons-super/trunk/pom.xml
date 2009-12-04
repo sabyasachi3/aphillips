@@ -192,6 +192,7 @@
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
         <configuration>
+          <sourceEncoding>${sourceEncoding}</sourceEncoding>
           <targetJdk>${targetJdk}</targetJdk>
         </configuration>
       </plugin>
