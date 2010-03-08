@@ -212,15 +212,15 @@ public final class ReflectionUtils {
      * <p>
      * Supports bean property names of the form <code>property.childProperty</code>.
      * 
+     * @param <T>       the type of the object to be returned
      * @param target    the object from which to retrieve the falue
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
      * @throws IllegalAccessException if the value could not be retrieved
      * @see #getValue(Class, String)
      */
-    @SuppressWarnings("unchecked")
     public static <T> T getValue(Object target, String propertyName) throws IllegalAccessException {
-        return (T) getPropertyValue(target, null, propertyName);
+        return ReflectionUtils.<T>getPropertyValue(target, null, propertyName);
     }
     
     // support bean property names of the form property.childProperty
@@ -271,15 +271,16 @@ public final class ReflectionUtils {
      * whereas all further properties are assumed to be <u>instance</u> fields of their
      * parent objects.
      * 
+     * @param <T>       the type of the object to be returned
      * @param targetClass    the object from which to retrieve the falue
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
      * @throws IllegalAccessException if the value could not be retrieved
      * @see #getValue(Object, String)
      */
-    public static Object getValue(Class<? extends Object> targetClass, String propertyName) 
+    public static <T> T getValue(Class<? extends Object> targetClass, String propertyName) 
             throws IllegalAccessException {
-        return getPropertyValue(null, targetClass, propertyName);
+        return ReflectionUtils.<T>getPropertyValue(null, targetClass, propertyName);
     }    
     
 }
