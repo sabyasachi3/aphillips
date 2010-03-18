@@ -62,6 +62,11 @@
     </dependency>      
     <dependency>
       <groupId>com.qrmedia.commons</groupId>
+      <artifactId>commons-test-support</artifactId>
+      <scope>test</scope>
+    </dependency>    
+    <dependency>
+      <groupId>com.qrmedia.commons</groupId>
       <artifactId>commons-collections</artifactId>
       <scope>test</scope>
     </dependency>    
