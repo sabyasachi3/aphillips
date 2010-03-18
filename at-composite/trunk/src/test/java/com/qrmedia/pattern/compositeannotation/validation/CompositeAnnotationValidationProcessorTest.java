@@ -11,6 +11,7 @@ import javax.tools.Diagnostic.Kind;
 
 import org.junit.Test;
 
+import com.qrmedia.commons.test.annotation.processing.AbstractAnnotationProcessorTest;
 import com.qrmedia.pattern.compositeannotation.validation.sample.InvalidCompositeAnnotationInconsistentTarget;
 import com.qrmedia.pattern.compositeannotation.validation.sample.InvalidCompositeAnnotationInvalidRetention;
 import com.qrmedia.pattern.compositeannotation.validation.sample.InvalidCompositeAnnotationNonuniqueLeafAnnotationTypes;
