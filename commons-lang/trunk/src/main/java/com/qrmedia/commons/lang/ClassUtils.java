@@ -430,7 +430,7 @@ public class ClassUtils {
             return;
         }
         
-        Type[] actualTypeArguments = getGenericSupertype(clazz, supertype).getActualTypeArguments();
+        Type[] actualTypeArguments = getActualTypeArguments(clazz, supertype);
 
         assert (typeParameters.length == actualTypeArguments.length) 
         : Arrays.asList(typeParameters, typeAssignments);
@@ -465,10 +465,30 @@ public class ClassUtils {
 
     }
     
-    private static ParameterizedType getGenericSupertype(Class<?> clazz, Class<?> supertype) {
+    private static Type[] getActualTypeArguments(Class<?> clazz, Class<?> supertype) {
+        /*
+         * The superclass is not necessarily a ParameterizedType even if it has type
+         * parameters! This happens if a user fails to specify type parameters for a
+         * class and ignores the warning, e.g.
+         * 
+         * class MyList extends ArrayList
+         * 
+         * In this case, the superclass ArrayList.class has one type parameter, but
+         * MyList.class.getGenericSuperclass() returns a simple type object!
+         * 
+         * In this case, no type assignments take place, so the actual arguments are
+         * simply the type parameters.
+         */    
+        Type genericSupertype = tryGetGenericSupertype(clazz, supertype);
+        return ((genericSupertype instanceof ParameterizedType)
+                ? ((ParameterizedType) genericSupertype).getActualTypeArguments()
+                : supertype.getTypeParameters());        
+    }
+    
+    private static Type tryGetGenericSupertype(Class<?> clazz, Class<?> supertype) {
         
         if (!supertype.isInterface()) {
-            return (ParameterizedType) clazz.getGenericSuperclass();
+            return clazz.getGenericSuperclass();
         } else {
             Type[] genericInterfaces = clazz.getGenericInterfaces();
             
@@ -476,12 +496,15 @@ public class ClassUtils {
                 Type interfaceType = genericInterfaces[i]; 
                 
                 // there is no guarantee that *all* the interfaces are generic
-                if (interfaceType instanceof ParameterizedType) {
-                    ParameterizedType genericInterface = (ParameterizedType) interfaceType;
+                if ((interfaceType instanceof ParameterizedType) 
+                        && (((ParameterizedType) interfaceType).getRawType().equals(supertype))) {
+                    return interfaceType;
+                } else {
+                    assert (interfaceType instanceof Class) : interfaceType;
                     
-                    if (genericInterface.getRawType().equals(supertype)) {
-                        return genericInterface;
-                    }
+                    if (interfaceType.equals(supertype)) {
+                        return interfaceType;
+                    }   
                     
                 }
                 
