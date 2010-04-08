@@ -21,7 +21,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <artifactId>commons-lang</artifactId>
-  <version>1.0.1</version>
+  <version>1.1-SNAPSHOT</version>
   <parent>
     <groupId>com.qrmedia.commons</groupId>
     <artifactId>commons-super</artifactId>
@@ -49,8 +49,8 @@
   
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/commons-lang/tags/commons-lang-1.0.1</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/commons-lang/tags/commons-lang-1.0.1</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/commons-lang/tags/commons-lang-1.0.1</url>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/commons-lang/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/commons-lang/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/commons-lang/trunk</url>  
   </scm>  
 </project>
