@@ -62,11 +62,22 @@ public class ClassUtilsTypeArgumentsTest {
     // a subclass whose parent *isn't* a generic type
     private static class TypedSubclass5 extends TypedSubclass4 {}
     
+    // a subclass whose parent *is* a generic type but arguments are not declared
+    @SuppressWarnings("unchecked")
+    private static class TypedSubclass6 extends TypedSubclass3 {}
+    
     private static interface TypedInterface<N, O> {}
     
     private static interface TypedSubinterface<P> extends TypedInterface<P, Short> {}
     
     private static class TypedClass2 implements TypedSubinterface<Byte> {}
+    
+    private static interface TypedSubinterface2 extends TypedSubinterface<Byte> {}
+    
+    private static class TypedClass3 implements TypedSubinterface2 {}
+    
+    @SuppressWarnings("unchecked")
+    private static class TypedClass4 implements TypedSubinterface {}
     
     @Parameters
     public static Collection<Object[]> data() {
@@ -91,7 +102,11 @@ public class ClassUtilsTypeArgumentsTest {
         data.add(new Object[] { new TypedSubclass2<Byte>().getClass(), TypedSubclass2.class, true,
                                 Arrays.<Class<?>>asList((Class<?>) null) });        
         data.add(new Object[] { new TypedSubclass3<Byte>().getClass(), TypedSubclass3.class, true,
-                                Arrays.<Class<?>>asList((Class<?>) null) });  
+                                Arrays.<Class<?>>asList((Class<?>) null) }); 
+        data.add(new Object[] { TypedSubclass6.class, TypedSubclass.class, true, 
+                                Arrays.<Object>asList(null, Long.class) });  
+        data.add(new Object[] { TypedClass4.class, TypedInterface.class, true, 
+                                Arrays.<Object>asList(null, Short.class) });           
         
         // classes for which all information should be retrievable
         data.add(new Object[] { TypedSubclass4.class, TypedClass.class, true,
@@ -109,7 +124,9 @@ public class ClassUtilsTypeArgumentsTest {
         data.add(new Object[] { TypedClass2.class, TypedInterface.class, true, 
                                 Arrays.<Object>asList(Byte.class, Short.class) });            
         data.add(new Object[] { TypedClass2.class, TypedSubinterface.class, true, 
-                                Arrays.<Object>asList(Byte.class) });        
+                                Arrays.<Object>asList(Byte.class) });     
+        data.add(new Object[] { TypedClass3.class, TypedSubinterface.class, true, 
+                                Arrays.<Object>asList(Byte.class) });           
         
         return data;
     }
