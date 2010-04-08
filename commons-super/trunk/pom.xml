@@ -22,7 +22,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.qrmedia.commons</groupId>
   <artifactId>commons-super</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>pom</packaging>
 
   <!-- More Project Information -->
@@ -224,9 +224,9 @@
 
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/commons-super/tags/commons-super-1.0</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/commons-super/tags/commons-super-1.0</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/commons-super/tags/commons-super-1.0</url>  
   </scm>
   
   <distributionManagement>
