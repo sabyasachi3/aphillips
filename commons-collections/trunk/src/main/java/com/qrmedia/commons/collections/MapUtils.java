@@ -87,7 +87,7 @@ public class MapUtils {
      * @see org.apache.commons.collections.MapUtils#putAll(Map, Object[])
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Map> T toMap(T targetMap, Object... keysAndValues) {
+    public static <T extends Map<?, ?>> T toMap(T targetMap, Object... keysAndValues) {
         return (T) org.apache.commons.collections.MapUtils.putAll(
                 targetMap, keysAndValues);
     }    
