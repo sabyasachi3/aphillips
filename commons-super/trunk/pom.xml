@@ -103,6 +103,13 @@
   
   <!--  Build Settings -->
   <build>
+    <extensions>
+       <extension>
+          <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-webdav-jackrabbit</artifactId>
+          <version>1.0-beta-6</version>
+       </extension>
+    </extensions>  
     <plugins>
       <!-- The source plugin isn't part of the standard super POM, so placing its
         configuration in <pluginManagement> does not affect children unless they explicitly
