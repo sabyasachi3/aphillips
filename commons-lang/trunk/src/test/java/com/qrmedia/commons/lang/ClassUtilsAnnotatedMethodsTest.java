@@ -56,6 +56,7 @@ public class ClassUtilsAnnotatedMethodsTest {
     private final boolean validArguments;
     private final Set<Method> expectedMethods;
     
+    @SuppressWarnings("unused")
     private static class StubObject {
         public static void unannotatedStaticMethod() {}
         

@@ -63,7 +63,7 @@ public class ClassUtilsTypeArgumentsTest {
     private static class TypedSubclass5 extends TypedSubclass4 {}
     
     // a subclass whose parent *is* a generic type but arguments are not declared
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private static class TypedSubclass6 extends TypedSubclass3 {}
     
     private static interface TypedInterface<N, O> {}
@@ -76,7 +76,7 @@ public class ClassUtilsTypeArgumentsTest {
     
     private static class TypedClass3 implements TypedSubinterface2 {}
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("rawtypes")
     private static class TypedClass4 implements TypedSubinterface {}
     
     @Parameters
@@ -140,7 +140,7 @@ public class ClassUtilsTypeArgumentsTest {
         this.expectedTypeArguments = expectedTypeArguments;
     }
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void getActualTypeArguments_invalid() {
         
@@ -158,7 +158,7 @@ public class ClassUtilsTypeArgumentsTest {
         
     }   
     
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void getActualTypeArguments() {
         
