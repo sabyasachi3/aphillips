@@ -49,7 +49,7 @@ import org.junit.runners.Parameterized.Parameters;
  *
  */
 @RunWith(value = Parameterized.class)
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class ClassUtilsSuperclassChainTest {
     private final Class clazz;
     private final Class superclass;
