@@ -430,14 +430,14 @@ public class ClassUtils {
             return;
         }
         
-        Type[] actualTypeArguments = getActualTypeArguments(clazz, supertype);
+        Type[] actualTypeAttributes = getActualTypeAttributes(clazz, supertype);
 
-        assert (typeParameters.length == actualTypeArguments.length) 
+        assert (typeParameters.length == actualTypeAttributes.length) 
         : Arrays.asList(typeParameters, typeAssignments);
         
         // matches up type parameters with their actual assignments, assuming the order is the same!
-        for (int i = 0; i < actualTypeArguments.length; i++) {
-            Type type = actualTypeArguments[i];
+        for (int i = 0; i < actualTypeAttributes.length; i++) {
+            Type type = actualTypeAttributes[i];
             
             // type will be a Class if the actual type is known, and a TypeVariable if not
             if (type instanceof Class) {
@@ -465,7 +465,7 @@ public class ClassUtils {
 
     }
     
-    private static Type[] getActualTypeArguments(Class<?> clazz, Class<?> supertype) {
+    private static Type[] getActualTypeAttributes(Class<?> clazz, Class<?> supertype) {
         /*
          * The superclass is not necessarily a ParameterizedType even if it has type
          * parameters! This happens if a user fails to specify type parameters for a
