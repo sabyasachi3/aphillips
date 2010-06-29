@@ -128,4 +128,30 @@ public class ClassUtilsTest {
                                                   Long.class));        
     }    
     
+    @Test(expected = IllegalArgumentException.class)
+    public void isAnyInstance_nullSuperclasses() {
+        ClassUtils.isInstance(null, new Object());
+    }
+
+    @Test
+    public void isAnyInstance_nullInstance() {
+        assertFalse("Expected null not to be an instance of String or List",
+                    ClassUtils.isInstance(Arrays.<Class<?>>asList(String.class, List.class), 
+                    null));
+    }
+    
+    @Test
+    public void isAnyInstance_unassignable() {
+        assertFalse("Expected 7L not to be an instance of String or List",
+                ClassUtils.isInstance(Arrays.<Class<?>>asList(String.class, List.class), 
+                Long.valueOf(7)));
+    }
+    
+    @Test
+    public void isAnyInstance() {
+        assertTrue("Expected 7L to be an instance of String or Number",
+                ClassUtils.isInstance(Arrays.<Class<?>>asList(String.class, Number.class), 
+                Long.valueOf(7)));
+    }
+    
 }
