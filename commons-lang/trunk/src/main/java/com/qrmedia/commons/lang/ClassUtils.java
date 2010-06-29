@@ -226,6 +226,32 @@ public class ClassUtils {
     }
     
     /**
+     * Determines if the specified object is assignment-compatible
+     * with <em>any</em> of the specified {@code Class Classes}. class. 
+     * See {@link Class#isInstance(Object)}.
+     * 
+     * @param superclasses      the superclasses and -interfaces to be tested against
+     * @param clazz     the class to be to be checked
+     * @return  <code>true</code> iff <i>any</i> of the given classes is a superclass or -interface
+     *          of the specified class
+     * @throws IllegalArgumentException if either of the arguments is null
+     */
+    public static boolean isInstance(Collection<Class<?>> superclasses,
+            Object instance) {
+        checkNotNull("Superclasses non-null", superclasses);
+
+        for (Class<?> superclass : superclasses) {
+            
+            if (superclass.isInstance(instance)) {
+                return true;
+            }
+            
+        }
+        
+        return false;
+    }
+    
+    /**
      * Collects all fields declared in the given class <u>and</u> inherited from 
      * parents.
      * 
