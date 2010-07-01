@@ -58,8 +58,7 @@ public class ClassUtils {
      * the method returns <code>null</code>. This may happen (in spite of the signature) if the 
      * method is called with non-generic arguments.
      *
-     * @param <U>       the type of the class at the &quot;start&quot; of the superclass chain
-     * @param <V>       the type of the superclass at the &quot;end&quot; of the chain
+     * @param <S>       the type of the superclass at the &quot;end&quot; of the chain
      * @param clazz     the class at the &quot;start&quot; of the superclass chain
      * @param superclass        the class at the &quot;end&quot; of the superclass chain
      * @return <u>one</u> superclass chain linking <code>class</code> to <code>superclass</code>,
@@ -68,9 +67,9 @@ public class ClassUtils {
      * @throws IllegalArgumentException if either argument is null    
      * @see #getSuperclassChains(Class, Class)    
      */
-    public static <U, V extends U> List<Class<? super V>> getSuperclassChain(Class<V> clazz, 
-            Class<U> superclass) {
-        Set<List<Class<? super V>>> superclassChains = getSuperclassChainsInternal(clazz, superclass, true);
+    public static <S> List<Class<? extends S>> getSuperclassChain(Class<? extends S> clazz, 
+            Class<S> superclass) {
+        Set<List<Class<? extends S>>> superclassChains = getSuperclassChainsInternal(clazz, superclass, true);
         return (superclassChains.isEmpty() ? null : superclassChains.iterator().next());
     }
     
@@ -107,7 +106,7 @@ public class ClassUtils {
      * the method returns an empty set. This may happen (in spite of the signature) if the 
      * method is called with non-generic arguments.
      *
-     * @param <T>       the type of the class at the &quot;start&quot; of the superclass chain 
+     * @param <S>       the type of the superclass at the &quot;end&quot; of the chain 
      * @param clazz     the class at the &quot;start&quot; of the superclass chain
      * @param superclass        the class at the &quot;end&quot; of the superclass chain
      * @return all possible superclass chains linking <code>class</code> to <code>superclass</code>,
@@ -116,12 +115,12 @@ public class ClassUtils {
      * @throws IllegalArgumentException if either argument is null  
      * @see #getSuperclassChain(Class, Class)      
      */
-    public static <T> Set<List<Class<? super T>>> getSuperclassChains(Class<T> clazz, Class<? super T> superclass) {
+    public static <S> Set<List<Class<? extends S>>> getSuperclassChains(Class<? extends S> clazz, Class<S> superclass) {
         return getSuperclassChainsInternal(clazz, superclass, false);
     }
     
-    private static <U, V extends U> Set<List<Class<? super V>>> getSuperclassChainsInternal(Class<V> clazz, 
-            Class<U> superclass, boolean oneChainSufficient) {
+    private static <S> Set<List<Class<? extends S>>> getSuperclassChainsInternal(Class<? extends S> clazz, 
+            Class<S> superclass, boolean oneChainSufficient) {
         checkNotNull("'clazz' and 'superclass' may not be non-null", clazz, superclass);
         
         if (!superclass.isAssignableFrom(clazz)) {
@@ -129,29 +128,29 @@ public class ClassUtils {
         }
         
         // interfaces only need to be considered if the superclass is an interface
-        return ClassUtils.<U, V>getSuperclassSubchains(clazz, superclass, 
+        return ClassUtils.getSuperclassSubchains(clazz, superclass, 
                 oneChainSufficient, superclass.isInterface());
     }
     
     // recursive method: gets the subchains from the given class to the target class
     @SuppressWarnings("unchecked")
-    private static <U, V extends U> Set<List<Class<? super V>>> getSuperclassSubchains(
-            Class<? super V> subclass, Class<U> superclass, boolean oneChainSufficient, 
+    private static <S> Set<List<Class<? extends S>>> getSuperclassSubchains(
+            Class<? extends S> subclass, Class<S> superclass, boolean oneChainSufficient, 
             boolean considerInterfaces) {
         
         // base case: the subclass *is* the target class
         if (subclass.equals(superclass)) {
             
             // since the list will be built from the *head*, a linked list is a good choice
-            List<Class<? super V>> subchain = new LinkedList<Class<? super V>>();
+            List<Class<? extends S>> subchain = new LinkedList<Class<? extends S>>();
             subchain.add(subclass);
             return Collections.singleton(subchain);
         }
         
         // recursive case: get all superclasses and, if required, interfaces and recurse
-        Set<Class<? super V>> supertypes = new HashSet<Class<? super V>>();
+        Set<Class<? extends S>> supertypes = new HashSet<Class<? extends S>>();
         
-        Class<? super V> immediateSuperclass = subclass.getSuperclass();
+        Class<? extends S> immediateSuperclass = (Class<? extends S>) subclass.getSuperclass();
         
         // interfaces and Object don't have a superclass
         if (immediateSuperclass != null) {
@@ -159,29 +158,29 @@ public class ClassUtils {
         }
         
         if (considerInterfaces) {
-            supertypes.addAll(Arrays.asList((Class<? super V>[]) subclass.getInterfaces()));
+            supertypes.addAll(Arrays.asList((Class<? extends S>[]) subclass.getInterfaces()));
         }
         
-        Set<List<Class<? super V>>> subchains = new HashSet<List<Class<? super V>>>();
+        Set<List<Class<? extends S>>> subchains = new HashSet<List<Class<? extends S>>>();
         
-        for (Class<? super V> supertype : supertypes) {
+        for (Class<? extends S> supertype : supertypes) {
             
             // the compiler complains if the type parameters to getSuperclassSubchains aren't specified 
-            Set<List<Class<? super V>>> subchainsFromSupertype = 
-                ClassUtils.<U, V>getSuperclassSubchains(supertype, superclass, 
+            Set<List<Class<? extends S>>> subchainsFromSupertype = 
+                ClassUtils.getSuperclassSubchains(supertype, superclass, 
                         oneChainSufficient, considerInterfaces);
             
             // each chain from the supertype results in a chain [current, subchain-from-super]
             if (!subchainsFromSupertype.isEmpty()) {
                 
                 if (oneChainSufficient) {
-                    ClassUtils.<V>addSubchain(subchains, subclass, 
+                    ClassUtils.<S>addSubchain(subchains, subclass, 
                             subchainsFromSupertype.iterator().next());
                     return subchains;
                 } else {
                     
-                    for (List<Class<? super V>> subchainFromSupertype : subchainsFromSupertype) {
-                        ClassUtils.<V>addSubchain(subchains, subclass, subchainFromSupertype);
+                    for (List<Class<? extends S>> subchainFromSupertype : subchainsFromSupertype) {
+                        ClassUtils.<S>addSubchain(subchains, subclass, subchainFromSupertype);
                     }
                     
                 }
@@ -194,8 +193,8 @@ public class ClassUtils {
     }
 
     // adds the class to the beginning of the subchain and stores this extended subchain
-    private static <T> void addSubchain(Set<List<Class<? super T>>> subchains, 
-            Class<? super T> clazz, List<Class<? super T>> subchainFromSupertype) {
+    private static <T> void addSubchain(Set<List<Class<? extends T>>> subchains, 
+            Class<? extends T> clazz, List<Class<? extends T>> subchainFromSupertype) {
         subchainFromSupertype.add(0, clazz);
         subchains.add(subchainFromSupertype);
     }
@@ -391,8 +390,8 @@ public class ClassUtils {
      * @throws IllegalArgumentException if <code>typedSuperclass</code> or <code>typedClass</code> 
      *                                  is <code>null</code>         
      */
-    public static <U> List<Class<?>> getActualTypeArguments(Class<U> typedClass,
-            Class<? super U> typedSuperclass) {
+    public static <S> List<Class<?>> getActualTypeArguments(Class<? extends S> typedClass,
+            Class<S> typedSuperclass) {
         checkNotNull("All arguments must be non-null", typedSuperclass, typedClass);
         
         /*
@@ -430,7 +429,7 @@ public class ClassUtils {
          * need one, however (and it doesn't matter which one) since the compiler does not allow
          * inheritance chains with conflicting generic type information.
          */
-        List<Class<? super U>> superclassChain = getSuperclassChain(typedClass, typedSuperclass);
+        List<Class<? extends S>> superclassChain = getSuperclassChain(typedClass, typedSuperclass);
         
         assert (superclassChain != null) : Arrays.<Class<?>>asList(typedSuperclass, typedClass);
         
