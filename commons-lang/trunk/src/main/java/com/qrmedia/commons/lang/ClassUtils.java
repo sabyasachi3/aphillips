@@ -464,9 +464,16 @@ public class ClassUtils {
         for (int i = 0; i < actualTypeAttributes.length; i++) {
             Type type = actualTypeAttributes[i];
             
-            // type will be a Class if the actual type is known, and a TypeVariable if not
+            /*
+             * type will be a Class or ParameterizedType if the actual type is known, 
+             * and a TypeVariable if not.
+             */
             if (type instanceof Class) {
                 typeAssignments.put(typeParameters[i], (Class<?>) type);
+            } else if (type instanceof ParameterizedType) {
+                assert (((ParameterizedType) type).getRawType() instanceof Class) : type;
+                typeAssignments.put(typeParameters[i], 
+                        (Class<?>) ((ParameterizedType) type).getRawType());
             } else {
                 assert (type instanceof TypeVariable<?>) : type;
                 

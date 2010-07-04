@@ -66,6 +66,9 @@ public class ClassUtilsTypeArgumentsTest {
     @SuppressWarnings("rawtypes")
     private static class TypedSubclass6 extends TypedSubclass3 {}
     
+    // now the type parameter *itself* has a type parameter
+    private static class TypedSubclass7 extends TypedSubclass2<TypedSubclass3<?>> {}
+
     private static interface TypedInterface<N, O> {}
     
     private static interface TypedSubinterface<P> extends TypedInterface<P, Short> {}
@@ -78,6 +81,7 @@ public class ClassUtilsTypeArgumentsTest {
     
     @SuppressWarnings("rawtypes")
     private static class TypedClass4 implements TypedSubinterface {}
+    
     
     @Parameters
     public static Collection<Object[]> data() {
@@ -119,6 +123,8 @@ public class ClassUtilsTypeArgumentsTest {
                                 new ArrayList<Object>() });
         data.add(new Object[] { TypedSubclass5.class, TypedSubclass2.class, true, 
                                 Arrays.<Object>asList(String.class) });
+        data.add(new Object[] { TypedSubclass7.class, TypedSubclass2.class, true, 
+                                Arrays.<Object>asList(TypedSubclass3.class) });    
         
         // interfaces
         data.add(new Object[] { TypedClass2.class, TypedInterface.class, true, 
