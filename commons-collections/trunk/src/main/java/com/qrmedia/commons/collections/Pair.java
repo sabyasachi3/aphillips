@@ -64,7 +64,7 @@ public class Pair<U, V> {
      * @return a pair consisting of the new first object and the second object of this
      *  pair
      */
-    public Pair<U, V> copySecond(U newFirstObject) {
+    public Pair<U, V> copyKeepSecond(U newFirstObject) {
         return new Pair<U, V>(newFirstObject, secondObject);
     }
 
@@ -76,7 +76,7 @@ public class Pair<U, V> {
      * @return a pair consisting of the first object of this pair and the new second
      *  object
      */
-    public Pair<U, V> copyFirst(V newSecondObject) {
+    public Pair<U, V> copyKeepFirst(V newSecondObject) {
         return new Pair<U, V>(firstObject, newSecondObject);
     }
     
