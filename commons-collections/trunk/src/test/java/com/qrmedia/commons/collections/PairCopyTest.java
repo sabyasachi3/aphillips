@@ -40,16 +40,16 @@ public class PairCopyTest {
     }
     
     @Test
-    public void copyFirstUsesNewSecondObject() {
+    public void copyKeepFirstUsesNewSecondObject() {
         String newSecondObject = "Bond";
         assertEquals(PairUtils.toPair("james", newSecondObject), 
-                PairUtils.toPair("james", "bond").copyFirst(newSecondObject));
+                PairUtils.toPair("james", "bond").copyKeepFirst(newSecondObject));
     }
     
     @Test
-    public void copySecondUsesNewFirstObject() {
+    public void copyKeepSecondUsesNewFirstObject() {
         String newFirstObject = "James";
         assertEquals(PairUtils.toPair(newFirstObject, "bond"), 
-                PairUtils.toPair("james", "bond").copySecond(newFirstObject));
+                PairUtils.toPair("james", "bond").copyKeepSecond(newFirstObject));
     }    
 }
