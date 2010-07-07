@@ -46,25 +46,25 @@ public class PairTest {
         List<Object[]> data = new ArrayList<Object[]>();
         
         // pairs are order-insensitive, and should be generic-type-independent
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<Object, Object> ("007", "007"), false });
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<Object, Object> (7, 7), false });
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<Object, Object> (null, null), false });
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<Object, Object>("007", "007"), false });
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<Object, Object>(7, 7), false });
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<Object, Object>(null, null), false });
         
-        Pair<Object, Object> pair = new Pair<Object, Object> ("james", "bond");
+        Pair<Object, Object> pair = new Pair<Object, Object>("james", "bond");
         data.add(new Object[] { pair, pair, true });
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<Object, Object> ("james", "bond"), true });
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<Object, Object> ("bond", "james"), true });
-        data.add(new Object[] { new Pair<Object, Object> ("james", "bond"), 
-                new Pair<String, String> ("james", "bond"), true });
-        data.add(new Object[] { new Pair<Object, Object> ("james", null), 
-                new Pair<String, String> (null, "james"), true });      
-        data.add(new Object[] { new Pair<Object, Object> (null, null), 
-                new Pair<String, Integer> (null, null), true });          
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<Object, Object>("james", "bond"), true });
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<Object, Object>("bond", "james"), true });
+        data.add(new Object[] { new Pair<Object, Object>("james", "bond"), 
+                new Pair<String, String>("james", "bond"), true });
+        data.add(new Object[] { new Pair<Object, Object>("james", null), 
+                new Pair<String, String>(null, "james"), true });      
+        data.add(new Object[] { new Pair<Object, Object>(null, null), 
+                new Pair<String, Integer>(null, null), true });          
         
         return data;
     }

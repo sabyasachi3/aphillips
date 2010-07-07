@@ -99,7 +99,25 @@ public final class PairUtils {
         }
         
         return pairs;
-    }    
+    }
+    
+    /**
+     * Creates a pair.
+     * 
+     * @param <U>   the type of the first object in the pair
+     * @param <V>   the type of the second object in the pair
+     * @param firstObject the first object in the pair, may be {@code null}
+     * @param secondObject the second object in the pair, may be {@code null}
+     * @return a pair consisting of the first and second object
+     */
+    public static <U, V> Pair<U, V> toPair(U firstObject, V secondObject) {
+        try {
+            return toPair(null, firstObject, secondObject);
+        } catch (InstantiationException exception) {
+            throw new AssertionError("Unable to create normal Pair?!? " 
+                    + exception.getMessage());
+        }
+    }
     
     //if pairClass is null a "normal" pair will be generated
     @SuppressWarnings("unchecked")
