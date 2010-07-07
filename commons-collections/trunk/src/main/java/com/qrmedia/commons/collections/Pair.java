@@ -31,8 +31,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
  *
  */
 public class Pair<U, V> {
-    protected U firstObject;
-    protected V secondObject;
+    protected final U firstObject;
+    protected final V secondObject;
     
     /**
      * Creates a pair consisting of two objects.
@@ -43,6 +43,41 @@ public class Pair<U, V> {
     public Pair(U firstObject, V secondObject) {
         this.firstObject = firstObject;
         this.secondObject = secondObject;
+    } 
+
+    /* copy "constructors" */
+    
+    /**
+     * Creates a copy of this pair.
+     *
+     * @return a copy of this pair
+     */
+    public Pair<U, V> copy() {
+        return new Pair<U, V>(firstObject, secondObject);
+    }
+
+    /**
+     * Creates a pair using the second object of this pair and the
+     * new first object.
+     * 
+     * @param newFirstObject the new first object
+     * @return a pair consisting of the new first object and the second object of this
+     *  pair
+     */
+    public Pair<U, V> copySecond(U newFirstObject) {
+        return new Pair<U, V>(newFirstObject, secondObject);
+    }
+
+    /**
+     * Creates a pair using the first object of this pair and the
+     * new second object.
+     * 
+     * @param newSecondObject the new second object
+     * @return a pair consisting of the first object of this pair and the new second
+     *  object
+     */
+    public Pair<U, V> copyFirst(V newSecondObject) {
+        return new Pair<U, V>(firstObject, newSecondObject);
     }
     
     /* (non-Javadoc)

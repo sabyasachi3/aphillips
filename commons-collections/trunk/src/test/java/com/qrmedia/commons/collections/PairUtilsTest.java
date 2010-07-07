@@ -18,6 +18,8 @@
  */
 package com.qrmedia.commons.collections;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -32,6 +34,28 @@ import org.junit.Test;
  * @since 29 Aug 2008
  */
 public class PairUtilsTest {
+
+    @Test
+    public void toPairAcceptsNullFirstObject() {
+        assertNull(PairUtils.toPair(null, new Object()).getFirstObject());
+    }
+
+    @Test
+    public void toPairAcceptsNullSecondObject() {
+        assertNull(PairUtils.toPair(new Object(), null).getSecondObject());
+    }
+    
+    @Test
+    public void toPairSetsFirstObject() {
+        Object obj = new Object();
+        assertEquals(obj, PairUtils.toPair(obj, null).getFirstObject());
+    }
+
+    @Test
+    public void toPairSetsSecondObject() {
+        Object obj = new Object();
+        assertEquals(obj, PairUtils.toPair(null, obj).getSecondObject());
+    }
     
     @Test
     public void toPairs_null() {
@@ -43,7 +67,7 @@ public class PairUtilsTest {
     public void toPairs_nullSecondObject() {
         String firstObject = "007";
         assertTrue(CollectionUtils.isEqualCollection(
-                Arrays.asList(new Pair<String, Object>(firstObject, null)),
+                Arrays.asList(new Pair<String, Object>(firstObject, (Object) null)),
                 PairUtils.toPairs(Arrays.asList(firstObject), null)));
     }
     
