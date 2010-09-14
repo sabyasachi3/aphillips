@@ -5,14 +5,14 @@
   <version>1.1-SNAPSHOT</version>
   <versioning>
     <snapshot>
-      <timestamp>20100914.120223</timestamp>
-      <buildNumber>5</buildNumber>
+      <timestamp>20100914.120610</timestamp>
+      <buildNumber>6</buildNumber>
     </snapshot>
-    <lastUpdated>20100914120223</lastUpdated>
+    <lastUpdated>20100914120610</lastUpdated>
     <snapshotVersions>
       <snapshotVersion>
-        <value>1.1-20100914.120223-5</value>
-        <updated>20100914120223</updated>
+        <value>1.1-20100914.120610-6</value>
+        <updated>20100914120610</updated>
       </snapshotVersion>
       <snapshotVersion>
         <classifier>sources</classifier>
