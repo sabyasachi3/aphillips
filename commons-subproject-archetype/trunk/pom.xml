@@ -77,9 +77,9 @@
 
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${project.artifactId}/trunk</url>  
   </scm>
   
   <distributionManagement>
