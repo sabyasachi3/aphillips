@@ -34,7 +34,7 @@ public class MapUtils {
     /**
      * Puts all the keys and values from the specified array into a new map.
      * <p>
-     * An replacement for the Apache Commons {@link org.apache.commons.collections.MapUtils#putAll(Map, Object[]) MapUtils#putAll(Map, Object[])}
+     * A replacement for the Apache Commons {@link org.apache.commons.collections.MapUtils#putAll(Map, Object[]) MapUtils#putAll(Map, Object[])}
      * method. That one is very useful but requires a (usually empty) map as an input parameter and
      * does not support generics, leading to lots of casts and <code>@SuppressWarnings</code> 
      * declarations.
@@ -65,7 +65,7 @@ public class MapUtils {
      * Puts all the keys and values from the specified array into the target map. This
      * enables the caller to determine the map subclass used.
      * <p>
-     * An replacement for the {@link org.apache.commons.collections.MapUtils#putAll(Map, Object[])}
+     * A replacement for the {@link org.apache.commons.collections.MapUtils#putAll(Map, Object[])}
      * method, supporting generics.
      * <p>
      * <strong>Use with care:</strong> The method may well support generics, but it is <strong>
