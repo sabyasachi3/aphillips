@@ -1,3 +1,5 @@
+#set( $symbol_dollar = '$' )
+#set( $artifactIdSuffix = ${artifactId.substring(8)} )
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
@@ -29,8 +31,8 @@
   </parent>
 
   <!-- More Project Information -->
-  <name>Commons/${artifactId}</name>
-  <description>Project Commons/${artifactId}</description>
+  <name>Commons/${artifactIdSuffix}</name>
+  <description>Project Commons/${artifactIdSuffix}</description>
 
   <dependencies>
     <!-- external modules -->
@@ -64,4 +66,18 @@
       <scope>test</scope>
     </dependency>-->           
   </dependencies>
+
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{project.artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{project.artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${symbol_dollar}{project.artifactId}/trunk</url>  
+  </scm>  
+  
+  <distributionManagement>
+    <site>
+      <id>aphillips-site</id>
+      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${symbol_dollar}{project.artifactId}</url>
+    </site>
+  </distributionManagement>
 </project>
