@@ -21,13 +21,13 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>${groupId}</groupId>
-  <artifactId>${artifactId}</artifactId>
-  <version>${version}</version>
+  <groupId>${project.groupId}</groupId>
+  <artifactId>${project.artifactId}</artifactId>
+  <version>${project.version}</version>
 
   <!-- More Project Information -->
-  <name>${artifactId}</name>
-  <description>Project ${artifactId}</description>
+  <name>${project.artifactId}</name>
+  <description>Project ${project.artifactId}</description>
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -97,6 +97,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3</version>
         <configuration>
           <encoding>${sourceEncoding}</encoding>
           <source>${targetJdk}</source>
@@ -105,12 +106,14 @@
       </plugin> 
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
+        <version>2.4.3</version>
         <configuration>
           <encoding>${sourceEncoding}</encoding>
         </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
+        <version>2.1.1</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -121,6 +124,10 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.0-beta-3-SNAPSHOT</version>
+      </plugin>      
     </plugins>
   </build>
   <reporting>
@@ -137,6 +144,7 @@
             <id>default</id>
             <reports>
               <report>aggregate</report>
+              <report>javadoc</report>
             </reports>
           </reportSet>
         </reportSets>
@@ -144,10 +152,12 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jxr-maven-plugin</artifactId>
+        <version>2.0-beta-1</version>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>taglist-maven-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <encoding>${sourceEncoding}</encoding>
           <tags>
@@ -161,9 +171,11 @@
       </plugin>
       <plugin>
         <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>2.1.2</version>
       </plugin>
       <plugin>
         <artifactId>maven-changes-plugin</artifactId>
+        <version>2.3</version>
         <reportSets>
           <reportSet>
             <reports>
@@ -177,6 +189,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-report-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <showSuccess>false</showSuccess>
         </configuration>
@@ -191,10 +204,11 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
-        <version>2.0.1</version>
+        <version>2.3.1</version>
       </plugin>
       <plugin>
         <artifactId>maven-pmd-plugin</artifactId>
+        <version>2.4</version>
         <configuration>
           <sourceEncoding>${sourceEncoding}</sourceEncoding>
           <targetJdk>${targetJdk}</targetJdk>
@@ -203,15 +217,16 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.3</version>        
       </plugin>
     </plugins>
   </reporting>  
   
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{artifactId}/trunk</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{artifactId}/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/${symbol_dollar}{artifactId}/trunk</url>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{project.artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${symbol_dollar}{project.artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${symbol_dollar}{project.artifactId}/trunk</url>  
   </scm>
   
   <distributionManagement>
@@ -224,6 +239,10 @@
       <url>dav:https://aphillips.googlecode.com/svn/maven-repository/snapshots</url>
       <uniqueVersion>false</uniqueVersion>
     </snapshotRepository>
+    <site>
+      <id>aphillips-site</id>
+      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${symbol_dollar}{project.artifactId}</url>
+    </site>      
     <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
   </distributionManagement>
   
@@ -241,6 +260,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.5</version>            
             <executions>
               <!-- run integration tests only ("*Itest.java") during the integration-test phase -->
               <execution>
