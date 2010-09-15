@@ -57,8 +57,16 @@
   
   <!-- Environment Settings -->
   <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${artifactId}/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/${artifactId}/trunk</url>  
-  </scm>  
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${project.artifactId}/trunk</url>  
+  </scm>
+  
+  <distributionManagement>
+    <site>
+      <id>aphillips-site</id>
+      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${project.artifactId}</url>
+    </site>    
+    <downloadUrl>http://code.google.com/p/aphillips/downloads</downloadUrl>
+  </distributionManagement>    
 </project>
