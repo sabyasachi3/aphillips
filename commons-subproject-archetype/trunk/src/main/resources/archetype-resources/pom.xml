@@ -77,7 +77,7 @@
   <distributionManagement>
     <site>
       <id>aphillips-site</id>
-      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${symbol_dollar}{project.artifactId}</url>
+      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${symbol_dollar}{project.artifactId}/${symbol_dollar}{project.version}</url>
     </site>
   </distributionManagement>
 </project>
