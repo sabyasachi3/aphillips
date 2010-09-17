@@ -40,7 +40,7 @@ public final class ReflectionUtils {
      * <p>
      * Supports bean property names of the form <code>property.childProperty</code>.
      * 
-     * @param target    the object whose field is to be set
+     * @param target    the (non-<code>null</code>) object whose field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
      * @throws IllegalAccessException if the value could not be retrieved
@@ -82,9 +82,12 @@ public final class ReflectionUtils {
                     (target != null) ? target.getClass() : targetClass, fieldName);
             field.set(target, value);
         } catch (Exception exception) {
-            throw new IllegalAccessException(
-                    String.format("Unable to set field '%s' on %s due to: %s", 
-                                  fieldName, target, exception.getMessage()));
+            boolean instanceFieldRequested = (target != null);
+            throw new IllegalAccessException(String.format(
+                    "Unable to set field '%s' on %s '%s' due to %s: %s", 
+                    fieldName, instanceFieldRequested ? "object" : "class",
+                    instanceFieldRequested ? target : targetClass.getName(),
+                    exception.getClass().getSimpleName(), exception.getMessage()));
         } 
         
     }
@@ -153,7 +156,7 @@ public final class ReflectionUtils {
      * <p>
      * Supports bean property names of the form <code>property.childProperty</code>.
      * 
-     * @param target    the object whose field is to be set
+     * @param target    the (non-<code>null</code>) object whose field is to be set
      * @param propertyName the bean property name of the field to set
      * @param value the value to set the field to
      * @return  <code>true</code> iff the value was successfully set, i.e. no exceptions
@@ -213,7 +216,7 @@ public final class ReflectionUtils {
      * Supports bean property names of the form <code>property.childProperty</code>.
      * 
      * @param <T>       the type of the object to be returned
-     * @param target    the object from which to retrieve the falue
+     * @param target    the (non-<code>null</code>) object from which to retrieve the value
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
      * @throws IllegalAccessException if the value could not be retrieved
@@ -254,10 +257,14 @@ public final class ReflectionUtils {
         
         try {
             return (T) getAccessibleField(
-                    (instanceFieldRequested) ? target.getClass() : targetClass,  fieldName)
-                   .get((instanceFieldRequested) ? target : null);
+                    instanceFieldRequested ? target.getClass() : targetClass,  fieldName)
+                   .get(instanceFieldRequested ? target : null);
         } catch (Exception exception) {
-            throw new IllegalAccessException(exception.getMessage());
+            throw new IllegalAccessException(String.format(
+                    "Unable to get value of field '%s' of %s '%s' due to %s: %s", 
+                    fieldName, instanceFieldRequested ? "object" : "class", 
+                    instanceFieldRequested ? target : targetClass.getName(),
+                    exception.getClass().getSimpleName(), exception.getMessage()));
         }
         
     }    
@@ -272,7 +279,7 @@ public final class ReflectionUtils {
      * parent objects.
      * 
      * @param <T>       the type of the object to be returned
-     * @param targetClass    the object from which to retrieve the falue
+     * @param targetClass    the (non-<code>null</code>) object from which to retrieve the value
      * @param propertyName the bean property name of the field whose value is required
      * @return  the field's value
      * @throws IllegalAccessException if the value could not be retrieved
