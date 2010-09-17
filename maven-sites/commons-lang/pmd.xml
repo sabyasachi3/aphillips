@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2010-09-14T13:32:16.656">
+<pmd version="4.2.2" timestamp="2010-09-17T10:49:54.107">
 <file name="C:\Users\aphillips\Workspaces\Personal\commons-lang\src\main\java\com\qrmedia\commons\lang\ClassUtils.java">
 <violation beginline="196" endline="197" begincolumn="29" endcolumn="85" rule="UnusedPrivateMethod" ruleset="Unused Code Rules" package="com.qrmedia.commons.lang" class="ClassUtils" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateMethod" priority="3">
 Avoid unused private methods such as 'addSubchain(Set,Class,List)'.
 </violation>
 </file>
 <file name="C:\Users\aphillips\Workspaces\Personal\commons-lang\src\main\java\com\qrmedia\commons\reflect\ReflectionUtils.java">
-<violation beginline="227" endline="228" begincolumn="26" endcolumn="69" rule="UnusedPrivateMethod" ruleset="Unused Code Rules" package="com.qrmedia.commons.reflect" class="ReflectionUtils" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateMethod" priority="3">
+<violation beginline="230" endline="231" begincolumn="26" endcolumn="69" rule="UnusedPrivateMethod" ruleset="Unused Code Rules" package="com.qrmedia.commons.reflect" class="ReflectionUtils" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedPrivateMethod" priority="3">
 Avoid unused private methods such as 'getPropertyValue(Object,Class,String)'.
 </violation>
 </file>
