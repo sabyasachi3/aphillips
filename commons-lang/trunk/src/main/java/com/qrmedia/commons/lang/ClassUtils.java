@@ -230,9 +230,9 @@ public class ClassUtils {
      * See {@link Class#isInstance(Object)}.
      * 
      * @param superclasses      the superclasses and -interfaces to be tested against
-     * @param clazz     the class to be to be checked
-     * @return  <code>true</code> iff <i>any</i> of the given classes is a superclass or -interface
-     *          of the specified class
+     * @param instance     the object to be to be checked
+     * @return  <code>true</code> iff the object is an instance of <i>any</i> of the 
+     *          given classes interfaces
      * @throws IllegalArgumentException if either of the arguments is null
      */
     public static boolean isInstance(Collection<Class<?>> superclasses,
@@ -380,7 +380,7 @@ public class ClassUtils {
      * the method returns {@code null}. This may happen (in spite of the signature) if the 
      * method is called with non-generic arguments.
      * 
-     * @param <U>       the type of the object
+     * @param <S>       the type of the object
      * @param typedClass the class for which type information is required
      * @param typedSuperclass the typed class or interface of which the object is to be regarded a 
      *                        subclass
