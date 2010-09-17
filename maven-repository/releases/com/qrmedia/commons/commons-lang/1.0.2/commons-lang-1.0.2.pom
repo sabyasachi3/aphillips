@@ -25,7 +25,7 @@
   <parent>
     <groupId>com.qrmedia.commons</groupId>
     <artifactId>commons-super</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.0</version>
     <relativePath>../commons-super/pom.xml</relativePath>
   </parent>
 
@@ -46,6 +46,17 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+  <!--  Build Settings -->
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav-jackrabbit</artifactId>
+        <version>1.0-beta-6</version>
+      </extension>
+    </extensions>
+  </build>
   
   <!-- Environment Settings -->
   <scm>
