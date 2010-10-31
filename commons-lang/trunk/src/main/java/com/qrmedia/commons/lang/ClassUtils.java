@@ -21,6 +21,8 @@
 package com.qrmedia.commons.lang;
 
 import static com.qrmedia.commons.validation.ValidationUtils.checkNotNull;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singleton;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -128,8 +130,8 @@ public class ClassUtils {
         }
         
         // interfaces only need to be considered if the superclass is an interface
-        return ClassUtils.getSuperclassSubchains(clazz, superclass, 
-                oneChainSufficient, superclass.isInterface());
+        return getSuperclassSubchains(clazz, superclass, oneChainSufficient, 
+                superclass.isInterface());
     }
     
     // recursive method: gets the subchains from the given class to the target class
@@ -144,7 +146,7 @@ public class ClassUtils {
             // since the list will be built from the *head*, a linked list is a good choice
             List<Class<? extends S>> subchain = new LinkedList<Class<? extends S>>();
             subchain.add(subclass);
-            return Collections.singleton(subchain);
+            return singleton(subchain);
         }
         
         // recursive case: get all superclasses and, if required, interfaces and recurse
@@ -158,17 +160,15 @@ public class ClassUtils {
         }
         
         if (considerInterfaces) {
-            supertypes.addAll(Arrays.asList((Class<? extends S>[]) subclass.getInterfaces()));
+            supertypes.addAll(asList((Class<? extends S>[]) subclass.getInterfaces()));
         }
         
         Set<List<Class<? extends S>>> subchains = new HashSet<List<Class<? extends S>>>();
         
         for (Class<? extends S> supertype : supertypes) {
-            
-            // the compiler complains if the type parameters to getSuperclassSubchains aren't specified 
             Set<List<Class<? extends S>>> subchainsFromSupertype = 
-                ClassUtils.getSuperclassSubchains(supertype, superclass, 
-                        oneChainSufficient, considerInterfaces);
+                getSuperclassSubchains(supertype, superclass, oneChainSufficient, 
+                        considerInterfaces);
             
             // each chain from the supertype results in a chain [current, subchain-from-super]
             if (!subchainsFromSupertype.isEmpty()) {
