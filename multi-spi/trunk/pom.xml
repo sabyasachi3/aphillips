@@ -136,6 +136,54 @@
           <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.2</version>
+        <executions>
+          <execution>
+            <id>jar-with-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.5</version>
+        <executions>
+          <execution>
+            <id>repackage-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <target>
+                <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" />
+                <jarjar destfile="${build.directory}/${build.finalName}-jar-with-dependencies.jar" update="true">
+                  <rule pattern="com.google.**" result="${groupId}.repackaged.@0" />
+                  <rule pattern="javassist.**" result="${groupId}.repackaged.@0" />
+                  <rule pattern="org.**" result="${groupId}.repackaged.@0" />
+                </jarjar>
+              </target>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>com.tonicsystems.jarjar</groupId>
+            <artifactId>jarjar</artifactId>
+            <version>1.0</version>
+          </dependency>
+        </dependencies>          
+      </plugin>      
     </plugins>
   </build>
 </project>
