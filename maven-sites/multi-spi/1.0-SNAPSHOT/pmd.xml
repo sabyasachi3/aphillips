@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd version="4.2.2" timestamp="2010-12-05T20:55:21.871">
+<file name="C:\Users\aphillips\Workspaces\Personal\multi-spi\src\main\java\com\qrmedia\commons\multispi\MultiSpi.java">
+<violation beginline="21" endline="147" begincolumn="1" endcolumn="3" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.qrmedia.commons.multispi" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
+Too many static imports may lead to messy code
+</violation>
+</file>
+<file name="C:\Users\aphillips\Workspaces\Personal\multi-spi\src\main\java\com\qrmedia\commons\multispi\provider\MetaInfServicesProvider.java">
+<violation beginline="21" endline="119" begincolumn="1" endcolumn="3" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.qrmedia.commons.multispi.provider" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
+Too many static imports may lead to messy code
+</violation>
+</file>
+</pmd>
