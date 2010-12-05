@@ -1,0 +1,5 @@
+
+ uk.gov.mi6.agent.JamesBond
+
+#uk.gov.mi6.agent.JackGiddings # should be ignored
+	uk.gov.mi6.agent.StuartThomas # should still be included
