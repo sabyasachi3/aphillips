@@ -62,7 +62,7 @@ public final class MultiSpiBuilder {
         return this;
     }
     
-    public MultiSpiBuilder withManifestEntryScanning() {
+    public MultiSpiBuilder withManifestServiceClassnameAttributeScanning() {
         providers.add(new ServiceClassnameAttributeProvider());
         return this;
     }

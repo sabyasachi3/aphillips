@@ -72,7 +72,7 @@ public class MultiSpiBuilderTest {
         List<ServiceImplementationProvider> providers = newArrayList(
             ReflectionUtils.<Set<ServiceImplementationProvider>>getValue(
                 new MultiSpiBuilder().withAnnotationScanning(LicenseToKill.class, "uk")
-                .withManifestEntryScanning().withDefaults().withMetaInfServicesScanning()
+                .withManifestServiceClassnameAttributeScanning().withDefaults().withMetaInfServicesScanning()
                 .withProviders(new StubProvider()).build(), "providers"));
         assertEquals(4, providers.size());
         // sort on class name
