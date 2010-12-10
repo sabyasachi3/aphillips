@@ -167,10 +167,10 @@
             <configuration>
               <target>
                 <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" />
-                <jarjar destfile="${build.directory}/${build.finalName}-jar-with-dependencies.jar" update="true">
-                  <rule pattern="com.google.**" result="${groupId}.repackaged.@0" />
-                  <rule pattern="javassist.**" result="${groupId}.repackaged.@0" />
-                  <rule pattern="org.**" result="${groupId}.repackaged.@0" />
+                <jarjar destfile="${project.build.directory}/${project.build.finalName}-jar-with-dependencies.jar" update="true">
+                  <rule pattern="com.google.**" result="${project.groupId}.repackaged.@0" />
+                  <rule pattern="javassist.**" result="${project.groupId}.repackaged.@0" />
+                  <rule pattern="org.**" result="${project.groupId}.repackaged.@0" />
                 </jarjar>
               </target>
             </configuration>
