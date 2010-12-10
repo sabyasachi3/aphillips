@@ -45,7 +45,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @param <T> the type of the resource that is read from the classpath and then processed
  */
-abstract class ClasspathResourcesReadingProvider<T> extends ResourceIoPerformingProvider {
+public abstract class ClasspathResourcesReadingProvider<T> extends ResourceIoPerformingProvider {
     protected final Function<? super Class<?>, String> resourceNameGenerator;
     protected final IoFunction<URL, T> resourceReader;
     

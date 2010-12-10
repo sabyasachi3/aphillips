@@ -35,7 +35,7 @@ import com.google.common.collect.ImmutableSet;
  * @since 5 Dec 2010
  *
  */
-abstract class ResourceIoPerformingProvider implements ServiceImplementationProvider {
+public abstract class ResourceIoPerformingProvider implements ServiceImplementationProvider {
 
     /* (non-Javadoc)
      * @see com.qrmedia.commons.multispi.provider.ServiceImplementationProvider#findServiceImplementations(java.lang.Class)
