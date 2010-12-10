@@ -20,12 +20,9 @@
  */
 package com.qrmedia.commons.multispi.provider;
 
-import static com.google.common.base.Functions.constant;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Maps.filterValues;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.Set;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
@@ -47,25 +44,16 @@ import com.google.common.collect.ImmutableSet;
  * @since 4 Dec 2010
  *
  */
-public abstract class ManifestEntryProvider extends ClasspathResourcesReadingProvider<Manifest> {
-    private static final String MANIFEST_FILE_NAME = "META-INF/MANIFEST.MF";
+public abstract class ManifestEntryProvider extends ManifestProvider {
     private static final String CLASS_FILE_SUFFIX = ".class";
     private static final char RESOURCE_PATH_SEPARATOR = '/';
     private static final char PACKAGE_SEPARATOR = '.';
 
-    protected ManifestEntryProvider() {
-        super(constant(MANIFEST_FILE_NAME), new IoFunction<URL, Manifest>() {
-                public Manifest apply(URL item) throws IOException {
-                    return new Manifest(item.openStream());
-                }
-            });
-    }
-    
     protected Set<String> processResource(Manifest manifest, final Class<?> serviceClass) {
         return ImmutableSet.copyOf(transform(
                 filterValues(manifest.getEntries(), new Predicate<Attributes>() {
                         public boolean apply(Attributes input) {
-                            return implementationManifestEntry(serviceClass, input);
+                            return isManifestEntryOfImplementation(input, serviceClass);
                         }
                     })
                 .keySet(), 
@@ -73,13 +61,13 @@ public abstract class ManifestEntryProvider extends ClasspathResourcesReadingPro
     }
     
     /**
-     * @param serviceClass the class of the service requested
      * @param entryAttributes the attributes of a Java manifest entry
+     * @param serviceClass the class of the service requested
      * @return {@code true} iff the attributes indicate that the manifest entry is
      *         an implementation of the service class
      */
-    protected abstract boolean implementationManifestEntry(@Nonnull Class<?> serviceClass, 
-            @Nonnull Attributes entryAttributes);
+    protected abstract boolean isManifestEntryOfImplementation(@Nonnull Attributes entryAttributes, 
+            @Nonnull Class<?> serviceClass);
 
     private static class ResourcePathsToClassNames implements Function<String, String> {
         public String apply(String from) {
