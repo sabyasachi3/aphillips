@@ -73,8 +73,7 @@
       <groupId>uk.gov.mi6</groupId>
       <artifactId>more-agents</artifactId>
       <version>1.0</version>
-      <systemPath>${project.basedir}/src/test/resources/more-agents-1.0.jar</systemPath>
-      <scope>system</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -111,19 +110,9 @@
     </dependency>        
   </dependencies>
 
-  <!-- Environment Settings -->
-  <scm>
-    <connection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</connection>
-    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</developerConnection>
-    <url>http://code.google.com/p/aphillips/source/browse/${project.artifactId}/trunk</url>  
-  </scm>  
-  
-  <distributionManagement>
-    <site>
-      <id>aphillips-site</id>
-      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${project.artifactId}/${project.version}</url>
-    </site>
-  </distributionManagement>
+  <properties>
+    <resDir>${project.basedir}/src/test/resources</resDir>
+  </properties>
   
   <build>
     <plugins>
@@ -186,4 +175,29 @@
       </plugin>      
     </plugins>
   </build>
+  
+  <!-- Environment Settings -->
+  <scm>
+    <connection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</connection>
+    <developerConnection>scm:svn:https://aphillips.googlecode.com/svn/${project.artifactId}/trunk</developerConnection>
+    <url>http://code.google.com/p/aphillips/source/browse/${project.artifactId}/trunk</url>  
+  </scm>  
+  
+  <repositories>
+    <repository>
+      <id>test-resources</id>
+      <url>file://${project.basedir}/src/test/resources</url>
+      <releases>
+        <updatePolicy>never</updatePolicy>
+        <checksumPolicy>ignore</checksumPolicy>
+      </releases>
+    </repository>
+  </repositories>
+  
+  <distributionManagement>
+    <site>
+      <id>aphillips-site</id>
+      <url>svn:https://aphillips.googlecode.com/svn/maven-sites/${project.artifactId}/${project.version}</url>
+    </site>
+  </distributionManagement>  
 </project>
