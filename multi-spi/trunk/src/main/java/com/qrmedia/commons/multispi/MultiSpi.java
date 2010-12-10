@@ -76,7 +76,7 @@ public final class MultiSpi {
     }
     
     /**
-     * Shorthand for {@link #findImplementations(Class, MultiSpi.class.getClassLoader())}.
+     * Shorthand for {@link #findImplementations(Class, ClassLoader) findImplementations(serviceClass, MultiSpi.class.getClassLoader())}.
      * 
      * @param <S> the type of the service
      * @param serviceClass the class of the service
@@ -96,7 +96,7 @@ public final class MultiSpi {
      * available providers.
      * <p>
      * This method will check whether the classes found do, in fact, implement the
-     * requested service, and a {@code ClassNotFoundException} will be thrown if any
+     * requested service, and a {@code ClassCastException} will be thrown if any
      * of the classes does not.
      * <p>
      * If more lenient behaviour is desired (e.g. skipping any classes that cannot be
