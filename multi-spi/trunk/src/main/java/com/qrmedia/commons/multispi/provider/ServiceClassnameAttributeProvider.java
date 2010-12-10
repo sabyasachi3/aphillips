@@ -51,8 +51,8 @@ public class ServiceClassnameAttributeProvider extends ManifestEntryProvider {
      * @see com.qrmedia.commons.multispi.provider.ManifestEntryProvider#implementationManifestEntry(java.lang.Class, java.util.jar.Attributes)
      */
     @Override
-    protected boolean implementationManifestEntry(Class<?> serviceClass,
-            Attributes entryAttributes) {
+    protected boolean isManifestEntryOfImplementation(Attributes entryAttributes,
+            Class<?> serviceClass) {
         return any(entryAttributes.keySet(), compose(
                 new EqualToIgnoreCase(serviceClass.getSimpleName()), 
                 new Function<Object, String>() {
