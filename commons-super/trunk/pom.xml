@@ -206,13 +206,45 @@
         <version>2.4</version>
         <configuration>
           <encoding>${sourceEncoding}</encoding>
-          <tags>
-            <tag>FIXME</tag>
-            <tag>TODO</tag>
-            <tag>XXX</tag>
-            <tag>REFACTOR</tag>
-            <tag>@deprecated</tag>
-          </tags>
+          <tagListOptions>
+            <tagClasses>
+              <tagClass>
+                <displayName>Remaining Work</displayName>
+                <tags>
+                  <tag>
+                    <matchString>todo</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>FIXME</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Technical Debt</displayName>
+                <tags>
+                  <tag>
+                    <matchString>XXX</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                  <tag>
+                    <matchString>REFACTOR</matchString>
+                    <matchType>exact</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+              <tagClass>
+                <displayName>Legacy Code</displayName>
+                <tags>
+                  <tag>
+                    <matchString>@deprecated</matchString>
+                    <matchType>ignoreCase</matchType>
+                  </tag>
+                </tags>
+              </tagClass>
+            </tagClasses>
+          </tagListOptions>          
         </configuration>
       </plugin>
       <plugin>
