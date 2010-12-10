@@ -47,7 +47,7 @@ import com.google.common.collect.ImmutableSet;
  * @since 4 Dec 2010
  *
  */
-abstract class ManifestEntryProvider extends ClasspathResourcesReadingProvider<Manifest> {
+public abstract class ManifestEntryProvider extends ClasspathResourcesReadingProvider<Manifest> {
     private static final String MANIFEST_FILE_NAME = "META-INF/MANIFEST.MF";
     private static final String CLASS_FILE_SUFFIX = ".class";
     private static final char RESOURCE_PATH_SEPARATOR = '/';
