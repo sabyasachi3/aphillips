@@ -35,8 +35,8 @@
       <snapshotVersion>
         <classifier>jar-with-dependencies</classifier>
         <extension>jar</extension>
-        <value>1.0-20101210.195240-5</value>
-        <updated>20101210195240</updated>
+        <value>1.0-20101214.134704-6</value>
+        <updated>20101214134704</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>
