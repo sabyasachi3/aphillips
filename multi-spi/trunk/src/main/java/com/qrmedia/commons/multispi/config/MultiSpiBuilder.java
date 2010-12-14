@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.NotThreadSafe;
 
+import com.google.common.base.Supplier;
 import com.qrmedia.commons.multispi.MultiSpi;
 import com.qrmedia.commons.multispi.provider.AnnotationScanningProvider;
 import com.qrmedia.commons.multispi.provider.MetaInfServicesProvider;
@@ -44,7 +45,7 @@ import com.qrmedia.commons.multispi.provider.ServiceImplementationProvider;
  *
  */
 @NotThreadSafe
-public final class MultiSpiBuilder {
+public final class MultiSpiBuilder implements Supplier<MultiSpi> {
     private final Set<ServiceImplementationProvider> providers = newHashSet();
     
     public MultiSpiBuilder withDefaults() {
@@ -85,5 +86,12 @@ public final class MultiSpiBuilder {
     
     public MultiSpi build() { 
         return new MultiSpi(providers);
+    }
+
+    /* (non-Javadoc)
+     * @see com.google.common.base.Supplier#get()
+     */
+    public MultiSpi get() {
+        return build();
     }
 }
