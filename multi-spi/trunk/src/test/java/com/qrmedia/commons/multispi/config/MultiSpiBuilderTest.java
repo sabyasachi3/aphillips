@@ -51,6 +51,12 @@ import com.qrmedia.commons.reflect.ReflectionUtils;
 public class MultiSpiBuilderTest {
 
     @Test
+    public void getReturnsTheSameAsBuild() {
+        assertEquals(new MultiSpiBuilder().withDefaults().build(), 
+                     new MultiSpiBuilder().withDefaults().get());
+    }
+    
+    @Test
     public void defaultsToMetaInfServices() throws IllegalAccessException {
         Set<ServiceImplementationProvider> providers = ReflectionUtils.getValue(
                 new MultiSpiBuilder().withDefaults().build(), "providers");

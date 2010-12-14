@@ -144,4 +144,29 @@ public final class MultiSpi {
             return superclass.isAssignableFrom(input);
         }
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return providers.hashCode();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        MultiSpi other = (MultiSpi) obj;
+        if (!providers.equals(other.providers))
+            return false;
+        return true;
+    }
 }
