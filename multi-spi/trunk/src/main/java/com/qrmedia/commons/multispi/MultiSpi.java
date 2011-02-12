@@ -270,7 +270,7 @@ public final class MultiSpi {
     static class ClassLoaderLocator {
         private static final ClassLoader BOOTSTRAP_LOADER = new BootstrapClassLoader();
         
-        @Nonnull ClassLoader getSystemClassLoader() {
+        ClassLoader getSystemClassLoader() {
             return ClassLoader.getSystemClassLoader();
         }
         
