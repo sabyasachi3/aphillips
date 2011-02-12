@@ -29,7 +29,7 @@ import org.springframework.core.io.ClassPathResource;
 import com.qrmedia.commons.multispi.MultiSpi;
 
 /**
- * Using {@link MultiSpi} to create a Spring-wireable set.
+ * Using {@link MultiSpi} to create a Spring-wireable sets.
  * 
  * @author anphilli
  * @since 8 Apr 2009
@@ -39,9 +39,16 @@ public class SpringAgentExample {
     
     @Test
     public void go() {
-        Set<?> agents = (Set<?>) new XmlBeanFactory(new ClassPathResource("agentContext.xml"))
-                        .getBean("agents");
-        System.out.format("Agents: %s (class of items in set: '%s')%n", agents, 
-                get(agents, 0).getClass());
+        XmlBeanFactory beanFactory = new XmlBeanFactory(new ClassPathResource("agentContext.xml"));
+        Set<?> agentNames = (Set<?>) beanFactory.getBean("agentNames");
+        System.out.format("Agent names: %s (class of items in set: '%s')%n", agentNames, 
+                get(agentNames, 0).getClass());
+        
+        Set<?> agentClasses = (Set<?>) beanFactory.getBean("agentClasses");
+        System.out.format("Agent classes: %s (class of items in set: '%s')%n", agentClasses, 
+                get(agentClasses, 0).getClass());
+        
+        Set<?> agents = (Set<?>) beanFactory.getBean("agents");
+        System.out.format("Agents: %s%n", agents);
     }
 }

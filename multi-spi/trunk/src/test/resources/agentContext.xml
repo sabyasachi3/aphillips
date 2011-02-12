@@ -14,8 +14,16 @@
       </set>
     </constructor-arg>
   </bean>
-   
-  <bean id="agents" factory-bean="multiSpi" factory-method="findImplementations">
+
+  <bean id="agentNames" factory-bean="multiSpi" factory-method="findImplementationNames">
+    <constructor-arg value="uk.gov.mi6.Agent" />
+  </bean>
+     
+  <bean id="agentClasses" factory-bean="multiSpi" factory-method="findImplementations">
+    <constructor-arg value="uk.gov.mi6.Agent" />
+  </bean>
+  
+  <bean id="agents" factory-bean="multiSpi" factory-method="loadImplementations">
     <constructor-arg value="uk.gov.mi6.Agent" />
   </bean>
 </beans>
