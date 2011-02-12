@@ -25,4 +25,27 @@ import uk.gov.mi6.LicenseToKill;
 
 @LicenseToKill
 public class JamesBond implements Agent {
+    
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return JamesBond.class.hashCode();
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        return true;
+    }
+    
 }

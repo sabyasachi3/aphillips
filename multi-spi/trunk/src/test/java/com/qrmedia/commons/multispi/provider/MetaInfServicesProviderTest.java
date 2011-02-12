@@ -20,15 +20,21 @@
  */
 package com.qrmedia.commons.multispi.provider;
 
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.junit.Assert.assertEquals;
+
+import java.util.ServiceLoader;
+import java.util.Set;
 
 import org.junit.Test;
 
 import uk.gov.mi6.Agent;
-import uk.gov.mi6.agent.JamesBond;
 import uk.gov.mi6.agent.Bill;
+import uk.gov.mi6.agent.JamesBond;
 import uk.gov.mi6.agent.StuartThomas;
+
+import com.google.common.base.Function;
 
 /**
  * Unit tests for the {@link MetaInfServicesProvider}.
@@ -45,6 +51,17 @@ public class MetaInfServicesProviderTest {
         assertEquals(newHashSet(JamesBond.class.getName(), StuartThomas.class.getName(),
                 Bill.class.getName()), 
                 provider.findServiceImplementations(Agent.class));
+    }
+    
+    @Test
+    public void matchesServiceLoader() {
+        Set<String> loadedServiceNames = newHashSet(transform(ServiceLoader.load(Agent.class), 
+                new Function<Agent, String>() {
+                    public String apply(Agent from) {
+                        return from.getClass().getName();
+                    }
+                }));
+        assertEquals(loadedServiceNames, provider.findServiceImplementations(Agent.class));
     }
     
 }
