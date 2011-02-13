@@ -48,21 +48,45 @@ import com.qrmedia.commons.multispi.provider.ServiceImplementationProvider;
 public final class MultiSpiBuilder implements Supplier<MultiSpi> {
     private final Set<ServiceImplementationProvider> providers = newHashSet();
     
+    /**
+     * Adds default SPI support, i.e. {@link #withMetaInfServicesScanning() &quot;vanilla&quot; META-INF/services} scanning,
+     * to the {@link MultiSpi} instance being built.
+     * 
+     * @return this builder
+     */
     public MultiSpiBuilder withDefaults() {
         return this.withMetaInfServicesScanning();
     }
 
+    /**
+     * Adds support for {@linkplain MetaInfServicesProvider &quot;vanilla&quot; META-INF/services} scanning
+     * to the {@link MultiSpi} instance being built.
+     * 
+     * @return this builder
+     */
     public MultiSpiBuilder withMetaInfServicesScanning() {
         providers.add(new MetaInfServicesProvider());
         return this;
     }
-    
+
+    /**
+     * Adds support for {@linkplain AnnotationScanningProvider marker annotation} scanning
+     * to the {@link MultiSpi} instance being built.
+     * 
+     * @return this builder
+     */
     public MultiSpiBuilder withAnnotationScanning(@Nonnull Class<? extends Annotation> markerAnnotation,
             @Nonnull String basePackage) {
         providers.add(new AnnotationScanningProvider(markerAnnotation, basePackage));
         return this;
     }
-    
+
+    /**
+     * Adds support for {@linkplain ServiceClassnameAttributeProvider manifest service attribute} scanning
+     * to the {@link MultiSpi} instance being built.
+     * 
+     * @return this builder
+     */
     public MultiSpiBuilder withManifestServiceClassnameAttributeScanning() {
         providers.add(new ServiceClassnameAttributeProvider());
         return this;
@@ -84,12 +108,19 @@ public final class MultiSpiBuilder implements Supplier<MultiSpi> {
         return this;
     }
     
+    /**
+     * Builds the prepared {@code MultiSpi} instance.
+     * 
+     * @return the prepared {@code MultiSpi} instance
+     */
     public MultiSpi build() { 
         return new MultiSpi(providers);
     }
 
-    /* (non-Javadoc)
-     * @see com.google.common.base.Supplier#get()
+    /**
+     * Gets the prepared {@code MultiSpi} instance.
+     * 
+     * @return see {@link #build()}
      */
     public MultiSpi get() {
         return build();
