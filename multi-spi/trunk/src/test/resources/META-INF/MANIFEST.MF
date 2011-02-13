@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 
 Name: uk/gov/mi6/agent/JackGiddings.class
-agent: true
+Agent: true
 
 Name: uk/gov/mi6/agent/JamesBond.class
 
