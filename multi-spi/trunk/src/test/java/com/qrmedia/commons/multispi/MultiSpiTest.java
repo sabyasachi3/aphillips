@@ -35,7 +35,7 @@ import uk.gov.mi6.agent.JackGiddings;
 import uk.gov.mi6.agent.JamesBond;
 import uk.gov.mi6.agent.StuartThomas;
 
-import com.qrmedia.commons.multispi.MultiSpi.ClassLoaderLocator;
+import com.qrmedia.commons.multispi.MultiSpi.ClassLoaderSupplier;
 import com.qrmedia.commons.multispi.provider.ServiceImplementationProvider;
 import com.qrmedia.commons.reflect.ReflectionUtils;
 
@@ -117,15 +117,15 @@ public class MultiSpiTest {
         ClassLoader systemLoader = createMock(ClassLoader.class);
         // hack generics
         expect(systemLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
-        ClassLoaderLocator loaderLocator = createNiceMock(ClassLoaderLocator.class);
-        expect(loaderLocator.getSystemClassLoader()).andReturn(systemLoader);
-        replay(provider, systemLoader, loaderLocator);
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getSystemClassLoader()).andReturn(systemLoader);
+        replay(provider, systemLoader, loaderSupplier);
         
         final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(null);
         
         multiSpi = new MultiSpi(newHashSet(provider));
-        ReflectionUtils.setValue(multiSpi, "loaderLocator", loaderLocator);
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
         try {
             assertEquals(newHashSet(JamesBond.class), multiSpi.findImplementations(Agent.class));
             verify(systemLoader);
@@ -146,15 +146,15 @@ public class MultiSpiTest {
         expect(bootstrapLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         
         // will return null for other loaders        
-        ClassLoaderLocator loaderLocator = createNiceMock(ClassLoaderLocator.class);
-        expect(loaderLocator.getBootstrapClassLoader()).andReturn(bootstrapLoader);
-        replay(provider, bootstrapLoader, loaderLocator);
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getBootstrapClassLoader()).andReturn(bootstrapLoader);
+        replay(provider, bootstrapLoader, loaderSupplier);
         
         final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(null);
         
         multiSpi = new MultiSpi(newHashSet(provider));
-        ReflectionUtils.setValue(multiSpi, "loaderLocator", loaderLocator);
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
         try {
             assertEquals(newHashSet(JamesBond.class), multiSpi.findImplementations(Agent.class));
             verify(bootstrapLoader);
@@ -225,15 +225,15 @@ public class MultiSpiTest {
         ClassLoader systemLoader = createMock(ClassLoader.class);
         // hack generics
         expect(systemLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
-        ClassLoaderLocator loaderLocator = createNiceMock(ClassLoaderLocator.class);
-        expect(loaderLocator.getSystemClassLoader()).andReturn(systemLoader);
-        replay(provider, systemLoader, loaderLocator);
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getSystemClassLoader()).andReturn(systemLoader);
+        replay(provider, systemLoader, loaderSupplier);
         
         final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(null);
         
         multiSpi = new MultiSpi(newHashSet(provider));
-        ReflectionUtils.setValue(multiSpi, "loaderLocator", loaderLocator);
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
         try {
             assertEquals(newHashSet(new JamesBond()), multiSpi.loadImplementations(Agent.class));
             verify(systemLoader);
@@ -254,15 +254,15 @@ public class MultiSpiTest {
         expect(bootstrapLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
 
         // will return null for other loaders
-        ClassLoaderLocator loaderLocator = createNiceMock(ClassLoaderLocator.class);
-        expect(loaderLocator.getBootstrapClassLoader()).andReturn(bootstrapLoader);
-        replay(provider, bootstrapLoader, loaderLocator);
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getBootstrapClassLoader()).andReturn(bootstrapLoader);
+        replay(provider, bootstrapLoader, loaderSupplier);
         
         final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
         Thread.currentThread().setContextClassLoader(null);
         
         multiSpi = new MultiSpi(newHashSet(provider));
-        ReflectionUtils.setValue(multiSpi, "loaderLocator", loaderLocator);
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
         try {
             assertEquals(newHashSet(new JamesBond()), multiSpi.loadImplementations(Agent.class));
             verify(bootstrapLoader);

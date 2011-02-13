@@ -58,7 +58,7 @@ public final class MultiSpi {
     private final Set<ServiceImplementationProvider> providers = newHashSet();
     // ready for @Inject
     private final InstanceFactory instanceFactory = new PublicNoargConstructorInstanceFactory();
-    private final ClassLoaderLocator loaderLocator = new ClassLoaderLocator();
+    private final ClassLoaderSupplier loaderSupplier = new ClassLoaderSupplier();
     
     @Inject
     public MultiSpi(@Nonnull Set<ServiceImplementationProvider> providers) {
@@ -106,8 +106,8 @@ public final class MultiSpi {
     }
     
     private ClassLoader findDefaultLoader() {
-        return find(newArrayList(Thread.currentThread().getContextClassLoader(),
-                loaderLocator.getSystemClassLoader(), loaderLocator.getBootstrapClassLoader()), notNull());
+        return find(newArrayList(loaderSupplier.getContextClassLoader(),
+                loaderSupplier.getSystemClassLoader(), loaderSupplier.getBootstrapClassLoader()), notNull());
     }
     
     /**
@@ -267,8 +267,12 @@ public final class MultiSpi {
     
     @VisibleForTesting
     @ThreadSafe
-    static class ClassLoaderLocator {
+    static class ClassLoaderSupplier {
         private static final ClassLoader BOOTSTRAP_LOADER = new BootstrapClassLoader();
+        
+        ClassLoader getContextClassLoader() {
+            return Thread.currentThread().getContextClassLoader();
+        }
         
         ClassLoader getSystemClassLoader() {
             return ClassLoader.getSystemClassLoader();
