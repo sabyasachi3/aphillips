@@ -21,6 +21,7 @@
 package com.qrmedia.commons.multispi.provider;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static org.easymock.classextension.EasyMock.createNiceMock;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -44,6 +45,6 @@ public class AnnotationScanningProviderTest {
     @Test
     public void scansAnnotatedFilesInBasePackageAndSubpackages() {
         assertEquals(newHashSet(JackGiddings.class.getName(), JamesBond.class.getName()), 
-                provider.findServiceImplementations(Agent.class));
+                provider.findServiceImplementations(Agent.class, createNiceMock(ClassLoader.class)));
     }
 }

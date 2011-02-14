@@ -45,12 +45,13 @@ import com.google.common.base.Function;
  */
 public class MetaInfServicesProviderTest {
     private final MetaInfServicesProvider provider = new MetaInfServicesProvider();
+    private final ClassLoader testLoader = MetaInfServicesProviderTest.class.getClassLoader();
     
     @Test
     public void readsAllServicesFilesOnClasspathAndIgnoresComments() {
         assertEquals(newHashSet(JamesBond.class.getName(), StuartThomas.class.getName(),
                 Bill.class.getName()), 
-                provider.findServiceImplementations(Agent.class));
+                provider.findServiceImplementations(Agent.class, testLoader));
     }
     
     @Test
@@ -61,7 +62,7 @@ public class MetaInfServicesProviderTest {
                         return from.getClass().getName();
                     }
                 }));
-        assertEquals(loadedServiceNames, provider.findServiceImplementations(Agent.class));
+        assertEquals(loadedServiceNames, provider.findServiceImplementations(Agent.class, testLoader));
     }
     
 }

@@ -58,7 +58,8 @@ public class AnnotationScanningProvider implements ServiceImplementationProvider
         reflections = new Reflections(basePackage);
     }
 
-    public Set<String> findServiceImplementations(Class<?> serviceClass) {
+    public Set<String> findServiceImplementations(Class<?> serviceClass,
+            ClassLoader classpathResourceLoader) {
         return ImmutableSet.copyOf(transform(intersection(
                 reflections.getTypesAnnotatedWith(markerAnnotation), 
                 reflections.getSubTypesOf(serviceClass)), new ClassToName()));

@@ -44,7 +44,8 @@ public class ServiceClassnameAttributeProviderTest {
     public void readsAllManifestsOnClasspathAndCaseInsensitivelyLooksForMarkerAttribute() {
         assertEquals(newHashSet(JackGiddings.class.getName(), StuartThomas.class.getName(), 
                 Bill.class.getName()), 
-                provider.findServiceImplementations(Agent.class));
+                provider.findServiceImplementations(Agent.class,
+                        ServiceClassnameAttributeProviderTest.class.getClassLoader()));
     }
     
 }

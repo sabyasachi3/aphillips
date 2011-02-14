@@ -21,7 +21,9 @@
 package com.qrmedia.commons.multispi;
 
 import static com.google.common.collect.Sets.newHashSet;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.createNiceMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -48,31 +50,117 @@ import com.qrmedia.commons.reflect.ReflectionUtils;
  */
 public class MultiSpiTest {
     private MultiSpi multiSpi;
-    
+   
     @Test
     public void callsAllProviders() {
+        ClassLoader classpathResourceLoader = createNiceMock(ClassLoader.class);
         ServiceImplementationProvider provider1 = createMock(ServiceImplementationProvider.class);
-        expect(provider1.findServiceImplementations(Agent.class))
+        expect(provider1.findServiceImplementations(Agent.class, classpathResourceLoader))
         .andReturn(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()));
         ServiceImplementationProvider provider2 = createMock(ServiceImplementationProvider.class);
-        expect(provider2.findServiceImplementations(Agent.class))
+        expect(provider2.findServiceImplementations(Agent.class, classpathResourceLoader))
         .andReturn(newHashSet(JamesBond.class.getName(), StuartThomas.class.getName()));
         replay(provider1, provider2);
         
         multiSpi = new MultiSpi(newHashSet(provider1, provider2));
         assertEquals(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName(), 
                     StuartThomas.class.getName()),
-                multiSpi.findImplementationNames(Agent.class));
+                multiSpi.findImplementationNames(Agent.class, classpathResourceLoader));
         verify(provider1, provider2);
+    }
+    
+    @Test
+    public void callsProvidersWithProvidedClassloader() {
+        ClassLoader classpathResourceLoader = createNiceMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, classpathResourceLoader))
+        .andReturn(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()));
+        replay(provider);
+        
+        multiSpi = new MultiSpi(newHashSet(provider));
+        assertEquals(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()),
+                multiSpi.findImplementationNames(Agent.class, classpathResourceLoader));
+        verify(provider);
+    }
+    
+    @Test
+    public void callsProvidersWithContextClassloaderByDefault() {
+        ClassLoader contextLoader = createNiceMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, contextLoader))
+        .andReturn(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()));
+        replay(provider);
+        
+        final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(contextLoader);
+
+        multiSpi = new MultiSpi(newHashSet(provider));
+        try {
+            assertEquals(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()),
+                    multiSpi.findImplementationNames(Agent.class));
+            verify(provider);
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalContextLoader);
+        }
+    }
+    
+    @Test
+    public void callsAllProvidersWithSystemClassloaderForNullContextLoader() throws IllegalAccessException {
+        ClassLoader systemLoader = createNiceMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, systemLoader))
+        .andReturn(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()));
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getSystemClassLoader()).andReturn(systemLoader);
+        replay(provider, loaderSupplier);
+        
+        final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(null);
+
+        multiSpi = new MultiSpi(newHashSet(provider));
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
+        try {
+            assertEquals(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()),
+                    multiSpi.findImplementationNames(Agent.class));
+            verify(provider);
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalContextLoader);
+        }
+    }
+    
+    @Test
+    public void callsAllProvidersWithBootstrapClassloaderForNullSystemLoader() throws IllegalAccessException {
+        ClassLoader bootstrapLoader = createNiceMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, bootstrapLoader))
+        .andReturn(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()));
+        
+        // will return null for other loaders        
+        ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
+        expect(loaderSupplier.getBootstrapClassLoader()).andReturn(bootstrapLoader);
+        replay(provider, loaderSupplier);
+        
+        final ClassLoader originalContextLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(null);
+
+        multiSpi = new MultiSpi(newHashSet(provider));
+        ReflectionUtils.setValue(multiSpi, "loaderSupplier", loaderSupplier);
+        try {
+            assertEquals(newHashSet(JamesBond.class.getName(), JackGiddings.class.getName()),
+                    multiSpi.findImplementationNames(Agent.class));
+            verify(provider);
+        } finally {
+            Thread.currentThread().setContextClassLoader(originalContextLoader);
+        }
     }
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsFromProvidedClassloader() throws ClassNotFoundException {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader implementationLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, implementationLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(implementationLoader.loadClass(JamesBond.class.getName()))
         .andReturn((Class) JamesBond.class);
@@ -88,10 +176,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsFromContextClassloaderByDefault() throws ClassNotFoundException {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader contextLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, contextLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(contextLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         replay(provider, contextLoader);
@@ -111,10 +199,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsFromSystemClassloaderForNullContextLoader() throws ClassNotFoundException, IllegalAccessException {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader systemLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, systemLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(systemLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
@@ -138,10 +226,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsFromBootstrapClassloaderForNullSystemLoader() throws ClassNotFoundException, IllegalAccessException {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader bootstrapLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, bootstrapLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(bootstrapLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         
@@ -166,7 +254,7 @@ public class MultiSpiTest {
     @Test(expected = ClassCastException.class)
     public void verifiesThatFoundClassesImplementTheService() throws ClassNotFoundException {
         ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
+        expect(provider.findServiceImplementations(eq(Agent.class), isA(ClassLoader.class)))
         .andReturn(newHashSet(String.class.getName()));
         replay(provider);
         
@@ -177,10 +265,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsForInstantiationFromProvidedClassloader() throws Exception {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader implementationLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, implementationLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(implementationLoader.loadClass(JamesBond.class.getName()))
         .andReturn((Class) JamesBond.class);
@@ -196,10 +284,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsForInstantiationFromContextClassloaderByDefault() throws Exception {
+        ClassLoader contextLoader = createMock(ClassLoader.class); 
         ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
+        expect(provider.findServiceImplementations(Agent.class, contextLoader))
         .andReturn(newHashSet(JamesBond.class.getName()));
-        ClassLoader contextLoader = createMock(ClassLoader.class);
         // hack generics
         expect(contextLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         replay(provider, contextLoader);
@@ -219,10 +307,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsForInstantiationFromSystemClassloaderForNullContextLoader() throws Exception {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader systemLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, systemLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(systemLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
         ClassLoaderSupplier loaderSupplier = createNiceMock(ClassLoaderSupplier.class);
@@ -246,10 +334,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void loadsImplementationsForInstantiationFromBootstrapClassloaderForNullSystemLoader() throws Exception {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(JamesBond.class.getName()));
         ClassLoader bootstrapLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, bootstrapLoader))
+        .andReturn(newHashSet(JamesBond.class.getName()));
         // hack generics
         expect(bootstrapLoader.loadClass(JamesBond.class.getName())).andReturn((Class) JamesBond.class);
 
@@ -274,7 +362,7 @@ public class MultiSpiTest {
     @Test(expected = InstantiationException.class)
     public void convertsClassCastExceptionDuringImplementationLoading() throws Exception {
         ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
+        expect(provider.findServiceImplementations(eq(Agent.class), isA(ClassLoader.class)))
         .andReturn(newHashSet(String.class.getName()));
         replay(provider);
         
@@ -285,10 +373,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test(expected = InstantiationException.class)
     public void throwsInstantiationExceptionOnMissingPublicNoargConstructor() throws Exception {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(AgentWithoutNoargConstructor.class.getName()));
         ClassLoader implementationLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, implementationLoader))
+        .andReturn(newHashSet(AgentWithoutNoargConstructor.class.getName()));
         // hack generics
         expect(implementationLoader.loadClass(AgentWithoutNoargConstructor.class.getName()))
         .andReturn((Class) AgentWithoutNoargConstructor.class);
@@ -305,10 +393,10 @@ public class MultiSpiTest {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test(expected = InstantiationException.class)
     public void convertsInvocationTargetExceptionsDuringInstantiation() throws Exception {
-        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
-        expect(provider.findServiceImplementations(Agent.class))
-        .andReturn(newHashSet(AgentWithExceptionThrowingConstructor.class.getName()));
         ClassLoader implementationLoader = createMock(ClassLoader.class);
+        ServiceImplementationProvider provider = createMock(ServiceImplementationProvider.class);
+        expect(provider.findServiceImplementations(Agent.class, implementationLoader))
+        .andReturn(newHashSet(AgentWithExceptionThrowingConstructor.class.getName()));
         // hack generics
         expect(implementationLoader.loadClass(AgentWithExceptionThrowingConstructor.class.getName()))
         .andReturn((Class) AgentWithExceptionThrowingConstructor.class);

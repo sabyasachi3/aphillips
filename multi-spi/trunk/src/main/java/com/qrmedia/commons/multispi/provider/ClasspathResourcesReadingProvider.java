@@ -64,11 +64,11 @@ public abstract class ClasspathResourcesReadingProvider<T> extends ResourceIoPer
      * @see com.qrmedia.commons.multispi.provider.ResourceIoPerformingProvider#findServiceImplementationsWithIo(java.lang.Class)
      */
     @Override
-    protected Set<String> findServiceImplementationsWithIo(final Class<?> serviceClass)
-            throws IOException {
+    protected Set<String> findServiceImplementationsWithIo(final Class<?> serviceClass,
+            ClassLoader classpathResourceLoader) throws IOException {
         List<T> resources = newArrayList();
-        for (Enumeration<URL> urls = ClasspathResourcesReadingProvider.class.getClassLoader()
-                    .getResources(resourceNameGenerator.apply(serviceClass)); urls.hasMoreElements();) {
+        for (Enumeration<URL> urls = classpathResourceLoader.getResources(
+                resourceNameGenerator.apply(serviceClass)); urls.hasMoreElements();) {
             resources.add(resourceReader.apply(urls.nextElement()));
         }
         return ImmutableSet.copyOf(concat(transform(resources, 
