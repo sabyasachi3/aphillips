@@ -66,6 +66,27 @@ public final class MultiSpi {
     }
     
     /**
+     * Shorthand for {@link #findImplementationNames(Class, ClassLoader) findImplementationNames(serviceClass, defaultClassLoader)}
+     * where {@code defaultClassLoader} is
+     * <ul>
+     * <li>{@link Thread#getContextClassLoader() Thread.currentThread().getContextClassLoader()} if non-<code>null</code>
+     * <li>{@link ClassLoader#getSystemClassLoader()} if non-<code>null</code>
+     * <li>the bootstrap classloader otherwise
+     * </ul>
+     * 
+     * @param serviceClass the class of the service
+     * @return a set of names of classes designated as implementing the requested service
+     */
+    public @Nonnull Set<String> findImplementationNames(@Nonnull final Class<?> serviceClass) {
+        return findImplementationNames(serviceClass, findDefaultLoader());
+    }
+    
+    private ClassLoader findDefaultLoader() {
+        return find(newArrayList(loaderSupplier.getContextClassLoader(),
+                loaderSupplier.getSystemClassLoader(), loaderSupplier.getBootstrapClassLoader()), notNull());
+    }
+    
+    /**
      * Finds the names of classes implementing the requested service, as determined
      * by the available providers.
      * <p>
@@ -73,12 +94,14 @@ public final class MultiSpi {
      * returned <em>actually</em> implement the interface!
      * 
      * @param serviceClass the class of the service
+     * @param classpathResourceLoader the class loader to be used to locate classpath resources
      * @return a set of names of classes designated as implementing the requested service
      */
-    public @Nonnull Set<String> findImplementationNames(@Nonnull final Class<?> serviceClass) {
+    public @Nonnull Set<String> findImplementationNames(@Nonnull final Class<?> serviceClass,
+            @Nonnull final ClassLoader classpathResourceLoader) {
         return newHashSet(concat(transform(providers, new Function<ServiceImplementationProvider, Set<String>>() {
                 public Set<String> apply(ServiceImplementationProvider from) {
-                    return from.findServiceImplementations(serviceClass);
+                    return from.findServiceImplementations(serviceClass, classpathResourceLoader);
                 }
             })));
     }
@@ -103,11 +126,6 @@ public final class MultiSpi {
     public @Nonnull <S> Set<Class<? extends S>> findImplementations(
             @Nonnull Class<S> serviceClass) throws ClassCastException, ClassNotFoundException {
         return findImplementations(serviceClass, findDefaultLoader());
-    }
-    
-    private ClassLoader findDefaultLoader() {
-        return find(newArrayList(loaderSupplier.getContextClassLoader(),
-                loaderSupplier.getSystemClassLoader(), loaderSupplier.getBootstrapClassLoader()), notNull());
     }
     
     /**
@@ -137,7 +155,7 @@ public final class MultiSpi {
             throws ClassCastException, ClassNotFoundException {
         Set<Class<? extends S>> implementations = newHashSet();
         // can't do this using Iterables.transform because we want to throw the exception
-        for (String name : findImplementationNames(serviceClass)) {
+        for (String name : findImplementationNames(serviceClass, implementationLoader)) {
             implementations.add((Class<? extends S>) implementationLoader.loadClass(name));
         }
         
@@ -268,7 +286,8 @@ public final class MultiSpi {
     @VisibleForTesting
     @ThreadSafe
     static class ClassLoaderSupplier {
-        private static final ClassLoader BOOTSTRAP_LOADER = new BootstrapClassLoader();
+        // the default implementation uses the bootstrap loader if it finds a null parent
+        private static final ClassLoader BOOTSTRAP_LOADER = new ClassLoader(null) {};
         
         ClassLoader getContextClassLoader() {
             return Thread.currentThread().getContextClassLoader();
@@ -280,16 +299,6 @@ public final class MultiSpi {
         
         @Nonnull ClassLoader getBootstrapClassLoader() {
             return BOOTSTRAP_LOADER;
-        }
-        
-        private static class BootstrapClassLoader extends ClassLoader {
-            private BootstrapClassLoader() {
-                /*
-                 * The default classloader implementation will use the bootstrap loader
-                 * if it finds a null parent.
-                 */
-                super(null);
-            }
         }
     }
     

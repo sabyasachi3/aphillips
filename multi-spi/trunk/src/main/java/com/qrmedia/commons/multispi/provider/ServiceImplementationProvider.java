@@ -40,8 +40,10 @@ public interface ServiceImplementationProvider {
      * Never returns {@code null}.
      * 
      * @param serviceClass the (non-<code>null</code>) requested service class
+     * @param classpathResourceLoader the class loader to be used for classpath resource lookups etc.
      * @return a non-<code>null</code> set of fully-qualified class names of presumed
      *         implementations of the requested service
      */
-    @Nonnull Set<String> findServiceImplementations(@Nonnull Class<?> serviceClass); 
+    @Nonnull Set<String> findServiceImplementations(@Nonnull Class<?> serviceClass,
+            @Nonnull ClassLoader classpathResourceLoader); 
 }

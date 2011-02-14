@@ -68,7 +68,7 @@ public class MultiSpiBuilderTest {
     }
     
     private static class StubProvider implements ServiceImplementationProvider {
-        public Set<String> findServiceImplementations(Class<?> serviceClass) {
+        public Set<String> findServiceImplementations(Class<?> serviceClass, ClassLoader classpathResourceLoader) {
             throw new UnsupportedOperationException("TODO Auto-generated method stub");
         }
     }

@@ -40,9 +40,9 @@ public abstract class ResourceIoPerformingProvider implements ServiceImplementat
     /* (non-Javadoc)
      * @see com.qrmedia.commons.multispi.provider.ServiceImplementationProvider#findServiceImplementations(java.lang.Class)
      */
-    public Set<String> findServiceImplementations(Class<?> serviceClass) {
+    public Set<String> findServiceImplementations(Class<?> serviceClass, ClassLoader classpathResourceLoader) {
         try {
-            return findServiceImplementationsWithIo(serviceClass);
+            return findServiceImplementationsWithIo(serviceClass, classpathResourceLoader);
         } catch (IOException exception) {
             handleIoException(exception);
             return ImmutableSet.of();
@@ -50,7 +50,8 @@ public abstract class ResourceIoPerformingProvider implements ServiceImplementat
     }
     
     protected abstract @Nonnull Set<String> findServiceImplementationsWithIo(
-            @Nonnull Class<?> serviceClass) throws IOException;
+            @Nonnull Class<?> serviceClass, @Nonnull ClassLoader classpathResourceLoader) 
+            throws IOException;
 
     // override me!
     protected void handleIoException(@Nonnull IOException exception) {
