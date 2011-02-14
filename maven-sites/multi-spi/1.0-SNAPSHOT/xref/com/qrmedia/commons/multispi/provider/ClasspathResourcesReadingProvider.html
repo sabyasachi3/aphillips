@@ -74,11 +74,11 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_comment">     * @see com.qrmedia.commons.multispi.provider.ResourceIoPerformingProvider#findServiceImplementationsWithIo(java.lang.Class)</em>
 <a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_comment">     */</em>
 <a class="jxr_linenumber" name="66" href="#66">66</a>      @Override
-<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">protected</strong> Set&lt;String&gt; findServiceImplementationsWithIo(<strong class="jxr_keyword">final</strong> Class&lt;?&gt; serviceClass)
-<a class="jxr_linenumber" name="68" href="#68">68</a>              <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">protected</strong> Set&lt;String&gt; findServiceImplementationsWithIo(<strong class="jxr_keyword">final</strong> Class&lt;?&gt; serviceClass,
+<a class="jxr_linenumber" name="68" href="#68">68</a>              ClassLoader classpathResourceLoader) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="69" href="#69">69</a>          List&lt;T&gt; resources = newArrayList();
-<a class="jxr_linenumber" name="70" href="#70">70</a>          <strong class="jxr_keyword">for</strong> (Enumeration&lt;URL&gt; urls = ClasspathResourcesReadingProvider.<strong class="jxr_keyword">class</strong>.getClassLoader()
-<a class="jxr_linenumber" name="71" href="#71">71</a>                      .getResources(resourceNameGenerator.apply(serviceClass)); urls.hasMoreElements();) {
+<a class="jxr_linenumber" name="70" href="#70">70</a>          <strong class="jxr_keyword">for</strong> (Enumeration&lt;URL&gt; urls = classpathResourceLoader.getResources(
+<a class="jxr_linenumber" name="71" href="#71">71</a>                  resourceNameGenerator.apply(serviceClass)); urls.hasMoreElements();) {
 <a class="jxr_linenumber" name="72" href="#72">72</a>              resources.add(resourceReader.apply(urls.nextElement()));
 <a class="jxr_linenumber" name="73" href="#73">73</a>          }
 <a class="jxr_linenumber" name="74" href="#74">74</a>          <strong class="jxr_keyword">return</strong> ImmutableSet.copyOf(concat(transform(resources, 
