@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2011-02-13T12:51:13.113">
+<pmd version="4.2.2" timestamp="2011-02-14T13:59:30.231">
 <file name="C:\Users\aphillips\Workspaces\Personal\multi-spi\src\main\java\com\qrmedia\commons\multispi\MultiSpi.java">
-<violation beginline="21" endline="320" begincolumn="1" endcolumn="3" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.qrmedia.commons.multispi" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
+<violation beginline="21" endline="329" begincolumn="1" endcolumn="3" rule="TooManyStaticImports" ruleset="Import Statement Rules" package="com.qrmedia.commons.multispi" externalInfoUrl="http://pmd.sourceforge.net/rules/imports.html#TooManyStaticImports" priority="3">
 Too many static imports may lead to messy code
 </violation>
 </file>
